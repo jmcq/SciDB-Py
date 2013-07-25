@@ -1,3 +1,7 @@
+.. _tutorial:
+
+.. currentmodule:: scidbpy
+
 ========
 Tutorial
 ========
@@ -5,7 +9,7 @@ Tutorial
 SciDB is an open-source database that organizes data in n-dimensional arrays.
 SciDB features include ACID transactions, parallel processing, distributed
 storage, efficient sparse array storage, and native parallel linear algebra
-operations.  The scidbpy package for Python defines a numpy array-like
+operations.  The ScidbPy package for Python defines a NumPy array-like
 interface for SciDB arrays in Python.  The arrays mimic numpy arrays, but
 operations on them are performed by the SciDB engine.  Data are materialized to
 Python only when requested. A basic set of array subsetting, arithmetic and
@@ -15,7 +19,7 @@ objects.
 
 
 Software prerequisites
-----
+----------------------
 
 The scidbpy package requires at least:
 
@@ -40,25 +44,25 @@ instructions.
 
 
 Loading the scidbpy package and connecting to SciDB
-----
+---------------------------------------------------
 
 The following example loads the package and defines an object named `sdb`
 that represents the SciDB interface. The example assumes that the SciDB
 coordinator is on the computer with host name 'localhost'--adjust the
 host name as required if SciDB is on a different computer::
 
-  import numpy as np
-  from scidbpy import interface, SciDBQueryError, SciDBArray
-  sdb = interface.SciDBShimInterface('http://localhost:8080')
+   >>> import numpy as np
+   >>> from scidbpy import interface, SciDBQueryError, SciDBArray
+   >>> sdb = interface.SciDBShimInterface('http://localhost:8080')
 
 The following examples refer to an interface object named `sdb` similar to
 the illustration.
 
-SciDB arrays 
-----
+SciDB arrays
+------------
 
-SciDB arrays are composed of cells. Each cell may contain one or more values
-referred to as attributes. The data types and number of attributes are
+SciDB arrays are composed of `cells`. Each cell may contain one or more values
+referred to as `attributes`. The data types and number of attributes are
 consistent across all cells within one array. All the attribute values within a
 cell may be left undefined, in which case the cell is called empty. Arrays with
 empty cells are referred to as sparse arrays in the SciDB documentation.
@@ -70,153 +74,215 @@ Cells are arranged by an integer coordinate system into n-dimensional arrays.
 SciDB uses signed 64-bit integers for coordinates. Each coordinate axis is
 typically referred to as a dimension in the SciDB documentation. SciDB is
 limited in theory to about 100 dimensions, but in practice that limit is
-typically much lower (up to say, 10 dimensions or so). The default SciDB
-array origin is usually zero. But SciDB arrays  may use any signed 64-bit
+typically much lower (up to say, 10 dimensions or so). While the default SciDB
+array origin is usually zero, SciDB arrays may use any signed 64-bit
 integer origin.
 
 
 
 Creating SciDB array objects
-----
+----------------------------
 
-The `SciDBArray` class defines the primary method of interaction between Python
-and SciDB. `SciDBArray` objects are Python representations of SciDB arrays that
-mimic numpy arrays in may ways.  `SciDBArray` array objects are limited to the
-following SciDB array attribute data types: bool, float32, float64, int8,
-int16, int32, int64, uint8, unit16, uint32, uint64, and singe characters. 
+The :class:`SciDBArray` class defines the primary method of interaction between
+Python and SciDB. :class:`SciDBArray` objects are Python representations of
+SciDB arrays that mimic numpy arrays in may ways.  :class:`SciDBArray` array
+objects are limited to the following SciDB array attribute data types:
+bool, float32, float64, int8, int16, int32, int64, uint8, unit16, uint32,
+uint64, and single characters. 
 
-The following sections illustrate a number of ways to create `SciDBArray`
-objects. The examples assume that an `sdb` interface object has already
+The following sections illustrate a number of ways to create :class:`SciDBArray`
+objects. The examples assume that an ``sdb`` interface object has already
 been set up.
 
 From a numpy array
-^^^^^
+^^^^^^^^^^^^^^^^^^
 
-The simplest approach to creating a `SciDBarray` object is to upload a numpy
-array into SciDB with the `from_array` function. Although this approach is
-super-convenient, it is not really suitable for very big arrays (which might
-exceed memory availability in a single computer, for example). In such cases,
-consider other options described below.
+Perhaps the simplest approach to creating an arbitrary :class:`SciDBArray`
+object is to upload a numpy array into SciDB with the :func:`from_array`
+function. Although this approach is very convenient, it is not really suitable
+for very big arrays (which might exceed memory availability in a single
+computer, for example). In such cases, consider other options described below.
 
-The following example creates a `SciDBArray` object named `Xsdb`
-from a small 5x4 numpy array named `X`::
+The following example creates a :class:`SciDBArray` object named ``Xsdb``
+from a small 5x4 numpy array named ``X``::
 
-  X = np.random.random((5, 4))
-  Xsdb = sdb.from_array(X)
+    >>> X = np.random.random((5, 4))
+    >>> Xsdb = sdb.from_array(X)
 
 The package takes care of naming the SciDB array in this example (use
-`Xsdb.name` to see the SciDB array name).
+``Xsdb.name`` to see the SciDB array name).
 
 
 Convenience array creation functions
-^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Many standard numpy functions for creating special arrays are supported.  These
-include `zeros` to create an array full of zeros, `random` to create an array
-of uniformly distributed random floating-point values, `randint` to create an
-array of uniformly distributed random integers, and `arange` and `linspace` to
-create arrays with evenly spaced values between supplied bounds. These functions
-closely follow their numpy counterparts. The data in each case are defined by
-SciDB.
+include:
 
-The functions outlined here and in the following sections can be more efficient
-ways to generate large SciDB arrays than copying data from a numpy array since
-the data are generated at the SciDB back-end.
+:func:`zeros`
+    to create an array full of zeros::
 
-Examples follow::
+        >>> # Create a 10x10 array of double-precision zeros:
+	>>> A = sdb.zeros((10,10))
 
-  # Create a 10x10 array of double-precision zeros:
-  A = sdb.zeros( (10,10) )
+:func:`ones`
+    to create an array full of ones::
 
-  # Create a 10x10 array of 64-bit signed integer ones:
-  A = sdb.ones( (10,10), dtype='int64' )
+        >>> # Create a 10x10 array of 64-bit signed integer ones:
+	>>> A = sdb.ones((10,10), dtype='int64')
 
-  # Create a 10x10 array of numbers between -1 and 2 (inclusive) sampled from a uniform random distribution.
-  A = sdb.random( (10,10), lower=-1, upper=2)
+:func:`random`
+    to create an array of uniformly distributed random floating-point values::
+  
+        >>> # Create a 10x10 array of numbers between -1 and 2 (inclusive)
+	>>> #    sampled from a uniform random distribution.
+	>>> A = sdb.random((10,10), lower=-1, upper=2)
 
-  # Create a vector of 5 equally spaced numbers between 1 and 10, including the endpoints:
-  A = sdb.linspace(1,10,num=5,endpoint=True)
+:func:`randint`
+    to create an array of uniformly distributed random integers::
+  
+        >>> # Create a 10x10 array of uniform random integers between 0 and 10
+	>>> #  (inclusive of 0, non-inclusive of 10)
+	>>> A = sdb.randint((10,10), lower=0, upper=10)
 
-  # Create a 10x10 sparse, double-precision-valued identity matrix:
-  A = sdb.identity(10, dtype='double', sparse=True)
+:func:`arange`
+    to create and array with evenly-spaced values given a step size::
+
+        >>> # Create a vector of ten integers, counting up from zero
+	>>> A = sdb.arange(10)
+
+:func:`linspace`
+    to create an array with evenly spaced values between supplied bounds::
+
+        >>> # Create a vector of 5 equally spaced numbers between 1 and 10,
+	>>> # including the endpoints:
+	>>> A = sdb.linspace(1, 10, 5)
+
+:func:`identity`
+    to create a sparse or dense identity matrix::
+        
+        >>> # Create a 10x10 sparse, double-precision-valued identity matrix:
+        >>> A = sdb.identity(10, dtype='double', sparse=True)
+
+These functions should be familiar to anyone who has used NumPy, and the
+syntax of each function closely follows its numpy counterpart.  In each case,
+the array is defined and created directly in the SciDB server, and the
+resulting Python object is simply a wrapper of the native SciDB array.
+Because of this, the functions outlined here and in the following sections
+can be more efficient ways to generate large SciDB arrays than copying data
+from a numpy array.
 
 Note: SciDB does not yet have a way to set a random seed, prohibiting
 reproducible results involving the random number generator.
 
 
 From a SciDB query
-^^^^^
+^^^^^^^^^^^^^^^^^^
 
-The SciDB query interface provides a simple way to create `SciDBArray` objects
-from arbitrary SciDB queries using the SciDB AFL language. The `query` function
-greatly simplifies the use of AFL by allowing references to `SciDBArray`
-object in place of raw SciDB schema information in the query.
+The SciDB query interface provides a simple way to create :class:`SciDBArray`
+objects from arbitrary SciDB queries using the SciDB AFL language. The 
+:func:`query` function greatly simplifies the use of AFL by allowing
+references to :class:`SciDBArray` object in place of raw SciDB schema
+information in the query.
 
-`SciDBArray` object references may be supplied in the query string using a
-string replacement syntax that flexibly supplies SciDB schema, attribute and
-dimension names to the query. The replacement syntax is fully outlined in the
-documentation.
+A :class:`SciDBArray` object references may be supplied in the query string
+using a string replacement syntax that flexibly supplies SciDB schema,
+attribute and dimension names to the query. The replacement syntax is fully
+outlined in the documentation.
 
-The general approach first creates a new `SciDBArray` object and then issues
-a query to populate data. The following example creates a 10x10 sparse
-tridiagonal array::
+The general approach first creates a new :class:`SciDBArray` object and then
+issues a query to populate data.  For example, to build an array of zeros
+similar to the result of the :class:`zeros` function shown above, the
+following query can be performed::
 
-  tridiag = sdb.new_array((10, 10))
-  sdb.query('store(build_sparse({A}, \
-                   iif({A.d0}={A.d1}, 2, -1), \
-                   {A.d0} <= {A.d1}+1 and {A.d0} >= {A.d1}-1), \
-             {A})', A=tridiag)
+    >>> # first define an empty array to hold the result
+    >>> zeros = sdb.new_array(shape=(10, 10), dtype='double')
+    >>> # now execute a query to fill the array
+    >>> sdb.query('store(build({A}, 0), {A})', A=zeros)
+    
+The result is that ``zeros`` is a 10x10 array filled with zeros.  Here the
+format statement ``{A}`` is replaced by the name of the desired array on
+the SciDB server.
+
+We can use a more complex query to quickly build more complex arrays.  For
+example, to create an identity matrix similar to the result of the
+:class:`identity` function shown above, we add a boolean check::
+
+    >>> ident = self.new_array((10, 10), dtype='double')
+    >>> sdb.query('store(build({A}, iif({A.d0}={A.d1}, 1, 0)), {A})'
+
+Here the substitutions ``{A.d0}`` and ``{A.d1}`` are replaced by the first
+and second dimension names of the array referenced by ``A``.  This type
+of automatic query formatting can be very convenient.
+
+Things can become even more complicated. The following example creates a
+10x10 sparse tridiagonal array::
+
+    >>> tridiag = sdb.new_array((10, 10))
+    >>> sdb.query('store( \
+    ...              build_sparse({A}, \
+    ...                iif({A.d0}={A.d1}, 2, -1), \
+    ...                {A.d0} <= {A.d1}+1 and {A.d0} >= {A.d1}-1), \
+    ...              {A})',
+    ...           A=tridiag)
 
 The query builds a sparse tridiagonal array with 2 on the diagonal and -1 on
-the sub- and super-diagonals. The query uses a special print replacement
-syntax provided by the scidbpy package. The symbol `{A}` in the print statement
-is replaced with the SciDB name associated with the `SciDBArray` object named
-`tridiag`. The symbol `{A.d0}` is replaced with the name of the first coordinate
-dimension of the underlying SciDB array. Similarly, `{A.d1}` is replaced
-with the 2nd dimension name.
+the sub- and super-diagonals. This shows how the query-formatting syntax
+provided by the scidbpy package can be used to generate extremely powerful
+AFL queries.
 
 The full replacement syntax is outlined in the package documentation. It's
-a nifty way to help simplify writing SciDB queries when you have to.
+a useful way to help simplify writing SciDB queries if and when it becomes
+necessary.
 
 
 From an existing SciDB array
-^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Finally, `SciDBArray` objects may be created from existing SciDB arrays, so
+Finally, :class:`SciDBArray` objects may be created from existing SciDB arrays, so
 long as the data type restrictions outlined above are met. (It usually makes
 sense to load large data sets into SciDB externally from the Python package,
 using the SciDB parallel bulk loader or similar facility.)
 
-The following example uses the `query` function to build and store a small 10x5
-SciDB array named "A" independently of Python. We then create a `SciDBArray`
-object from the SciDB array with the `wrap_array` function using the `scidbname`
-argument::
+The following example uses the :func:`query` function to build and store a
+small 10x5 SciDB array named "A" independently of Python.
+We then create a :class:`SciDBArray`
+object from the SciDB array with the :func:`wrap_array` function using the
+``scidbname`` argument::
 
-  sdb.query("remove(A)")
-  sdb.query("store(build(<v:double>[i=1:10,10,0,j=1:5,5,0],i+j),A)")
-  A = sdb.wrap_array(scidbname="A")
+    >>> sdb.query("remove(A)")
+    >>> sdb.query("store(build(<v:double>[i=1:10,10,0,j=1:5,5,0],i+j),A)")
+    >>> A = sdb.wrap_array(scidbname="A")
 
 Note that subarray indexing of `SciDBArray` objects follows numpy convention.
 SciDB arrays with negative-valued coordinate indices don't fit this convention
-and should be translated to a coordinate system with a nonnegative origin before
-use.
+and should be translated to a coordinate system with a nonnegative origin
+before use.
 
-Note that most functions in the scidbpy package work on single-attribute
-arrays. When a `SciDBArray` object refers to a SciDB array with more than one
-attribute, the first listed attribute is used.
+Note also that most functions in the scidbpy package work on single-attribute
+arrays. When a :class:`SciDBArray` object refers to a SciDB array with more
+than one attribute, the first listed attribute is used.
+
 
 Scope of scidbpy arrays
-^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
-The `new_array` function takes an argument named `persistent`. When
-`persistent` is set to True, arrays last in SciDB until explicitly removed.
+The :func:`new_array` function takes an argument named ``persistent``. When
+``persistent`` is set to True, arrays last in SciDB until explicitly removed.
 Otherwise, arrays are removed from SciDB when they fall out of scope in the
 Python session. Arrays defined from an existing SciDB array using the
-`scidbname` argument are always persistent.
+:func:`wrap_array` argument are always persistent::
+
+    >>> X = sdb.random(10, persistent=False)
+    >>> X.name in sdb.list_arrays()
+    True
+    >>> del X  # remove all references to X
+    >>> X.name in sdb.list_arrays()
+    False
 
 
 Retrieving data from SciDB array objects
-----
+----------------------------------------
 
 A central idea of the package is to program operations on SciDB arrays in a
 natural Python dialect, computing those operations in SciDB while minimizing
