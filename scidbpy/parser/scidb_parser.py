@@ -1,6 +1,7 @@
 import ply.yacc as yacc
-from scidb_lexer import tokens
+from scidb_lexer import SciDBLexer
 
+tokens = SciDBLexer.tokens
 
 precedence = (('left','PLUS','MINUS'),
               ('left','TIMES','DIVIDE'),
@@ -42,10 +43,10 @@ def p_error(t):
 
 
 if __name__ == "__main__":
-    import scidb_lexer
     import ply.yacc as yacc
     yacc.yacc()
 
+    lexer = SciDBLexer().build()
     data = """func(1.05, 2, 3 * 4, abcd45);
               func(foo(2.0));"""
-    yacc.parse(data, lexer=scidb_lexer.lexer)
+    yacc.parse(data, lexer=lexer)
