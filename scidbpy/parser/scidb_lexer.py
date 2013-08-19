@@ -3,7 +3,7 @@ from ply import lex
 class SciDBLexer(object):
     # List of token names
     tokens = ('IDENTIFIER', 'NUMBER',
-              'LPAREN', 'RPAREN', 'COMMA', 'SEMICOLON',
+              'LPAREN', 'RPAREN', 'COMMA', 'SEMICOLON', 'PERIOD',
               'PLUS', 'MINUS', 'TIMES', 'DIVIDE')
 
     # Regular expression rules for simple tokens
@@ -12,6 +12,7 @@ class SciDBLexer(object):
     t_LPAREN = r'\('
     t_RPAREN = r'\)'
     t_COMMA = r','
+    t_PERIOD = r'\.'
     t_PLUS    = r'\+'
     t_MINUS   = r'-'
     t_TIMES   = r'\*'
@@ -28,9 +29,9 @@ class SciDBLexer(object):
     def t_error(self, t):
         raise ValueError("Illegal character '{0}'".format(t.value[0]))
 
-    def build(self, **kwargs):
+
+    def __init__(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
-        return self.lexer
 
     def test(self, data):
         self.lexer.input(data)
