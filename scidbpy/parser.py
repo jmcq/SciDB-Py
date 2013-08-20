@@ -7,50 +7,40 @@ from ply import lex, yacc
 # Unsupported:
 #
 # AQL queries:
-#   CREATE ARRAY distance <miles:double> [i=0:9,10,0];  
-#   SELECT * FROM attributes(champions) WHERE nullable = true;
-#   LOAD raw FROM '../examples/raw.scidb';
-#   CREATE ARRAY namesRedimensioned 
-#        <b:int64 null, c:int64, avgD:double null> 
-#        [surname(string)=5,5,0]
-#   SELECT * INTO championsAbridged FROM project(champions,person); 
-#
-# Keywords with spaces:
-#   <time:double null>
-#
-# As-statements
-#   aggregate(m3x3,min(val) as m)
-#   redimension(A,Position,
-#               min(val) as minVal, 
-#               avg(val) as avgVal, 
-#               max(val) as maxVal);
-#
-# Strings
-#   load_library('dense_linear_algebra');  
-#   gesvd(product,'S');  
-#   list('arrays')
-#   save(storage_array,'/tmp/storage_array.txt',-2,'dcsv');
-#   show('multiply(A,B)','afl');
-#
-# Previous array versions
-#   insert (B@1, A)
+#   [x] CREATE ARRAY distance <miles:double> [i=0:9,10,0];
+#       SELECT * FROM attributes(champions) WHERE nullable = true;
+#       LOAD raw FROM '../examples/raw.scidb';
+#       SELECT * INTO championsAbridged FROM project(champions,person);
 
 
-class AFLLexer(object):
+class SciDBLexer(object):
+    # List of reserved keywords
+    reserved = {'as': 'AS',
+                'null': 'NULL',
+                'CREATE': 'CREATE',
+                'ARRAY': 'ARRAY'}
+
     # List of token names
-    tokens = ('NAME', 'NUMBER', 'STRING',
-              'COMMA', 'PERIOD', 'SEMICOLON', 'COLON',
+    tokens = ['NAME', 'INTEGER', 'NUMBER', 'STRING',
+              'COMMA', 'PERIOD', 'SEMICOLON', 'COLON', 'ATMARK',
               'LPAREN', 'RPAREN',  'LANGLE', 'RANGLE', 'LBRACKET', 'RBRACKET',
               'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
               'EQUAL', 'NEQUAL', 'LTEQUAL', 'GTEQUAL',
-              )
+              ] + list(reserved.values())
 
     def __init__(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
 
     # Regular expression rules for simple tokens & strings
-    t_NAME = r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t_NUMBER = r'-?[0-9]+(\.[0-9]*)?'
+    def t_NAME(self, t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.reserved.get(t.value, 'NAME')
+        if t.type == 'NAME':
+            t.type = self.reserved.get(t.value.upper(), 'NAME')
+        return t
+
+    t_NUMBER = r'[0-9]+(\.[0-9]*)'
+    t_INTEGER = r'[0-9]+'
     t_STRING = r"""("[^"]*")|('[^']*')"""
 
     # Punctuation
@@ -58,6 +48,7 @@ class AFLLexer(object):
     t_PERIOD = r'\.'
     t_SEMICOLON = r'\;'
     t_COLON = r'\:'
+    t_ATMARK = r'@'
 
     # Brackets and braces
     t_LPAREN = r'\('
@@ -68,11 +59,11 @@ class AFLLexer(object):
     t_RBRACKET = r'\]'
 
     # arithmetic operations
-    t_PLUS    = r'\+'
-    t_MINUS   = r'-'
-    t_TIMES   = r'\*'
-    t_DIVIDE  = r'/'
-    t_MOD     = r'\%'
+    t_PLUS = r'\+'
+    t_MINUS = r'-'
+    t_TIMES = r'\*'
+    t_DIVIDE = r'/'
+    t_MOD = r'\%'
 
     # binary operations
     t_EQUAL = r'\='
@@ -90,7 +81,7 @@ class AFLLexer(object):
 
     def t_error(self, t):
         print t.value
-        raise ValueError("AFLLexer: Illegal character "
+        raise ValueError("SciDBLexer: Illegal character "
                          "'{0}'".format(t.value[0]))
 
     def test(self, data):
@@ -104,79 +95,116 @@ class Node(object):
         self.args = args
         self.kwargs = kwargs
 
+
+class AQLNode(Node):
+    def __repr__(self):
+        return ' '.join(map(str, self.args))
+
+
+class AQLCreateArray(AQLNode):
+    def __repr__(self):
+        return "CREATE ARRAY {0} {1}".format(*self.args)
+
+
+class AFLNode(Node):
     def __repr__(self):
         return "{0}({1})".format(self.args[0],
                                  ', '.join(map(str, self.args[1:])))
 
 
-class Expression(Node):
+class Expression(AFLNode):
     def __repr__(self):
         if len(self.args) != 1:
             raise ValueError("Multiple arguments in expression")
         return '{0}'.format(self.args[0])
 
 
-class Function(Node):
+class ArrayVersion(AFLNode):
+    def __repr__(self):
+        return "{0}@{1}".format(self.args[0], self.args[1])
+
+
+class Function(AFLNode):
     pass
 
 
-class BinaryOperation(Node):
+class BinaryOperation(AFLNode):
     def __repr__(self):
         return "{0} {1} {2}".format(self.args[1], self.args[0], self.args[2])
 
 
-class UnaryOperation(Node):
+class UnaryOperation(AFLNode):
     def __repr__(self):
         return "{0}{1}".format(*self.args)
 
 
-class ExpressionGroup(Node):
+class ExpressionGroup(AFLNode):
     def __repr__(self):
         return "({0})".format(*self.args)
 
 
-class ObjectAttribute(Node):
+class AsExpression(AFLNode):
+    def __repr__(self):
+        return "{0} as {1}".format(*self.args)
+
+
+class ObjectAttribute(AFLNode):
     def __repr__(self):
         return "{0}.{1}".format(*self.args)
 
 
-class AttrSpec(Node):
+class AttrSpec(AFLNode):
     def __repr__(self):
         return "{0}:{1}".format(*self.args)
 
 
-class DimSpec(Node):
+class DimSpec(AFLNode):
     def __repr__(self):
         return "{0}={1}:{2},{3},{4}".format(*self.args)
 
 
-class ArraySpec(Node):
+class ArraySpec(AFLNode):
     def __repr__(self):
-        return "<{0}>[{1}]".format(','.join(map(str, self.args[0])),
-                                   ','.join(map(str, self.args[1])))
+        return "<{0}>[{1}]".format(', '.join(map(str, self.args[0])),
+                                   ', '.join(map(str, self.args[1])))
 
 
-class AFLParser(object):
-    tokens = AFLLexer.tokens
+class SciDBParser(object):
+    tokens = SciDBLexer.tokens
 
     precedence = (('nonassoc', 'EQUAL', 'LANGLE', 'RANGLE',
                    'NEQUAL', 'LTEQUAL', 'GTEQUAL'),
-                  ('left','PLUS','MINUS'),
-                  ('left','TIMES','DIVIDE', 'MOD'),
-                  ('right','UMINUS'))
+                  ('left', 'PLUS', 'MINUS'),
+                  ('left', 'TIMES', 'DIVIDE', 'MOD'),
+                  ('right', 'UMINUS'))
 
     def __init__(self):
-        self.sdb_lexer = AFLLexer()
+        self.sdb_lexer = SciDBLexer()
         self.yacc = yacc.yacc(module=self)
 
     def p_querylist(self, p):
-        """querylist : function
-                     | function SEMICOLON
-                     | function SEMICOLON querylist"""
+        """querylist : aflquery
+                     | aflquery SEMICOLON
+                     | aflquery SEMICOLON querylist
+                     | aqlquery
+                     | aqlquery SEMICOLON
+                     | aqlquery SEMICOLON querylist"""
         # Put all queries in a single list
         p[0] = [p[1]]
         if len(p) == 4:
             p[0].extend(p[3])
+
+    def p_aqlquery(self, p):
+        """aqlquery : aqlcreatearray"""
+        p[0] = p[1]
+
+    def p_aqlcreatearray(self, p):
+        """aqlcreatearray : CREATE ARRAY NAME arrayspec"""
+        p[0] = AQLCreateArray(*p[3:])
+
+    def p_aflquery(self, p):
+        """aflquery : function"""
+        p[0] = p[1]
 
     def p_function(self, p):
         """function : NAME LPAREN RPAREN
@@ -219,11 +247,21 @@ class AFLParser(object):
     def p_expression(self, p):
         """expression : function
                       | arrayspec
+                      | arrayref
                       | objattribute
                       | NAME
                       | NUMBER
+                      | INTEGER
                       | STRING"""
         p[0] = Expression(p[1])
+
+    def p_expression_as(self, p):
+        """expression : expression AS NAME"""
+        p[0] = AsExpression(p[1], p[3])
+
+    def p_arrayref(self, p):
+        """arrayref : NAME ATMARK INTEGER"""
+        p[0] = ArrayVersion(p[1], p[3])
 
     def p_objattribute(self, p):
         """objattribute : NAME PERIOD NAME"""
@@ -241,8 +279,12 @@ class AFLParser(object):
             p[0].extend(p[3])
 
     def p_attrspec(self, p):
-        """attrspec : NAME COLON NAME"""
-        p[0] = AttrSpec(p[1], p[3])
+        """attrspec : NAME COLON NAME
+                    | NAME COLON NAME NULL"""
+        if len(p) == 4:
+            p[0] = AttrSpec(p[1], p[3])
+        else:
+            p[0] = AttrSpec(p[1], "{0} {1}".format(p[3], p[4]))
 
     def p_dimlist(self, p):
         """dimlist : dimspec
@@ -252,8 +294,10 @@ class AFLParser(object):
             p[0].extend(p[3])
 
     def p_dimspec(self, p):
-        """dimspec : NAME EQUAL NUMBER COLON NUMBER COMMA NUMBER COMMA NUMBER
-                   | NAME EQUAL NUMBER COLON TIMES COMMA NUMBER COMMA NUMBER"""
+        """
+        dimspec : NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER
+                | NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER
+        """
         p[0] = DimSpec(p[1], p[3], p[5], p[7], p[9])
 
     def p_error(self, p):
@@ -267,15 +311,20 @@ class AFLParser(object):
 
 
 if __name__ == "__main__":
-    test_data = """func1(<i0:int, f0:float>[i=0:9,1000,0], 2, -3 * (2 - 4),
-                         iif(i=j,100+i,i*4+j),
-                         filter(A, val<=2));
-      func2("abc def", 'ghi')"""
+    test_data = """func1(<i0:int, f0:float null>[i=0:9,1000,0], -3 * (2 - 4));
+       func2(A@1 as Q, iif(i=0,i,Q.j), filter(Q, Q.val<=2));
+       show("multiply(A, B)",'afl');
+       CREATE ARRAY distance <miles:double> [i=0:9,10,0];"""
+    #SciDBLexer().test(test_data)
+    #exit()
 
-    #AFLLexer().test(test_data)
-    
-    parser = AFLParser()
+    parser = SciDBParser()
     parser.parse(test_data)
     
-    for query in parser.query_list():
-        print query
+    input_queries = map(str.strip, test_data.split('\n'))
+    output_queries = parser.query_list()
+
+    for q1, q2 in zip(input_queries, output_queries):
+        print ' ', q1
+        print ' ', q2
+        print
