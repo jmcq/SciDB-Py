@@ -6,6 +6,7 @@ from ply import lex, yacc
 
 # Unsupported:
 #
+# AQL queries:
 #   CREATE ARRAY distance <miles:double> [i=0:9,10,0];  
 #   SELECT * FROM attributes(champions) WHERE nullable = true;
 #   LOAD raw FROM '../examples/raw.scidb';
@@ -14,28 +15,25 @@ from ply import lex, yacc
 #        [surname(string)=5,5,0]
 #   SELECT * INTO championsAbridged FROM project(champions,person); 
 #
+# Keywords with spaces:
 #   <time:double null>
 #
+# As-statements
 #   aggregate(m3x3,min(val) as m)
 #   redimension(A,Position,
 #               min(val) as minVal, 
 #               avg(val) as avgVal, 
 #               max(val) as maxVal);
 #
-#   [i=0:*,5,0]
-#
-#   iif(i=j,100+i,i*4+j)
-#   filter(m4x4,val<100); etc.
-#
+# Strings
 #   load_library('dense_linear_algebra');  
 #   gesvd(product,'S');  
 #   list('arrays')
 #   save(storage_array,'/tmp/storage_array.txt',-2,'dcsv');
 #   show('multiply(A,B)','afl');
 #
+# Previous array versions
 #   insert (B@1, A)
-#
-#   boolean: <, <=, <>, =, >, >=
 
 
 class AFLLexer(object):
@@ -43,7 +41,9 @@ class AFLLexer(object):
     tokens = ('NAME', 'NUMBER',
               'COMMA', 'PERIOD', 'SEMICOLON', 'COLON',
               'LPAREN', 'RPAREN',  'LANGLE', 'RANGLE', 'LBRACKET', 'RBRACKET',
-              'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD', 'EQUAL')
+              'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
+              'EQUAL', 'NEQUAL', 'LTEQUAL', 'GTEQUAL',
+              )
 
     def __init__(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
@@ -67,12 +67,17 @@ class AFLLexer(object):
     t_RBRACKET = r'\]'
 
     # arithmetic operations
-    t_EQUAL   = r'\='
     t_PLUS    = r'\+'
     t_MINUS   = r'-'
     t_TIMES   = r'\*'
     t_DIVIDE  = r'/'
     t_MOD     = r'\%'
+
+    # binary operations
+    t_EQUAL = r'\='
+    t_NEQUAL = r'\<\>'
+    t_LTEQUAL = r'\<\='
+    t_GTEQUAL = r'\>\='
 
     # ignore spaces and tabs
     t_ignore = ' \t'
@@ -92,10 +97,61 @@ class AFLLexer(object):
             print tok
 
 
+class Node(object):
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+
+    def __repr__(self):
+        return "{0}({1})".format(self.args[0],
+                                 ', '.join(map(str, self.args[1:])))
+
+
+class Function(Node):
+    pass
+
+
+class BinaryOperation(Node):
+    def __repr__(self):
+        return "{0} {1} {2}".format(self.args[1], self.args[0], self.args[2])
+
+
+class UnaryOperation(Node):
+    def __repr__(self):
+        return "{0}{1}".format(*self.args)
+
+
+class ExpressionGroup(Node):
+    def __repr__(self):
+        return "({0})".format(*self.args)
+
+
+class ObjectAttribute(Node):
+    def __repr__(self):
+        return "{0}.{1}".format(*self.args)
+
+
+class AttrSpec(Node):
+    def __repr__(self):
+        return "{0}:{1}".format(*self.args)
+
+
+class DimSpec(Node):
+    def __repr__(self):
+        return "{0}={1}:{2},{3},{4}".format(*self.args)
+
+
+class ArraySpec(Node):
+    def __repr__(self):
+        return "<{0}>[{1}]".format(','.join(map(str, self.args[0])),
+                                   ','.join(map(str, self.args[1])))
+
+
 class AFLParser(object):
     tokens = AFLLexer.tokens
 
-    precedence = (('nonassoc', 'EQUAL'),
+    precedence = (('nonassoc', 'EQUAL', 'LANGLE', 'RANGLE',
+                   'NEQUAL', 'LTEQUAL', 'GTEQUAL'),
                   ('left','PLUS','MINUS'),
                   ('left','TIMES','DIVIDE', 'MOD'),
                   ('right','UMINUS'))
@@ -104,82 +160,111 @@ class AFLParser(object):
         self.sdb_lexer = AFLLexer()
         self.yacc = yacc.yacc(module=self)
 
-    def p_querylist(self, t):
+    def p_querylist(self, p):
         """querylist : function
                      | function SEMICOLON
                      | function SEMICOLON querylist"""
-        
+        # Put all queries in a single list
+        p[0] = [p[1]]
+        if len(p) == 4:
+            p[0].extend(p[3])
 
-    def p_function(self, t):
+    def p_function(self, p):
         """function : NAME LPAREN RPAREN
                     | NAME LPAREN arguments RPAREN"""
-        pass
+        # Get a list of all function arguments
+        p[0] = Function(p[1])
+        if len(p) == 5:
+            p[0].args += tuple(p[3])
 
-    def p_arguments(self, t):
+    def p_arguments(self, p):
         """arguments : expression
                      | expression COMMA arguments"""
-        pass
+        # Put all arguments in a flat list
+        p[0] = [p[1]]
+        if len(p) == 4:
+            p[0].extend(p[3])
 
-    def p_expression_binary_op(self, t):
+    def p_expression_binary_op(self, p):
         """expression : expression PLUS expression
                       | expression MINUS expression
                       | expression TIMES expression
                       | expression DIVIDE expression
-                      | expression MOD expression"""
-        pass
+                      | expression MOD expression
+                      | expression EQUAL expression
+                      | expression LANGLE expression
+                      | expression RANGLE expression
+                      | expression NEQUAL expression
+                      | expression LTEQUAL expression
+                      | expression GTEQUAL expression"""
+        p[0] = BinaryOperation(p[2], p[1], p[3])
 
-    def p_expression_unary_op(self, t):
+    def p_expression_unary_op(self, p):
         """expression : MINUS expression %prec UMINUS"""
-        pass
+        p[0] = UnaryOperation(p[1], p[2])
 
-    def p_expression_group(self, t):
+    def p_expression_group(self, p):
         """expression : LPAREN expression RPAREN"""
+        p[0] = ExpressionGroup(p[2])
 
-    def p_expression(self, t):
+    def p_expression(self, p):
         """expression : function
+                      | arrayspec
+                      | objattribute
                       | NAME
-                      | NAME PERIOD NAME
-                      | NUMBER
-                      | typespec dimspec"""
-        pass
+                      | NUMBER"""
+        p[0] = p[1]
 
-    def p_typespec(self, t):
-        """typespec : LANGLE typelist RANGLE"""
-        pass
+    def p_objattribute(self, p):
+        """objattribute : NAME PERIOD NAME"""
+        p[0] = ObjectAttribute(p[1], p[3])
 
-    def p_onetype(self, t):
-        """onetype : NAME COLON NAME"""
-        pass
+    def p_arrayspec(self, p):
+        """arrayspec : LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET"""
+        p[0] = ArraySpec(p[2], p[5])
 
-    def p_typelist(self, t):
-        """typelist : onetype
-                    | onetype COMMA typelist"""
-        pass
+    def p_attrlist(self, p):
+        """attrlist : attrspec
+                    | attrspec COMMA attrlist"""
+        p[0] = [p[1]]
+        if len(p) == 4:
+            p[0].extend(p[3])
 
-    def p_dimspec(self, t):
-        """dimspec : LBRACKET dimlist RBRACKET"""
-        pass
+    def p_attrspec(self, p):
+        """attrspec : NAME COLON NAME"""
+        p[0] = AttrSpec(p[1], p[3])
 
-    def p_onedim(self, t):
-        """onedim : NAME EQUAL NUMBER COLON NUMBER COMMA NUMBER COMMA NUMBER
-                  | NAME EQUAL NUMBER COLON TIMES COMMA NUMBER COMMA NUMBER"""
-        pass
+    def p_dimlist(self, p):
+        """dimlist : dimspec
+                   | dimspec COMMA dimlist"""
+        p[0] = [p[1]]
+        if len(p) == 4:
+            p[0].extend(p[3])
 
-    def p_dimlist(self, t):
-        """dimlist : onedim
-                   | onedim COMMA dimlist"""
-        pass
+    def p_dimspec(self, p):
+        """dimspec : NAME EQUAL NUMBER COLON NUMBER COMMA NUMBER COMMA NUMBER
+                   | NAME EQUAL NUMBER COLON TIMES COMMA NUMBER COMMA NUMBER"""
+        p[0] = DimSpec(p[1], p[3], p[5], p[7], p[9])
 
-    def p_error(self, t):
+    def p_error(self, p):
         raise ValueError("Syntax error at '{0}'".format(t.value))
 
     def parse(self, data):
         self.yacc.parse(data, lexer=self.sdb_lexer.lexer)
 
+    def query_list(self):
+        return self.yacc.symstack[-1].value
+
 
 if __name__ == "__main__":
-    test_data = """func1(1.05, 2, -3 * (2 - 4), abcd45);"""
-    #func2(foo(A.val, 2.0), bar());
-    #store(build(<subVal:double>[i=0:0,1,0],0),zeros)"""
+    test_data = """func1(<i0:int>[i=0:9,1000,0], 2, -3 * (2 - 4),
+                         iif(i=j,100+i,i*4+j),
+                         filter(A, val<=2));
+      func2()"""
     #AFLLexer().test(test_data)
-    AFLParser().parse(test_data)
+
+    parser = AFLParser()
+    parser.parse(test_data)
+    
+    for query in parser.query_list():
+        print query
