@@ -38,7 +38,7 @@ from ply import lex, yacc
 
 class AFLLexer(object):
     # List of token names
-    tokens = ('NAME', 'NUMBER',
+    tokens = ('NAME', 'NUMBER', 'STRING',
               'COMMA', 'PERIOD', 'SEMICOLON', 'COLON',
               'LPAREN', 'RPAREN',  'LANGLE', 'RANGLE', 'LBRACKET', 'RBRACKET',
               'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
@@ -48,9 +48,10 @@ class AFLLexer(object):
     def __init__(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
 
-    # Regular expression rules for simple tokens
+    # Regular expression rules for simple tokens & strings
     t_NAME = r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t_NUMBER = r'[0-9]+(\.[0-9]*)?'
+    t_NUMBER = r'-?[0-9]+(\.[0-9]*)?'
+    t_STRING = r"""("[^"]*")|('[^']*')"""
 
     # Punctuation
     t_COMMA = r','
@@ -88,6 +89,7 @@ class AFLLexer(object):
         t.lexer.lineno += len(t.value)
 
     def t_error(self, t):
+        print t.value
         raise ValueError("AFLLexer: Illegal character "
                          "'{0}'".format(t.value[0]))
 
@@ -105,6 +107,13 @@ class Node(object):
     def __repr__(self):
         return "{0}({1})".format(self.args[0],
                                  ', '.join(map(str, self.args[1:])))
+
+
+class Expression(Node):
+    def __repr__(self):
+        if len(self.args) != 1:
+            raise ValueError("Multiple arguments in expression")
+        return '{0}'.format(self.args[0])
 
 
 class Function(Node):
@@ -212,8 +221,9 @@ class AFLParser(object):
                       | arrayspec
                       | objattribute
                       | NAME
-                      | NUMBER"""
-        p[0] = p[1]
+                      | NUMBER
+                      | STRING"""
+        p[0] = Expression(p[1])
 
     def p_objattribute(self, p):
         """objattribute : NAME PERIOD NAME"""
@@ -247,7 +257,7 @@ class AFLParser(object):
         p[0] = DimSpec(p[1], p[3], p[5], p[7], p[9])
 
     def p_error(self, p):
-        raise ValueError("Syntax error at '{0}'".format(t.value))
+        raise ValueError("Syntax error at '{0}'".format(p.value))
 
     def parse(self, data):
         self.yacc.parse(data, lexer=self.sdb_lexer.lexer)
@@ -257,12 +267,13 @@ class AFLParser(object):
 
 
 if __name__ == "__main__":
-    test_data = """func1(<i0:int>[i=0:9,1000,0], 2, -3 * (2 - 4),
+    test_data = """func1(<i0:int, f0:float>[i=0:9,1000,0], 2, -3 * (2 - 4),
                          iif(i=j,100+i,i*4+j),
                          filter(A, val<=2));
-      func2()"""
-    #AFLLexer().test(test_data)
+      func2("abc def", 'ghi')"""
 
+    #AFLLexer().test(test_data)
+    
     parser = AFLParser()
     parser.parse(test_data)
     
