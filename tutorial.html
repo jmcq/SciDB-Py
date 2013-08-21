@@ -1,0 +1,874 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Tutorial &mdash; SciDB-Py 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SciDB-Py 0.1 documentation" href="index.html" />
+    <link rel="next" title="4. Code Reference" href="classes.html" />
+    <link rel="prev" title="2. Getting Started" href="getting_started.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="4. Code Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="2. Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SciDB-Py 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial">
+<span id="id1"></span><h1>3. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>SciDB is an open-source database that organizes data in n-dimensional arrays.
+SciDB features include ACID transactions, parallel processing, distributed
+storage, efficient sparse array storage, and native parallel linear algebra
+operations.  The ScidbPy package for Python defines a NumPy array-like
+interface for SciDB arrays in Python.  The arrays mimic numpy arrays, but
+operations on them are performed by the SciDB engine.  Data are materialized to
+Python only when requested. A basic set of array subsetting, arithmetic and
+utility operations are defined by the package. Additionally, a general query
+function provides a mechanism for performing arbitrary queries on scidbpy array
+objects.</p>
+<div class="section" id="installation">
+<h2>3.1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>For details on installation, see <a class="reference internal" href="install.html#installing-scidbpy"><em>Installing SciDB-Py</em></a>.</p>
+</div>
+<div class="section" id="loading-the-scidbpy-package-and-connecting-to-scidb">
+<h2>3.2. Loading the scidbpy package and connecting to SciDB<a class="headerlink" href="#loading-the-scidbpy-package-and-connecting-to-scidb" title="Permalink to this headline">¶</a></h2>
+<p>In order to use SciDB, the Python instance needs an interface to a SciDB
+server.  This is accomplished through the <a class="reference internal" href="classes.html#scidbpy.SciDBInterface" title="scidbpy.SciDBInterface"><tt class="xref py py-class docutils literal"><span class="pre">SciDBInterface</span></tt></a> class.
+<a class="reference internal" href="classes.html#scidbpy.SciDBInterface" title="scidbpy.SciDBInterface"><tt class="xref py py-class docutils literal"><span class="pre">SciDBInterface</span></tt></a> is an abstract base class which is designed to
+be extended with various interface methods: currently the one implemented
+interface is <a class="reference internal" href="classes.html#scidbpy.SciDBShimInterface" title="scidbpy.SciDBShimInterface"><tt class="xref py py-class docutils literal"><span class="pre">SciDBShimInterface</span></tt></a>, and interface using the
+<a class="reference external" href="http://github.com/paradigm4/shim">Shim</a> HTTP protocol developed by Paradigm4.</p>
+<p>The following example loads the package and defines an object named <tt class="docutils literal"><span class="pre">sdb</span></tt>
+that represents the SciDB interface. The example assumes that the SciDB
+coordinator is on the computer with host name &#8216;localhost&#8217; &#8211; adjust the
+host name as required if SciDB is on a different computer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scidbpy</span> <span class="kn">import</span> <span class="n">interface</span><span class="p">,</span> <span class="n">SciDBQueryError</span><span class="p">,</span> <span class="n">SciDBArray</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sdb</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">SciDBShimInterface</span><span class="p">(</span><span class="s">&#39;http://localhost:8080&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following examples refer to an interface object named <tt class="docutils literal"><span class="pre">sdb</span></tt> similar to
+the illustration.</p>
+</div>
+<div class="section" id="scidb-arrays">
+<h2>3.3. SciDB arrays<a class="headerlink" href="#scidb-arrays" title="Permalink to this headline">¶</a></h2>
+<p>SciDB arrays are composed of <cite>cells</cite>. Each cell may contain one or more values
+referred to as <cite>attributes</cite>. The data types and number of attributes are
+consistent across all cells within one array. All the attribute values within a
+cell may be left undefined, in which case the cell is called empty. Arrays with
+empty cells are referred to as sparse arrays in the SciDB documentation.</p>
+<p>Individual attribute values may also be explicitly marked missing with one of
+several possible SciDB null codes.</p>
+<p>Cells are arranged by an integer coordinate system into n-dimensional arrays.
+SciDB uses signed 64-bit integers for coordinates. Each coordinate axis is
+typically referred to as a dimension in the SciDB documentation. SciDB is
+limited in theory to about 100 dimensions, but in practice that limit is
+typically much lower (up to say, 10 dimensions or so). While the default SciDB
+array origin is usually zero, SciDB arrays may use any signed 64-bit
+integer origin.</p>
+<p>The <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> class defines the primary method of interaction between
+Python and SciDB. <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects are Python representations of
+SciDB arrays that mimic numpy arrays in may ways.  <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> array
+objects are limited to the following SciDB array attribute data types:
+<tt class="docutils literal"><span class="pre">bool</span></tt>, <tt class="docutils literal"><span class="pre">float32</span></tt>, <tt class="docutils literal"><span class="pre">float64</span></tt>, <tt class="docutils literal"><span class="pre">int8</span></tt>, <tt class="docutils literal"><span class="pre">int16</span></tt>, <tt class="docutils literal"><span class="pre">int32</span></tt>, <tt class="docutils literal"><span class="pre">int64</span></tt>,
+<tt class="docutils literal"><span class="pre">uint8</span></tt>, <tt class="docutils literal"><span class="pre">unit16</span></tt>, <tt class="docutils literal"><span class="pre">uint32</span></tt>, <tt class="docutils literal"><span class="pre">uint64</span></tt>, and single characters.</p>
+</div>
+<div class="section" id="creating-scidb-array-objects">
+<h2>3.4. Creating SciDB array objects<a class="headerlink" href="#creating-scidb-array-objects" title="Permalink to this headline">¶</a></h2>
+<p>The following sections illustrate a number of ways to create <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a>
+objects. The examples assume that an <tt class="docutils literal"><span class="pre">sdb</span></tt> interface object has already
+been set up.</p>
+<div class="section" id="from-a-numpy-array">
+<h3>3.4.1. From a numpy array<a class="headerlink" href="#from-a-numpy-array" title="Permalink to this headline">¶</a></h3>
+<p>Perhaps the simplest approach to creating an arbitrary <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a>
+object is to upload a numpy array into SciDB with the
+<a class="reference internal" href="classes.html#scidbpy.SciDBInterface.from_array" title="scidbpy.SciDBInterface.from_array"><tt class="xref py py-meth docutils literal"><span class="pre">from_array()</span></tt></a>
+function. Although this approach is very convenient, it is not really suitable
+for very big arrays (which might exceed memory availability in a single
+computer, for example). In such cases, consider other options described below.</p>
+<p>The following example creates a <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> object named <tt class="docutils literal"><span class="pre">Xsdb</span></tt>
+from a small 5x4 numpy array named <tt class="docutils literal"><span class="pre">X</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Xsdb</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The package takes care of naming the SciDB array in this example (use
+<tt class="docutils literal"><span class="pre">Xsdb.name</span></tt> to see the SciDB array name).</p>
+</div>
+<div class="section" id="convenience-array-creation-functions">
+<h3>3.4.2. Convenience array creation functions<a class="headerlink" href="#convenience-array-creation-functions" title="Permalink to this headline">¶</a></h3>
+<p>Many standard numpy functions for creating special arrays are supported.  These
+include:</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBInterface.zeros" title="scidbpy.SciDBInterface.zeros"><tt class="xref py py-meth docutils literal"><span class="pre">zeros()</span></tt></a></dt>
+<dd><p class="first">to create an array full of zeros:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a 10x10 array of double-precision zeros:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBInterface.ones" title="scidbpy.SciDBInterface.ones"><tt class="xref py py-meth docutils literal"><span class="pre">ones()</span></tt></a></dt>
+<dd><p class="first">to create an array full of ones:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a 10x10 array of 64-bit signed integer ones:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;int64&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBInterface.random" title="scidbpy.SciDBInterface.random"><tt class="xref py py-meth docutils literal"><span class="pre">random()</span></tt></a></dt>
+<dd><p class="first">to create an array of uniformly distributed random floating-point values:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a 10x10 array of numbers between -1 and 2 (inclusive)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#    sampled from a uniform random distribution.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">lower</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBInterface.randint" title="scidbpy.SciDBInterface.randint"><tt class="xref py py-meth docutils literal"><span class="pre">randint()</span></tt></a></dt>
+<dd><p class="first">to create an array of uniformly distributed random integers:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a 10x10 array of uniform random integers between 0 and 10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#  (inclusive of 0, non-inclusive of 10)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">randint</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBInterface.arange" title="scidbpy.SciDBInterface.arange"><tt class="xref py py-meth docutils literal"><span class="pre">arange()</span></tt></a></dt>
+<dd><p class="first">to create and array with evenly-spaced values given a step size:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a vector of ten integers, counting up from zero</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBInterface.linspace" title="scidbpy.SciDBInterface.linspace"><tt class="xref py py-meth docutils literal"><span class="pre">linspace()</span></tt></a></dt>
+<dd><p class="first">to create an array with evenly spaced values between supplied bounds:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a vector of 5 equally spaced numbers between 1 and 10,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># including the endpoints:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBInterface.identity" title="scidbpy.SciDBInterface.identity"><tt class="xref py py-meth docutils literal"><span class="pre">identity()</span></tt></a></dt>
+<dd><p class="first">to create a sparse or dense identity matrix:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a 10x10 sparse, double-precision-valued identity matrix:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;double&#39;</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>These functions should be familiar to anyone who has used NumPy, and the
+syntax of each function closely follows its numpy counterpart.  In each case,
+the array is defined and created directly in the SciDB server, and the
+resulting Python object is simply a wrapper of the native SciDB array.
+Because of this, the functions outlined here and in the following sections
+can be more efficient ways to generate large SciDB arrays than copying data
+from a numpy array.</p>
+<p>Note: SciDB does not yet have a way to set a random seed, prohibiting
+reproducible results involving the random number generator.</p>
+</div>
+<div class="section" id="from-an-existing-scidb-array">
+<h3>3.4.3. From an existing SciDB array<a class="headerlink" href="#from-an-existing-scidb-array" title="Permalink to this headline">¶</a></h3>
+<p>Finally, <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects may be created from existing SciDB arrays, so
+long as the data type restrictions outlined above are met. (It usually makes
+sense to load large data sets into SciDB externally from the Python package,
+using the SciDB parallel bulk loader or similar facility.)</p>
+<p>The following example uses the <tt class="xref py py-meth docutils literal"><span class="pre">query()</span></tt> function to build
+and store a small 10x5 SciDB array named &#8220;A&#8221; independently of Python.
+We then create a <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a>
+object from the SciDB array with the <tt class="xref py py-func docutils literal"><span class="pre">wrap_array()</span></tt> function, passing
+the name of the array identifier on the SciDB server:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># remove A if it already exists</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="s">&quot;A&quot;</span> <span class="ow">in</span> <span class="n">sdb</span><span class="o">.</span><span class="n">list_arrays</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">sdb</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;remove(A)&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># create an array named &#39;A&#39; on the server</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sdb</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&quot;store(build(&lt;v:double&gt;[i=1:10,10,0,j=1:5,5,0],i+j),A)&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># create a Python object pointing to this array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">wrap_array</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that there are some restrictions on the types of arrays which can be
+wrapped by <tt class="docutils literal"><span class="pre">scidbpy</span></tt>.  The array data must be of a compatible type, and
+have integer indices.  Also, arrays with indices that don&#8217;t start at zero
+may not behave as expected for item access and slicing, discussed below.</p>
+<p>Note also that many functions in the scidbpy package work on single-attribute
+arrays. When a <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> object refers to a SciDB array with more
+than one attribute, only the first listed attribute is used.</p>
+</div>
+<div class="section" id="scope-of-scidbpy-arrays">
+<h3>3.4.4. Scope of scidbpy arrays<a class="headerlink" href="#scope-of-scidbpy-arrays" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="classes.html#scidbpy.SciDBInterface.new_array" title="scidbpy.SciDBInterface.new_array"><tt class="xref py py-meth docutils literal"><span class="pre">new_array()</span></tt></a> function takes an argument named
+<tt class="docutils literal"><span class="pre">persistent</span></tt>. When <tt class="docutils literal"><span class="pre">persistent</span></tt> is set to True, arrays last in SciDB
+until explicitly removed by a <tt class="docutils literal"><span class="pre">remove</span></tt> (AFL) or <tt class="docutils literal"><span class="pre">DROP</span></tt> (AQL) query.
+If <tt class="docutils literal"><span class="pre">persistent</span></tt> is set to False, the arrays are removed from SciDB when
+they fall out of scope in the Python session.
+Arrays defined from an existing SciDB array using the
+<a class="reference internal" href="classes.html#scidbpy.SciDBInterface.wrap_array" title="scidbpy.SciDBInterface.wrap_array"><tt class="xref py py-meth docutils literal"><span class="pre">wrap_array()</span></tt></a> argument are always persistent, while
+all other array creation routines set <tt class="docutils literal"><span class="pre">persistent=False</span></tt> by default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">persistent</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>  <span class="c"># default</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">sdb</span><span class="o">.</span><span class="n">list_arrays</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">X</span>  <span class="c"># remove all references to X</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">sdb</span><span class="o">.</span><span class="n">list_arrays</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="retrieving-data-from-scidb-array-objects">
+<h2>3.5. Retrieving data from SciDB array objects<a class="headerlink" href="#retrieving-data-from-scidb-array-objects" title="Permalink to this headline">¶</a></h2>
+<p>A central idea of the package is to program operations on SciDB arrays in a
+natural Python dialect, computing those operations in SciDB while minimizing
+data traffic between SciDB and Python. However, it is useful to materialize
+SciDB array data to Python, for example to obtain and plot results.</p>
+<p><a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects provide several functions that materialize array
+data to Python:</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBArray.toarray" title="scidbpy.SciDBArray.toarray"><tt class="xref py py-meth docutils literal"><span class="pre">toarray()</span></tt></a></dt>
+<dd><p class="first">can be used to populate a <tt class="docutils literal"><span class="pre">numpy</span></tt> array from an
+<cite>N</cite>-dimensional array with any number of attributes:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([  0. ,   2.5,   5. ,   7.5,  10. ])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sdb</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sdb</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([(0.0, 0), (2.0, 1), (4.0, 2), (6.0, 3), (8.0, 4)],</span>
+<span class="go">      dtype=[(&#39;f0&#39;, &#39;&lt;f8&#39;), (&#39;f0_2&#39;, &#39;&lt;i8&#39;)])</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBArray.tosparse" title="scidbpy.SciDBArray.tosparse"><tt class="xref py py-meth docutils literal"><span class="pre">tosparse()</span></tt></a></dt>
+<dd><p class="first">can be used to populate a <a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/sparse.html">SciPy sparse matrix</a> from a 2-dimensional
+array with a single attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span><span class="o">.</span><span class="n">tosparse</span><span class="p">(</span><span class="n">sparse_fmt</span><span class="o">=</span><span class="s">&#39;dia&#39;</span><span class="p">)</span>
+<span class="go">&lt;5x5 sparse matrix of type &#39;&lt;type &#39;numpy.float64&#39;&gt;&#39;</span>
+<span class="go">        with 5 stored elements (1 diagonals) in DIAgonal format&gt;</span>
+</pre></div>
+</div>
+<p class="last"><a class="reference internal" href="classes.html#scidbpy.SciDBArray.tosparse" title="scidbpy.SciDBArray.tosparse"><tt class="xref py py-meth docutils literal"><span class="pre">tosparse()</span></tt></a> will also work with 1-dimensional arrays
+or multi-dimensional arrays; in this case the result cannot be exported
+to a SciPy sparse format, but will be returned as a
+<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.recarray.html">Numpy record array</a> listing the indices and values.</p>
+</dd>
+<dt><a class="reference internal" href="classes.html#scidbpy.SciDBArray.todataframe" title="scidbpy.SciDBArray.todataframe"><tt class="xref py py-meth docutils literal"><span class="pre">todataframe()</span></tt></a></dt>
+<dd><p class="first">can be used to populate a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/dev/dsintro.html#dataframe">Pandas dataframe</a> from a 1-dimensional
+array with any number of attributes:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sdb</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;&lt;A:double&gt;&#39;</span><span class="p">),</span>
+<span class="gp">... </span>             <span class="n">sdb</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;&lt;B:int32&gt;&#39;</span><span class="p">),</span>
+<span class="gp">... </span>             <span class="n">sdb</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;&lt;C:float&gt;&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">todataframe</span><span class="p">()</span>
+<span class="go">   A  B  C</span>
+<span class="go">0  0  1  1</span>
+<span class="go">1  2  2  1</span>
+<span class="go">2  4  3  1</span>
+<span class="go">3  6  4  1</span>
+<span class="go">4  8  5  1</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="section" id="tridiagonal-example">
+<h3>3.5.1. Tridiagonal Example<a class="headerlink" href="#tridiagonal-example" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s consider a more complicated example.  Here
+we&#8217;ll use the advanced query syntax (discussed below) to efficiently
+create a 10x10 tridiagonal array, and import its data in both dense
+and sparse formats:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">new_array</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sdb</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&#39;store( </span><span class="se">\</span>
+<span class="gp">... </span><span class="s">             build_sparse({A}, </span><span class="se">\</span>
+<span class="gp">... </span><span class="s">               iif({A.d0}={A.d1}, 2, -1), </span><span class="se">\</span>
+<span class="gp">... </span><span class="s">               {A.d0} &lt;= {A.d1}+1 and {A.d0} &gt;= {A.d1}-1), </span><span class="se">\</span>
+<span class="gp">... </span><span class="s">             {A})&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">A</span><span class="o">=</span><span class="n">tridiag</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Materialize SciDB array to Python as a numpy array:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([[ 2.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [-1.,  2.,  1.,  0.,  0.,  0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0., -1.,  2.,  1.,  0.,  0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0., -1.,  2.,  1.,  0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0., -1.,  2.,  1.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0., -1.,  2.,  1.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0., -1.,  2.,  1.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.,  0., -1.,  2.,  1.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  2.,  1.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0., -1.,  2.]])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Materialize SciDB array to Python as a scipy.sparse array:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="o">.</span><span class="n">tosparse</span><span class="p">(</span><span class="s">&#39;csr&#39;</span><span class="p">)</span>
+<span class="go">&lt;10x10 sparse matrix of type &#39;&lt;type &#39;numpy.float64&#39;&gt;&#39;</span>
+<span class="go">        with 28 stored elements in Compressed Sparse Row format&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="operations-on-scidb-array-objects">
+<h2>3.6. Operations on SciDB array objects<a class="headerlink" href="#operations-on-scidb-array-objects" title="Permalink to this headline">¶</a></h2>
+<p>Operations on <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects generally return new
+<a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects.
+The general idea is to promote function composition involving
+<a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects without moving data between SciDB and Python.</p>
+<p>The <tt class="docutils literal"><span class="pre">scidbpy</span></tt> package provides quite a few common operations including
+subsetting, pointwise application of scalar functions, aggregations, and
+pointwise and matrix arithmetic.</p>
+<p>Standard numpy attributes like <tt class="docutils literal"><span class="pre">shape</span></tt>, <tt class="docutils literal"><span class="pre">ndim</span></tt> and <tt class="docutils literal"><span class="pre">size</span></tt> are defined for
+<a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(5, 10)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">size</span>
+<span class="go">50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>Many SciDB-specific attributes are also defined,
+including <tt class="docutils literal"><span class="pre">chunk_size</span></tt>, <tt class="docutils literal"><span class="pre">chunk_overlap</span></tt>, and <tt class="docutils literal"><span class="pre">sdbtype</span></tt>,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">chunk_size</span>
+<span class="go">[1000, 1000]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">chunk_overlap</span>
+<span class="go">[0, 0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">sdbtype</span>
+<span class="go">sdbtype(&#39;&lt;f0:double&gt;&#39;)</span>
+</pre></div>
+</div>
+<p>SciDBArrays also contain a <tt class="docutils literal"><span class="pre">datashape</span></tt> object, which encapsulates much of the
+interface between Python and SciDB data, including the full array schema:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Xds</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">datashape</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Xds</span><span class="o">.</span><span class="n">schema</span>
+<span class="go">&#39;&lt;f0:double&gt; [i0=0:4,1000,0,i1=0:9,1000,0]&#39;</span>
+</pre></div>
+</div>
+<div class="section" id="element-access">
+<h3>3.6.1. Element Access<a class="headerlink" href="#element-access" title="Permalink to this headline">¶</a></h3>
+<p>Single elements of <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects can be referenced with the
+standard numpy indexing syntax.  These single elements are returned by
+value.  Here we&#8217;ll use the <tt class="docutils literal"><span class="pre">tridiag</span></tt> array created above:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<p>Note that element assignment (e.g. <tt class="docutils literal"><span class="pre">tridiag[0,</span> <span class="pre">0]</span> <span class="pre">=</span> <span class="pre">4</span></tt>)is not supported.</p>
+</div>
+<div class="section" id="subarrays">
+<h3>3.6.2. Subarrays<a class="headerlink" href="#subarrays" title="Permalink to this headline">¶</a></h3>
+<p>Rectilinear subarrays are also selected with standard numpy syntax. Subarrays
+of <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects are new <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects. Consider
+the example sparse tridiagonal array used previously:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Define a 3x10 subarray (returned as a new SciDBArray object)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">tridiag</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">,:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([[ 0., -1.,  2.,  1.,  0.,  0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0., -1.,  2.,  1.,  0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0., -1.,  2.,  1.,  0.,  0.,  0.,  0.]])</span>
+</pre></div>
+</div>
+<p>Tuple-based indexing (also known as <cite>fancy indexing</cite>) is not yet supported.</p>
+<p>Note that subarray indexing of <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects follows numpy
+convention. SciDB arrays with negative-valued coordinate indices should be
+translated to a coordinate system with a nonnegative origin.</p>
+</div>
+<div class="section" id="scalar-functions-of-scidbarray-objects-aggregations">
+<h3>3.6.3. Scalar functions of SciDBArray objects (aggregations)<a class="headerlink" href="#scalar-functions-of-scidbarray-objects-aggregations" title="Permalink to this headline">¶</a></h3>
+<p>The package exposes the following aggregations:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">min()</span></tt></td>
+<td>minimum value</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">max()</span></tt></td>
+<td>maximum value</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">sum()</span></tt></td>
+<td>sum of values</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">var()</span></tt></td>
+<td>variance of values</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">stdev()</span></tt></td>
+<td>standard deviation of values</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">std()</span></tt></td>
+<td>standard deviation of values</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">avg()</span></tt></td>
+<td>average/mean of values</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">mean()</span></tt></td>
+<td>average/mean of values</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">count()</span></tt></td>
+<td>count of nonempty cells</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">approxdc()</span></tt></td>
+<td>fast estimate of the number of distinct values</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples: Minimum Aggregates</strong></p>
+<p>Each operation can be computed across the entire array, or across specified
+dimensions by passing the index or indices of the desired dimensions.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([[ 0.5488135 ,  0.71518937,  0.60276338],</span>
+<span class="go">       [ 0.54488318,  0.4236548 ,  0.64589411],</span>
+<span class="go">       [ 0.43758721,  0.891773  ,  0.96366276],</span>
+<span class="go">       [ 0.38344152,  0.79172504,  0.52889492],</span>
+<span class="go">       [ 0.56804456,  0.92559664,  0.07103606]])</span>
+</pre></div>
+</div>
+<p>Here we&#8217;ll find the minimum of all values in the array.  The returned result
+is a new SciDBArray, so we select the first element:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">0.071036058197886942</span>
+</pre></div>
+</div>
+<p>Like numpy, passing index 0 gives us the minimum within every column:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([ 0.38344152,  0.4236548 ,  0.07103606])</span>
+</pre></div>
+</div>
+<p>Passing index 1 gives us the minimum within every row:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([ 0.5488135 ,  0.4236548 ,  0.43758721,  0.38344152,  0.07103606])</span>
+</pre></div>
+</div>
+<p>Note that the convention for specifying aggregate indices here is designed
+to match numpy, and is <em>opposite the convention used within SciDB</em>.
+To recover SciDB-style aggregates, you can use the <tt class="docutils literal"><span class="pre">scidb_syntax</span></tt> flag:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">scidb_syntax</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([ 0.38344152,  0.4236548 ,  0.07103606])</span>
+</pre></div>
+</div>
+<p><strong>Further Examples</strong></p>
+<p>These operations return new <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects consisting of
+scalar values.  Here are a few examples that materialize their results to
+Python (using the <tt class="docutils literal"><span class="pre">tridiag</span></tt> array defined previously):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="o">.</span><span class="n">count</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">28</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="o">.</span><span class="n">sum</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">20.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="o">.</span><span class="n">var</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">1.6190476190476193</span>
+</pre></div>
+</div>
+<p>Note that a count of nonempty cells is also directly available from the
+<tt class="xref py py-func docutils literal"><span class="pre">nonempty()</span></tt> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="o">.</span><span class="n">nonempty</span><span class="p">()</span>
+<span class="go">28</span>
+</pre></div>
+</div>
+<p>A related function is <tt class="xref py py-func docutils literal"><span class="pre">nonnull()</span></tt>, which counts the number of nonempty
+cells which do not contain a null value.  In this case, the result is the
+same as <tt class="xref py py-func docutils literal"><span class="pre">nonempty()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="o">.</span><span class="n">nonnull</span><span class="p">()</span>
+<span class="go">28</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pointwise-application-of-scalar-functions">
+<h3>3.6.4. Pointwise application of scalar functions<a class="headerlink" href="#pointwise-application-of-scalar-functions" title="Permalink to this headline">¶</a></h3>
+<p>The package exposes SciDB scalar-valued scalar functions that can be applied
+element-wise to SciDB arrays:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Function</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">sin()</span></tt></td>
+<td>Trigonometric sine</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">asin()</span></tt></td>
+<td>Trigonometric arc-sine / inverse sine</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">cos()</span></tt></td>
+<td>Trigonometric cosine</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">acos()</span></tt></td>
+<td>Trigonometric arc-cosine / inverse cosine</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">tan()</span></tt></td>
+<td>Trigonometric tangent</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">atan()</span></tt></td>
+<td>Trigonometric arc-tangent / inverse tagent</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">exp()</span></tt></td>
+<td>Natural exponent</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-func docutils literal"><span class="pre">log()</span></tt></td>
+<td>Natural logarithm</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-func docutils literal"><span class="pre">log10()</span></tt></td>
+<td>Base-10 logarithm</td>
+</tr>
+</tbody>
+</table>
+<p>All trigonometric functions assume arguments are given in radians.
+Here is a simple example that compares a computation in SciDB with
+a local one (using the &#8216;tridiag` array defined in the last examples):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sin_tri</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tridiag</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sin_tri</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">tridiag</span><span class="o">.</span><span class="n">toarray</span><span class="p">()))</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="shape-and-layout-functions">
+<h3>3.6.5. Shape and layout functions<a class="headerlink" href="#shape-and-layout-functions" title="Permalink to this headline">¶</a></h3>
+<p>Arrays may be transposed and their data re-arranged into new shapes
+with the usual <a class="reference internal" href="classes.html#scidbpy.SciDBArray.transpose" title="scidbpy.SciDBArray.transpose"><tt class="xref py py-meth docutils literal"><span class="pre">transpose()</span></tt></a> and <a class="reference internal" href="classes.html#scidbpy.SciDBArray.reshape" title="scidbpy.SciDBArray.reshape"><tt class="xref py py-meth docutils literal"><span class="pre">reshape()</span></tt></a>
+functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tri_reshape</span> <span class="o">=</span> <span class="n">tridiag</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tri_reshape</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(20, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tri_reshape</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(5, 20)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tri_reshape</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">shape</span>  <span class="c"># shortcut for transpose</span>
+<span class="go">(5, 20)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="arithmetic">
+<h3>3.6.6. Arithmetic<a class="headerlink" href="#arithmetic" title="Permalink to this headline">¶</a></h3>
+<p>The package defines elementwise operations on all arrays and linear algebra
+operations on matrices and vectors. Scalar multiplication is supported.</p>
+<p>Element-wise sums and products:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Y</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">X</span> <span class="o">+</span> <span class="n">Y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">Y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">X</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">S</span> <span class="o">+</span> <span class="n">D</span> <span class="o">-</span> <span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">-1.1102230246251565e-16</span>
+</pre></div>
+</div>
+<p>We can combine operations as well:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Z</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">+</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are also linear algebra operations (matrix-matrix product, matrix-vector
+product) using the <tt class="xref py py-func docutils literal"><span class="pre">dot()</span></tt> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">XY</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">XY1</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">XTX</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="broadcasting">
+<h3>3.6.7. Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h3>
+<p>Numpy broadcasting conventions are generally followed in operations involving
+differently-sized <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects. Consider the following example
+that centers a matrix by subtracting its column average from each column.</p>
+<p>First we create a test array with 5 columns:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Now create a vector of column means:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">xcolmean</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xcolmean</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(5,)</span>
+</pre></div>
+</div>
+<p>Subtract these means from the columns &#8211; this is a broadcasting operation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">XC</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">xcolmean</span>
+</pre></div>
+</div>
+<p>To check that the columns are now centered,
+we compute the column mean of <tt class="docutils literal"><span class="pre">XC</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">XC</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([ -2.22044605e-17,   4.44089210e-17,  -1.11022302e-17,</span>
+<span class="go">         1.11022302e-16,  -3.33066907e-17])</span>
+</pre></div>
+</div>
+<p>The broadcasting operation which creates <tt class="docutils literal"><span class="pre">XC</span></tt> is implemented using a
+join operation along dimension 1.</p>
+</div>
+</div>
+<div class="section" id="advanced-usage-the-scidb-query-interface">
+<h2>3.7. Advanced Usage: the SciDB Query Interface<a class="headerlink" href="#advanced-usage-the-scidb-query-interface" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">scidbpy</span></tt> provides python wrappers for many useful SciDB operations, but
+the SciDB AFL and AQL query languages can provide even more customization
+of operations (For more information on SciDB&#8217;s AFL and AQL languages,
+see the <a class="reference external" href="http://www.scidb.org/HTMLmanual/">SciDB Manual</a>).  The <a class="reference internal" href="classes.html#scidbpy.SciDBInterface.query" title="scidbpy.SciDBInterface.query"><tt class="xref py py-meth docutils literal"><span class="pre">query()</span></tt></a> function provides
+a useful interface for generating raw queries by exploiting Python&#8217;s
+<a class="reference external" href="http://docs.python.org/2/whatsnew/2.6.html#pep-3101-advanced-string-formatting">String Formatting</a> syntax.  Through automatic insertion of the server-side
+identifiers of SciDB arrays, attributes, and dimensions, the query interface
+makes constructing complicated queries very convenient.</p>
+<p>The general approach first creates a new <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> object and then
+issues a query to populate data.  For example, to build an array of zeros
+similar to the result of the <a class="reference internal" href="classes.html#scidbpy.SciDBInterface.zeros" title="scidbpy.SciDBInterface.zeros"><tt class="xref py py-meth docutils literal"><span class="pre">zeros()</span></tt></a> function shown
+above, the query can be constructed in the following way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># first define an empty array to hold the result</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zeros</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">new_array</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;double&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># now execute a query to fill the array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sdb</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&#39;store(build({A}, 0), {A})&#39;</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="n">zeros</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zeros</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([[ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.]])</span>
+</pre></div>
+</div>
+<p>The result is that <tt class="docutils literal"><span class="pre">zeros</span></tt> is a 10x10 array filled with zeros.  Here the
+format statement <tt class="docutils literal"><span class="pre">{A}</span></tt> is replaced by the name of the desired array on
+the SciDB server.</p>
+<p>We can use this interface to quickly build more complex arrays.  For
+example, to create an identity matrix similar to the result of the
+<a class="reference internal" href="classes.html#scidbpy.SciDBInterface.identity" title="scidbpy.SciDBInterface.identity"><tt class="xref py py-meth docutils literal"><span class="pre">identity()</span></tt></a> function shown above, we add a boolean check:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ident</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">new_array</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;double&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sdb</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&#39;store(build({A}, iif({A.d0}={A.d1}, 1, 0)), {A})&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">A</span><span class="o">=</span><span class="n">ident</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ident</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([[ 1.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  1.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  1.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  1.]])</span>
+</pre></div>
+</div>
+<p>Here the substitutions <tt class="docutils literal"><span class="pre">{A.d0}</span></tt> and <tt class="docutils literal"><span class="pre">{A.d1}</span></tt> are replaced by the first
+and second dimension names of the array referenced by <tt class="docutils literal"><span class="pre">A</span></tt>.</p>
+<p>Things can become even more complicated. The following example creates a
+5x5 sparse tridiagonal array, similar to the one used in the above examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">new_array</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sdb</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s">&#39;store( </span><span class="se">\</span>
+<span class="gp">... </span><span class="s">             build_sparse({A}, </span><span class="se">\</span>
+<span class="gp">... </span><span class="s">               iif({A.d0}={A.d1}, 2, -1), </span><span class="se">\</span>
+<span class="gp">... </span><span class="s">               {A.d0} &lt;= {A.d1}+1 and {A.d0} &gt;= {A.d1}-1), </span><span class="se">\</span>
+<span class="gp">... </span><span class="s">             {A})&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">A</span><span class="o">=</span><span class="n">tridiag</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tridiag</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([[ 2., -1.,  0.,  0.,  0.],</span>
+<span class="go">       [-1.,  2., -1.,  0.,  0.],</span>
+<span class="go">       [ 0., -1.,  2., -1.,  0.],</span>
+<span class="go">       [ 0.,  0., -1.,  2., -1.],</span>
+<span class="go">       [ 0.,  0.,  0., -1.,  2.]])</span>
+</pre></div>
+</div>
+<p>The query builds a sparse tridiagonal array with 2 on the diagonal and -1 on
+the sub- and super-diagonals. This shows how the query-formatting syntax
+provided by the scidbpy package can be used to generate extremely powerful
+AFL queries.</p>
+<p>The full replacement syntax is outlined in the documentation of the
+<a class="reference internal" href="classes.html#scidbpy.SciDBInterface.query" title="scidbpy.SciDBInterface.query"><tt class="xref py py-meth docutils literal"><span class="pre">query()</span></tt></a> function.  It is a useful way to help
+streamline the process of writing SciDB queries if and when it becomes
+necessary.</p>
+</div>
+<div class="section" id="example-applications">
+<h2>3.8. Example applications<a class="headerlink" href="#example-applications" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="covariance-and-correlation-matrices">
+<h3>3.8.1. Covariance and correlation matrices<a class="headerlink" href="#covariance-and-correlation-matrices" title="Permalink to this headline">¶</a></h3>
+<p>We can use SciDB&#8217;s distributed parallel linear algebra operations to
+compute covariance and correlation matrices without too much difficulty.
+The following example computes the covariance and correlation between
+the columns of the matrices X and Y. We break the example up into
+a few parts for clarity.</p>
+<p>Part 1, set up some example matrices:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a small test array with 5 columns:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Create a second small test array with 10 columns:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Y</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Part 2, center the example matrices:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Subtract the column means from X using broadcasting:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">XC</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Similarly subtract the column means from Y:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">YC</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Part 3, compute the covariance matrix:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">COV</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">XC</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">YC</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Part 4, compute the correlation matrix:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Column vector with column standard deviations of X matrix:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xsd</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Row vector with column standard deviations of Y matrix:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ysd</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Their outer product:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outersd</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xsd</span><span class="p">,</span> <span class="n">ysd</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">COR</span> <span class="o">=</span> <span class="n">COV</span> <span class="o">/</span> <span class="n">outersd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">COR</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="go">array([[ 0.66403867, -0.3750696 ,  0.07049322,  0.3543565 ,  0.19460585,</span>
+<span class="go">         0.12932699, -0.32011222,  0.54153159,  0.08729989,  0.73609071],</span>
+<span class="go">       [-0.1918192 , -0.09265041, -0.44833276, -0.41902633,  0.47258236,</span>
+<span class="go">        -0.36989832,  0.39182811,  0.29622453,  0.13236683,  0.18712435],</span>
+<span class="go">       [ 0.63690931, -0.15126441,  0.48608902,  0.47874834, -0.32307991,</span>
+<span class="go">         0.10882704, -0.1950527 ,  0.23340459, -0.06955862,  0.76675295],</span>
+<span class="go">       [-0.12190756, -0.21477533, -0.54087076, -0.2134786 ,  0.71007003,</span>
+<span class="go">        -0.08317723, -0.15595565,  0.08533781,  0.12180002, -0.16792813],</span>
+<span class="go">       [ 0.39885069, -0.4231043 , -0.00321296, -0.23295093,  0.48057586,</span>
+<span class="go">        -0.22329337, -0.39134802,  0.67833575,  0.49968504, -0.05949198]])</span>
+</pre></div>
+</div>
+<p>The overhead of working interactively with SciDB can make these examples run
+somewhat slowly for small problems. But the same code shown here can be
+applied to arbitrarily large matrices, and those computations can run in
+parallel across a cluster.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Tutorial</a><ul>
+<li><a class="reference internal" href="#installation">3.1. Installation</a></li>
+<li><a class="reference internal" href="#loading-the-scidbpy-package-and-connecting-to-scidb">3.2. Loading the scidbpy package and connecting to SciDB</a></li>
+<li><a class="reference internal" href="#scidb-arrays">3.3. SciDB arrays</a></li>
+<li><a class="reference internal" href="#creating-scidb-array-objects">3.4. Creating SciDB array objects</a><ul>
+<li><a class="reference internal" href="#from-a-numpy-array">3.4.1. From a numpy array</a></li>
+<li><a class="reference internal" href="#convenience-array-creation-functions">3.4.2. Convenience array creation functions</a></li>
+<li><a class="reference internal" href="#from-an-existing-scidb-array">3.4.3. From an existing SciDB array</a></li>
+<li><a class="reference internal" href="#scope-of-scidbpy-arrays">3.4.4. Scope of scidbpy arrays</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#retrieving-data-from-scidb-array-objects">3.5. Retrieving data from SciDB array objects</a><ul>
+<li><a class="reference internal" href="#tridiagonal-example">3.5.1. Tridiagonal Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#operations-on-scidb-array-objects">3.6. Operations on SciDB array objects</a><ul>
+<li><a class="reference internal" href="#element-access">3.6.1. Element Access</a></li>
+<li><a class="reference internal" href="#subarrays">3.6.2. Subarrays</a></li>
+<li><a class="reference internal" href="#scalar-functions-of-scidbarray-objects-aggregations">3.6.3. Scalar functions of SciDBArray objects (aggregations)</a></li>
+<li><a class="reference internal" href="#pointwise-application-of-scalar-functions">3.6.4. Pointwise application of scalar functions</a></li>
+<li><a class="reference internal" href="#shape-and-layout-functions">3.6.5. Shape and layout functions</a></li>
+<li><a class="reference internal" href="#arithmetic">3.6.6. Arithmetic</a></li>
+<li><a class="reference internal" href="#broadcasting">3.6.7. Broadcasting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advanced-usage-the-scidb-query-interface">3.7. Advanced Usage: the SciDB Query Interface</a></li>
+<li><a class="reference internal" href="#example-applications">3.8. Example applications</a><ul>
+<li><a class="reference internal" href="#covariance-and-correlation-matrices">3.8.1. Covariance and correlation matrices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="previous chapter">2. Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="classes.html"
+                        title="next chapter">4. Code Reference</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tutorial.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="4. Code Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="2. Getting Started"
+             >previous</a> |</li>
+        <li><a href="index.html">SciDB-Py 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jake Vanderplas.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

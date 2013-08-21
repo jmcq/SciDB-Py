@@ -1,0 +1,1997 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Code Reference &mdash; SciDB-Py 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SciDB-Py 0.1 documentation" href="index.html" />
+    <link rel="prev" title="3. Tutorial" href="tutorial.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="3. Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SciDB-Py 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="code-reference">
+<h1>4. Code Reference<a class="headerlink" href="#code-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is the list of classes and functions available in SciDB-py.</p>
+<span class="target" id="module-scidbpy"></span><div class="section" id="scidb-array-class">
+<h2>4.1. SciDB Array Class<a class="headerlink" href="#scidb-array-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="scidbpy.SciDBArray">
+<em class="property">class </em><tt class="descclassname">scidbpy.</tt><tt class="descname">SciDBArray</tt><big>(</big><em>datashape</em>, <em>interface</em>, <em>name</em>, <em>persistent=False</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>SciDBArray class</p>
+<p>It is not recommended to instantiate this class directly; use a
+convenience routine from SciDBInterface.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.alias" title="scidbpy.SciDBArray.alias"><tt class="xref py py-obj docutils literal"><span class="pre">alias</span></tt></a>([name])</td>
+<td>Return an alias of the array, optionally with a new name</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">approxdc</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.attribute" title="scidbpy.SciDBArray.attribute"><tt class="xref py py-obj docutils literal"><span class="pre">attribute</span></tt></a>(a)</td>
+<td>Return the attribute name of the array</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">avg</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.contains_nulls" title="scidbpy.SciDBArray.contains_nulls"><tt class="xref py py-obj docutils literal"><span class="pre">contains_nulls</span></tt></a>([attr])</td>
+<td>Return True if the array contains null values.</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">contents</span></tt>(**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">count</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBArray.dimension" title="scidbpy.SciDBArray.dimension"><tt class="xref py py-obj docutils literal"><span class="pre">dimension</span></tt></a>(d)</td>
+<td>Return the dimension name of the array</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.issparse" title="scidbpy.SciDBArray.issparse"><tt class="xref py py-obj docutils literal"><span class="pre">issparse</span></tt></a>()</td>
+<td>Check whether array is sparse.</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">max</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">mean</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">min</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.nonempty" title="scidbpy.SciDBArray.nonempty"><tt class="xref py py-obj docutils literal"><span class="pre">nonempty</span></tt></a>()</td>
+<td>Return the number of nonempty elements in the array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBArray.nonnull" title="scidbpy.SciDBArray.nonnull"><tt class="xref py py-obj docutils literal"><span class="pre">nonnull</span></tt></a>([attr])</td>
+<td>Return the number of non-empty and non-null values.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.regrid" title="scidbpy.SciDBArray.regrid"><tt class="xref py py-obj docutils literal"><span class="pre">regrid</span></tt></a>(size[,&nbsp;aggregate])</td>
+<td>Regrid the array using the specified aggregate</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBArray.reshape" title="scidbpy.SciDBArray.reshape"><tt class="xref py py-obj docutils literal"><span class="pre">reshape</span></tt></a>(shape,&nbsp;**kwargs)</td>
+<td>Reshape data into a new array</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">std</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">stdev</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.substitute" title="scidbpy.SciDBArray.substitute"><tt class="xref py py-obj docutils literal"><span class="pre">substitute</span></tt></a>(value)</td>
+<td>Reshape data into a new array, substituting a default for any nulls.</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">sum</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.toarray" title="scidbpy.SciDBArray.toarray"><tt class="xref py py-obj docutils literal"><span class="pre">toarray</span></tt></a>([transfer_bytes])</td>
+<td>Transfer data from database and store in a numpy array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBArray.todataframe" title="scidbpy.SciDBArray.todataframe"><tt class="xref py py-obj docutils literal"><span class="pre">todataframe</span></tt></a>([transfer_bytes])</td>
+<td>Transfer array from database and store in a local Pandas dataframe</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBArray.tosparse" title="scidbpy.SciDBArray.tosparse"><tt class="xref py py-obj docutils literal"><span class="pre">tosparse</span></tt></a>([sparse_fmt,&nbsp;transfer_bytes])</td>
+<td>Transfer array from database and store in a local sparse array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBArray.transpose" title="scidbpy.SciDBArray.transpose"><tt class="xref py py-obj docutils literal"><span class="pre">transpose</span></tt></a>(*axes)</td>
+<td>Permute the dimensions of an array.</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">var</span></tt>([index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="scidbpy.SciDBArray.T">
+<tt class="descname">T</tt><a class="headerlink" href="#scidbpy.SciDBArray.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>Permute the dimensions of an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>axes</strong> : None, tuple of ints, or <cite>n</cite> ints</p>
+<blockquote>
+<div><ul class="simple">
+<li>None or no argument: reverses the order of the axes.</li>
+<li>tuple of ints: <cite>i</cite> in the <cite>j</cite>-th place in the tuple means <cite>a</cite>&#8216;s
+<cite>i</cite>-th axis becomes <cite>a.transpose()</cite>&#8216;s <cite>j</cite>-th axis.</li>
+<li><cite>n</cite> ints: same as an n-tuple of the same ints (this form is
+intended simply as a &#8220;convenience&#8221; alternative to the tuple form)</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Copy of <cite>a</cite>, with axes suitably permuted.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.alias">
+<tt class="descname">alias</tt><big>(</big><em>name=None</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an alias of the array, optionally with a new name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.attribute">
+<tt class="descname">attribute</tt><big>(</big><em>a</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the attribute name of the array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.contains_nulls">
+<tt class="descname">contains_nulls</tt><big>(</big><em>attr=None</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.contains_nulls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the array contains null values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>attr</strong> : None, int, or array_like</p>
+<blockquote>
+<div><p>the attribute index/indices to check.  If None, then check all.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>contains_nulls</strong> : boolean</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.dimension">
+<tt class="descname">dimension</tt><big>(</big><em>d</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the dimension name of the array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.issparse">
+<tt class="descname">issparse</tt><big>(</big><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.issparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether array is sparse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.nonempty">
+<tt class="descname">nonempty</tt><big>(</big><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.nonempty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of nonempty elements in the array.</p>
+<p>Nonempty refers to the sparsity of an array, and thus includes in the
+count elements with values which are set to NULL.</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scidbpy.SciDBArray.nonnull" title="scidbpy.SciDBArray.nonnull"><tt class="xref py py-obj docutils literal"><span class="pre">nonnull</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.nonnull">
+<tt class="descname">nonnull</tt><big>(</big><em>attr=0</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.nonnull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of non-empty and non-null values.</p>
+<p>This query must be done for each attribute: the default is the first
+attribute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>attr</strong> : None, int or array_like</p>
+<blockquote>
+<div><p>the attribute or attributes to query.  If None, then query all
+attributes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>nonnull</strong> : array_like</p>
+<blockquote class="last">
+<div><p>the nonnull count for each attribute.  The returned value is the
+same shape as the input <tt class="docutils literal"><span class="pre">attr</span></tt>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#scidbpy.SciDBArray.nonempty" title="scidbpy.SciDBArray.nonempty"><tt class="xref py py-obj docutils literal"><span class="pre">nonempty</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.regrid">
+<tt class="descname">regrid</tt><big>(</big><em>size</em>, <em>aggregate='avg'</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.regrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regrid the array using the specified aggregate</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>size</strong> : int or tuple of ints</p>
+<blockquote>
+<div><p>Specify the size of the regridding along each dimension.  If a
+single integer, then use the same regridding along each dimension.</p>
+</div></blockquote>
+<p><strong>aggregate</strong> : string</p>
+<blockquote>
+<div><p>specify the aggregation function to use when creating the new
+grid.  Default is &#8216;avg&#8217;.  Possible values are:
+[&#8216;avg&#8217;, &#8216;sum&#8217;, &#8216;min&#8217;, &#8216;max&#8217;, &#8216;count&#8217;, &#8216;stdev&#8217;, &#8216;var&#8217;, &#8216;approxdc&#8217;]</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>A</strong> : scidbarray</p>
+<blockquote class="last">
+<div><p>The re-gridded version of the array.  The size of dimension i
+is ceil(self.shape[i] / size[i])</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.reshape">
+<tt class="descname">reshape</tt><big>(</big><em>shape</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.reshape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshape data into a new array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
+<blockquote>
+<div><p>The shape of the new array.  Must be compatible with the current
+shape</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>additional keyword arguments will be passed to SciDBDatashape</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>new array of the specified shape</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.substitute">
+<tt class="descname">substitute</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.substitute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reshape data into a new array, substituting a default for any nulls.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> : value to replace nulls (required)</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>new non-nullable array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.toarray">
+<tt class="descname">toarray</tt><big>(</big><em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.toarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer data from database and store in a numpy array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>transfer_bytes</strong> : boolean</p>
+<blockquote>
+<div><p>if True (default), then transfer data as bytes rather than as
+ASCII.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : np.ndarray</p>
+<blockquote class="last">
+<div><p>The dense array containing the data.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.todataframe">
+<tt class="descname">todataframe</tt><big>(</big><em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.todataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer array from database and store in a local Pandas dataframe</p>
+<p>This is valid only for a one-dimensional array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>transfer_bytes</strong> : boolean</p>
+<blockquote>
+<div><p>if True (default), then transfer data as bytes rather than as
+ASCII.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : pd.DataFrame</p>
+<blockquote class="last">
+<div><p>The dataframe object containing the data in the array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.tosparse">
+<tt class="descname">tosparse</tt><big>(</big><em>sparse_fmt='recarray'</em>, <em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.tosparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer array from database and store in a local sparse array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>transfer_bytes</strong> : boolean</p>
+<blockquote>
+<div><p>if True (default), then transfer data as bytes rather than as
+ASCII.  This is more accurate, but requires two passes over
+the data (one for indices, one for values).</p>
+</div></blockquote>
+<p><strong>sparse_format</strong> : string or None</p>
+<blockquote>
+<div><p>Specify the sparse format to use.  Available formats are:
+- &#8216;recarray&#8217; : a record array containing the indices and</p>
+<blockquote>
+<div><p>values for each data point.  This is valid for arrays of
+any dimension and with any number of attributes.</p>
+</div></blockquote>
+<ul class="simple">
+<li>[&#8216;coo&#8217;|&#8217;csc&#8217;|&#8217;csr&#8217;|&#8217;dok&#8217;|&#8217;lil&#8217;] : a scipy sparse matrix.
+These are valid only for 2-dimensional arrays with a single
+attribute.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : ndarray or sparse matrix</p>
+<blockquote class="last">
+<div><p>The sparse representation of the data</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBArray.transpose">
+<tt class="descname">transpose</tt><big>(</big><em>*axes</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBArray.transpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Permute the dimensions of an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>axes</strong> : None, tuple of ints, or <cite>n</cite> ints</p>
+<blockquote>
+<div><ul class="simple">
+<li>None or no argument: reverses the order of the axes.</li>
+<li>tuple of ints: <cite>i</cite> in the <cite>j</cite>-th place in the tuple means <cite>a</cite>&#8216;s
+<cite>i</cite>-th axis becomes <cite>a.transpose()</cite>&#8216;s <cite>j</cite>-th axis.</li>
+<li><cite>n</cite> ints: same as an n-tuple of the same ints (this form is
+intended simply as a &#8220;convenience&#8221; alternative to the tuple form)</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Copy of <cite>a</cite>, with axes suitably permuted.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="scidb-interface">
+<h2>4.2. SciDB Interface<a class="headerlink" href="#scidb-interface" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="base-class">
+<h3>4.2.1. Base Class<a class="headerlink" href="#base-class" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="scidbpy.SciDBInterface">
+<em class="property">class </em><tt class="descclassname">scidbpy.</tt><tt class="descname">SciDBInterface</tt><a class="headerlink" href="#scidbpy.SciDBInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>SciDBInterface Abstract Base Class.</p>
+<p>This class provides a wrapper to the low-level interface to sciDB.  The
+actual communication with the database should be implemented in
+subclasses.</p>
+<p>Subclasses should implement the following methods, with descriptions given
+below:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">_execute_query</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">_upload_bytes</span></tt></li>
+</ul>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.acos" title="scidbpy.SciDBInterface.acos"><tt class="xref py py-obj docutils literal"><span class="pre">acos</span></tt></a>(A)</td>
+<td>Element-wise trigonometric inverse cosine</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">approxdc</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.arange" title="scidbpy.SciDBInterface.arange"><tt class="xref py py-obj docutils literal"><span class="pre">arange</span></tt></a>([start,]&nbsp;stop[,&nbsp;step,][,&nbsp;dtype])</td>
+<td>Return evenly spaced values within a given interval.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.asin" title="scidbpy.SciDBInterface.asin"><tt class="xref py py-obj docutils literal"><span class="pre">asin</span></tt></a>(A)</td>
+<td>Element-wise trigonometric inverse sine</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.atan" title="scidbpy.SciDBInterface.atan"><tt class="xref py py-obj docutils literal"><span class="pre">atan</span></tt></a>(A)</td>
+<td>Element-wise trigonometric inverse tangent</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">avg</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.cos" title="scidbpy.SciDBInterface.cos"><tt class="xref py py-obj docutils literal"><span class="pre">cos</span></tt></a>(A)</td>
+<td>Element-wise trigonometric cosine</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">count</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.cross_join" title="scidbpy.SciDBInterface.cross_join"><tt class="xref py py-obj docutils literal"><span class="pre">cross_join</span></tt></a>(A,&nbsp;B,&nbsp;*dims)</td>
+<td>Perform a cross-join on arrays A and B.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.dot" title="scidbpy.SciDBInterface.dot"><tt class="xref py py-obj docutils literal"><span class="pre">dot</span></tt></a>(A,&nbsp;B)</td>
+<td>Compute the matrix product of A and B</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.exp" title="scidbpy.SciDBInterface.exp"><tt class="xref py py-obj docutils literal"><span class="pre">exp</span></tt></a>(A)</td>
+<td>Element-wise natural exponent</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.from_array" title="scidbpy.SciDBInterface.from_array"><tt class="xref py py-obj docutils literal"><span class="pre">from_array</span></tt></a>(A,&nbsp;**kwargs)</td>
+<td>Initialize a scidb array from a numpy array</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">from_file</span></tt>(filename,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.identity" title="scidbpy.SciDBInterface.identity"><tt class="xref py py-obj docutils literal"><span class="pre">identity</span></tt></a>(n[,&nbsp;dtype,&nbsp;sparse])</td>
+<td>Return a 2-dimensional square identity matrix of size n</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.join" title="scidbpy.SciDBInterface.join"><tt class="xref py py-obj docutils literal"><span class="pre">join</span></tt></a>(*args)</td>
+<td>Perform a series of array joins on the arguments</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.linspace" title="scidbpy.SciDBInterface.linspace"><tt class="xref py py-obj docutils literal"><span class="pre">linspace</span></tt></a>(start,&nbsp;stop[,&nbsp;num,&nbsp;endpoint,&nbsp;retstep])</td>
+<td>Return evenly spaced numbers over a specified interval.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.list_arrays" title="scidbpy.SciDBInterface.list_arrays"><tt class="xref py py-obj docutils literal"><span class="pre">list_arrays</span></tt></a>([parsed,&nbsp;n])</td>
+<td>List the arrays currently in the database</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.log" title="scidbpy.SciDBInterface.log"><tt class="xref py py-obj docutils literal"><span class="pre">log</span></tt></a>(A)</td>
+<td>Element-wise natural logarithm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.log10" title="scidbpy.SciDBInterface.log10"><tt class="xref py py-obj docutils literal"><span class="pre">log10</span></tt></a>(A)</td>
+<td>Element-wise base-10 logarithm</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">max</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">mean</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">min</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.new_array" title="scidbpy.SciDBInterface.new_array"><tt class="xref py py-obj docutils literal"><span class="pre">new_array</span></tt></a>([shape,&nbsp;dtype,&nbsp;persistent])</td>
+<td>Create a new array, either instantiating it in SciDB or simply</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.ones" title="scidbpy.SciDBInterface.ones"><tt class="xref py py-obj docutils literal"><span class="pre">ones</span></tt></a>(shape[,&nbsp;dtype])</td>
+<td>Return an array of ones</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.query" title="scidbpy.SciDBInterface.query"><tt class="xref py py-obj docutils literal"><span class="pre">query</span></tt></a>(query,&nbsp;*args,&nbsp;**kwargs)</td>
+<td>Perform a query on the database.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.randint" title="scidbpy.SciDBInterface.randint"><tt class="xref py py-obj docutils literal"><span class="pre">randint</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
+<td>Return an array of random integers between lower and upper</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.random" title="scidbpy.SciDBInterface.random"><tt class="xref py py-obj docutils literal"><span class="pre">random</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
+<td>Return an array of random floats between lower and upper</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.sin" title="scidbpy.SciDBInterface.sin"><tt class="xref py py-obj docutils literal"><span class="pre">sin</span></tt></a>(A)</td>
+<td>Element-wise trigonometric sine</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">std</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">stdev</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">substitute</span></tt>(A,&nbsp;value)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">sum</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.svd" title="scidbpy.SciDBInterface.svd"><tt class="xref py py-obj docutils literal"><span class="pre">svd</span></tt></a>(A[,&nbsp;return_U,&nbsp;return_S,&nbsp;return_VT])</td>
+<td>Compute the Singular Value Decomposition of the array A:</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.tan" title="scidbpy.SciDBInterface.tan"><tt class="xref py py-obj docutils literal"><span class="pre">tan</span></tt></a>(A)</td>
+<td>Element-wise trigonometric tangent</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.toarray" title="scidbpy.SciDBInterface.toarray"><tt class="xref py py-obj docutils literal"><span class="pre">toarray</span></tt></a>(A)</td>
+<td>Convert a SciDB array to a numpy array</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.tosparse" title="scidbpy.SciDBInterface.tosparse"><tt class="xref py py-obj docutils literal"><span class="pre">tosparse</span></tt></a>(A[,&nbsp;sparse_fmt,&nbsp;transfer_bytes])</td>
+<td>Convert a SciDB array to a sparse representation</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">var</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.wrap_array" title="scidbpy.SciDBInterface.wrap_array"><tt class="xref py py-obj docutils literal"><span class="pre">wrap_array</span></tt></a>(scidbname)</td>
+<td>Create a new SciDBArray object that references an existing SciDB</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.zeros" title="scidbpy.SciDBInterface.zeros"><tt class="xref py py-obj docutils literal"><span class="pre">zeros</span></tt></a>(shape[,&nbsp;dtype])</td>
+<td>Return an array of zeros</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.acos">
+<tt class="descname">acos</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.acos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric inverse cosine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.arange">
+<tt class="descname">arange</tt><big>(</big><span class="optional">[</span><em>start</em><span class="optional">]</span>, <em>stop</em><span class="optional">[</span>, <em>step</em><span class="optional">]</span>, <em>dtype=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.arange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return evenly spaced values within a given interval.</p>
+<p>Values are generated within the half-open interval <tt class="docutils literal"><span class="pre">[start,</span> <span class="pre">stop)</span></tt>
+(in other words, the interval including <cite>start</cite> but excluding <cite>stop</cite>).
+For integer arguments the behavior is equivalent to the Python
+<a class="reference external" href="http://docs.python.org/lib/built-in-funcs.html">range</a> function,
+but returns an ndarray rather than a list.</p>
+<p>When using a non-integer step, such as 0.1, the results will often not
+be consistent.  It is better to use <tt class="docutils literal"><span class="pre">linspace</span></tt> for these cases.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>start</strong> : number, optional</p>
+<blockquote>
+<div><p>Start of interval.  The interval includes this value.  The default
+start value is 0.</p>
+</div></blockquote>
+<p><strong>stop</strong> : number</p>
+<blockquote>
+<div><p>End of interval.  The interval does not include this value, except
+in some cases where <cite>step</cite> is not an integer and floating point
+round-off affects the length of <cite>out</cite>.</p>
+</div></blockquote>
+<p><strong>step</strong> : number, optional</p>
+<blockquote>
+<div><p>Spacing between values.  For any output <cite>out</cite>, this is the distance
+between two adjacent values, <tt class="docutils literal"><span class="pre">out[i+1]</span> <span class="pre">-</span> <span class="pre">out[i]</span></tt>.  The default
+step size is 1.  If <cite>step</cite> is specified, <cite>start</cite> must also be
+given.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : dtype</p>
+<blockquote>
+<div><p>The type of the output array.  If <cite>dtype</cite> is not given, it is
+inferred from the type of the input arguments.</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>Additional arguments are passed to SciDBDatashape when creating
+the output array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arange</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>Array of evenly spaced values.</p>
+<p>For floating point arguments, the length of the result is
+<tt class="docutils literal"><span class="pre">ceil((stop</span> <span class="pre">-</span> <span class="pre">start)/step)</span></tt>.  Because of floating point overflow,
+this rule may result in the last element of <cite>out</cite> being greater
+than <cite>stop</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.asin">
+<tt class="descname">asin</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.asin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric inverse sine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.atan">
+<tt class="descname">atan</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.atan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric inverse tangent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.cos">
+<tt class="descname">cos</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.cos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric cosine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.cross_join">
+<tt class="descname">cross_join</tt><big>(</big><em>A</em>, <em>B</em>, <em>*dims</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.cross_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a cross-join on arrays A and B.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : SciDBArray</p>
+<p><strong>*dims</strong> : tuples</p>
+<blockquote class="last">
+<div><p>The remaining arguments are tuples of dimension indices which
+should be joined.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.dot">
+<tt class="descname">dot</tt><big>(</big><em>A</em>, <em>B</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the matrix product of A and B</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : SciDBArray</p>
+<blockquote>
+<div><p>A must be a two-dimensional matrix of shape (n, p)</p>
+</div></blockquote>
+<p><strong>B</strong> : SciDBArray</p>
+<blockquote>
+<div><p>B must be a two-dimensional matrix of shape (p, m)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>C</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>The wrapper of the SciDB Array, of shape (n, m), consisting of the
+matrix product of A and B</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.exp">
+<tt class="descname">exp</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.exp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise natural exponent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.from_array">
+<tt class="descname">from_array</tt><big>(</big><em>A</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.from_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a scidb array from a numpy array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.identity">
+<tt class="descname">identity</tt><big>(</big><em>n</em>, <em>dtype='double'</em>, <em>sparse=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a 2-dimensional square identity matrix of size n</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>n</strong> : integer</p>
+<blockquote>
+<div><p>the number of rows and columns in the matrix</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>sparse: boolean</strong> :</p>
+<blockquote>
+<div><p>specify whether to create a sparse array (default=False)</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray containint an [n x n] identity matrix</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.join">
+<tt class="descname">join</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a series of array joins on the arguments
+and return the result.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.linspace">
+<tt class="descname">linspace</tt><big>(</big><em>start</em>, <em>stop</em>, <em>num=50</em>, <em>endpoint=True</em>, <em>retstep=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.linspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return evenly spaced numbers over a specified interval.</p>
+<p>Returns <cite>num</cite> evenly spaced samples, calculated over the
+interval [<cite>start</cite>, <cite>stop</cite> ].</p>
+<p>The endpoint of the interval can optionally be excluded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>start</strong> : scalar</p>
+<blockquote>
+<div><p>The starting value of the sequence.</p>
+</div></blockquote>
+<p><strong>stop</strong> : scalar</p>
+<blockquote>
+<div><p>The end value of the sequence, unless <cite>endpoint</cite> is set to False.
+In that case, the sequence consists of all but the last of
+<tt class="docutils literal"><span class="pre">num</span> <span class="pre">+</span> <span class="pre">1</span></tt> evenly spaced samples, so that <cite>stop</cite> is excluded.
+Note that the step size changes when <cite>endpoint</cite> is False.</p>
+</div></blockquote>
+<p><strong>num</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of samples to generate. Default is 50.</p>
+</div></blockquote>
+<p><strong>endpoint</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, <cite>stop</cite> is the last sample. Otherwise, it is not included.
+Default is True.</p>
+</div></blockquote>
+<p><strong>retstep</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, return (<cite>samples</cite>, <cite>step</cite>), where <cite>step</cite> is the spacing
+between samples.</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>additional keyword arguments are passed to SciDBDataShape</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>samples</strong> : SciDBArray</p>
+<blockquote>
+<div><p>There are <cite>num</cite> equally spaced samples in the closed interval
+<tt class="docutils literal"><span class="pre">[start,</span> <span class="pre">stop]</span></tt> or the half-open interval <tt class="docutils literal"><span class="pre">[start,</span> <span class="pre">stop)</span></tt>
+(depending on whether <cite>endpoint</cite> is True or False).</p>
+</div></blockquote>
+<p><strong>step</strong> : float (only if <cite>retstep</cite> is True)</p>
+<blockquote class="last">
+<div><p>Size of spacing between samples.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.list_arrays">
+<tt class="descname">list_arrays</tt><big>(</big><em>parsed=True</em>, <em>n=0</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.list_arrays" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the arrays currently in the database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>parsed</strong> : boolean</p>
+<blockquote>
+<div><p>If True (default), then parse the results into a dictionary of
+array names as keys, schema as values</p>
+</div></blockquote>
+<p><strong>n</strong> : integer</p>
+<blockquote>
+<div><p>the maximum number of arrays to list.  If n=0, then list all</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>array_list</strong> : string or dictionary</p>
+<blockquote class="last">
+<div><p>The list of arrays.  If parsed=True, then the result is returned
+as a dictionary.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.log">
+<tt class="descname">log</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise natural logarithm</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.log10">
+<tt class="descname">log10</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.log10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise base-10 logarithm</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.new_array">
+<tt class="descname">new_array</tt><big>(</big><em>shape=None</em>, <em>dtype='double'</em>, <em>persistent=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.new_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new array, either instantiating it in SciDB or simply
+reserving the name for use in a later query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : int or tuple (optional)</p>
+<blockquote>
+<div><p>The shape of the array to create.  If not specified, no array
+will be created and a name will simply be reserved for later use.
+WARNING: if shape=None and persistent=False, an error will result
+when the array goes out of scope, unless the name is used to
+create an array on the server.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : string (optional)</p>
+<blockquote>
+<div><p>the datatype of the array.  This is only referenced if <cite>shape</cite>
+is specified.  Default is &#8216;double&#8217;.</p>
+</div></blockquote>
+<p><strong>persistent</strong> : boolean (optional)</p>
+<blockquote>
+<div><p>whether the created array should be persistent, i.e. survive
+in SciDB past when the object wrapper goes out of scope.  Default
+is False.</p>
+</div></blockquote>
+<p><strong>**kwargs</strong> : (optional)</p>
+<blockquote>
+<div><p>If <cite>shape</cite> is specified, additional keyword arguments are passed
+to SciDBDataShape.  Otherwise, these will not be referenced.</p>
+</div></blockquote>
+<p><strong>Returns</strong> :</p>
+<p><strong>&#8212;&#8212;-</strong> :</p>
+<p><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>wrapper of the new SciDB array instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.ones">
+<tt class="descname">ones</tt><big>(</big><em>shape</em>, <em>dtype='double'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.ones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array of ones</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<blockquote>
+<div><p>The shape of the array</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray consisting of all ones.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.query">
+<tt class="descname">query</tt><big>(</big><em>query</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a query on the database.</p>
+<p>This wraps a query constructor which allows the creation of
+sophisticated SciDB queries which act on arrays wrapped by SciDBArray
+objects.  See Notes below for details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>query: string</strong> :</p>
+<blockquote>
+<div><p>The query string, with curly-braces to indicate insertions</p>
+</div></blockquote>
+<p><strong>*args, **kwargs:</strong> :</p>
+<blockquote class="last">
+<div><p>Values to be inserted (see below).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.randint">
+<tt class="descname">randint</tt><big>(</big><em>shape</em>, <em>dtype='uint32'</em>, <em>lower=0</em>, <em>upper=2147483647</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.randint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array of random integers between lower and upper</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<blockquote>
+<div><p>The shape of the array</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>lower: float</strong> :</p>
+<blockquote>
+<div><p>The lower bound of the random sample (default=0)</p>
+</div></blockquote>
+<p><strong>upper: float</strong> :</p>
+<blockquote>
+<div><p>The upper bound of the random sample (default=2147483647)</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray consisting of random integers, uniformly distributed
+between <cite>lower</cite> and <cite>upper</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.random">
+<tt class="descname">random</tt><big>(</big><em>shape</em>, <em>dtype='double'</em>, <em>lower=0</em>, <em>upper=1</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.random" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array of random floats between lower and upper</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<blockquote>
+<div><p>The shape of the array</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>lower: float</strong> :</p>
+<blockquote>
+<div><p>The lower bound of the random sample (default=0)</p>
+</div></blockquote>
+<p><strong>upper: float</strong> :</p>
+<blockquote>
+<div><p>The upper bound of the random sample (default=1)</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray consisting of random floating point numbers,
+uniformly distributed between <cite>lower</cite> and <cite>upper</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.sin">
+<tt class="descname">sin</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.sin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric sine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.svd">
+<tt class="descname">svd</tt><big>(</big><em>A</em>, <em>return_U=True</em>, <em>return_S=True</em>, <em>return_VT=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.svd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Singular Value Decomposition of the array A:</p>
+<p>A = U.S.V^T</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : SciDBArray</p>
+<blockquote>
+<div><p>The array for which the SVD will be computed.  It should be a
+2-dimensional array with a single value per cell.  Currently, the
+svd routine requires non-overlapping chunks of size 32.</p>
+</div></blockquote>
+<p><strong>return_U, return_S, return_VT</strong> : boolean</p>
+<blockquote>
+<div><p>if any is True, then return the associated array.  All are True
+by default</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>[U], [S], [VT]</strong> : SciDBArrays</p>
+<blockquote class="last">
+<div><p>Arrays storing the singular values and vectors of A.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.tan">
+<tt class="descname">tan</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.tan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric tangent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.toarray">
+<tt class="descname">toarray</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.toarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a SciDB array to a numpy array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.tosparse">
+<tt class="descname">tosparse</tt><big>(</big><em>A</em>, <em>sparse_fmt='recarray'</em>, <em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.tosparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a SciDB array to a sparse representation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.wrap_array">
+<tt class="descname">wrap_array</tt><big>(</big><em>scidbname</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.wrap_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new SciDBArray object that references an existing SciDB
+array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>scidbname</strong> : string</p>
+<blockquote class="last">
+<div><p>Wrap an existing scidb array referred to by <cite>scidbname</cite>. The
+SciDB array object persistent value will be set to True, and
+the object shape, datashape and data type values will be
+determined by the SciDB array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.zeros">
+<tt class="descname">zeros</tt><big>(</big><em>shape</em>, <em>dtype='double'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.zeros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array of zeros</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<blockquote>
+<div><p>The shape of the array</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray consisting of all zeros.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="shim-interface">
+<h3>4.2.2. Shim Interface<a class="headerlink" href="#shim-interface" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="scidbpy.SciDBShimInterface">
+<em class="property">class </em><tt class="descclassname">scidbpy.</tt><tt class="descname">SciDBShimInterface</tt><big>(</big><em>hostname</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP interface to SciDB via shim <a href="#id3"><span class="problematic" id="id4"><span id="id1"></span>[1]_</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>hostname</strong> : string</p>
+<blockquote>
+<div><p>A URL pointing to a running shim/SciDB session</p>
+</div></blockquote>
+<p class="last"><strong>[1] https://github.com/Paradigm4/shim</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.acos" title="scidbpy.SciDBShimInterface.acos"><tt class="xref py py-obj docutils literal"><span class="pre">acos</span></tt></a>(A)</td>
+<td>Element-wise trigonometric inverse cosine</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">approxdc</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.arange" title="scidbpy.SciDBShimInterface.arange"><tt class="xref py py-obj docutils literal"><span class="pre">arange</span></tt></a>([start,]&nbsp;stop[,&nbsp;step,][,&nbsp;dtype])</td>
+<td>Return evenly spaced values within a given interval.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.asin" title="scidbpy.SciDBShimInterface.asin"><tt class="xref py py-obj docutils literal"><span class="pre">asin</span></tt></a>(A)</td>
+<td>Element-wise trigonometric inverse sine</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.atan" title="scidbpy.SciDBShimInterface.atan"><tt class="xref py py-obj docutils literal"><span class="pre">atan</span></tt></a>(A)</td>
+<td>Element-wise trigonometric inverse tangent</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">avg</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.cos" title="scidbpy.SciDBShimInterface.cos"><tt class="xref py py-obj docutils literal"><span class="pre">cos</span></tt></a>(A)</td>
+<td>Element-wise trigonometric cosine</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">count</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.cross_join" title="scidbpy.SciDBShimInterface.cross_join"><tt class="xref py py-obj docutils literal"><span class="pre">cross_join</span></tt></a>(A,&nbsp;B,&nbsp;*dims)</td>
+<td>Perform a cross-join on arrays A and B.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.dot" title="scidbpy.SciDBShimInterface.dot"><tt class="xref py py-obj docutils literal"><span class="pre">dot</span></tt></a>(A,&nbsp;B)</td>
+<td>Compute the matrix product of A and B</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.exp" title="scidbpy.SciDBShimInterface.exp"><tt class="xref py py-obj docutils literal"><span class="pre">exp</span></tt></a>(A)</td>
+<td>Element-wise natural exponent</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.from_array" title="scidbpy.SciDBShimInterface.from_array"><tt class="xref py py-obj docutils literal"><span class="pre">from_array</span></tt></a>(A,&nbsp;**kwargs)</td>
+<td>Initialize a scidb array from a numpy array</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">from_file</span></tt>(filename,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.identity" title="scidbpy.SciDBShimInterface.identity"><tt class="xref py py-obj docutils literal"><span class="pre">identity</span></tt></a>(n[,&nbsp;dtype,&nbsp;sparse])</td>
+<td>Return a 2-dimensional square identity matrix of size n</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.join" title="scidbpy.SciDBShimInterface.join"><tt class="xref py py-obj docutils literal"><span class="pre">join</span></tt></a>(*args)</td>
+<td>Perform a series of array joins on the arguments</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.linspace" title="scidbpy.SciDBShimInterface.linspace"><tt class="xref py py-obj docutils literal"><span class="pre">linspace</span></tt></a>(start,&nbsp;stop[,&nbsp;num,&nbsp;endpoint,&nbsp;retstep])</td>
+<td>Return evenly spaced numbers over a specified interval.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.list_arrays" title="scidbpy.SciDBShimInterface.list_arrays"><tt class="xref py py-obj docutils literal"><span class="pre">list_arrays</span></tt></a>([parsed,&nbsp;n])</td>
+<td>List the arrays currently in the database</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.log" title="scidbpy.SciDBShimInterface.log"><tt class="xref py py-obj docutils literal"><span class="pre">log</span></tt></a>(A)</td>
+<td>Element-wise natural logarithm</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.log10" title="scidbpy.SciDBShimInterface.log10"><tt class="xref py py-obj docutils literal"><span class="pre">log10</span></tt></a>(A)</td>
+<td>Element-wise base-10 logarithm</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">max</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">mean</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">min</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.new_array" title="scidbpy.SciDBShimInterface.new_array"><tt class="xref py py-obj docutils literal"><span class="pre">new_array</span></tt></a>([shape,&nbsp;dtype,&nbsp;persistent])</td>
+<td>Create a new array, either instantiating it in SciDB or simply</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.ones" title="scidbpy.SciDBShimInterface.ones"><tt class="xref py py-obj docutils literal"><span class="pre">ones</span></tt></a>(shape[,&nbsp;dtype])</td>
+<td>Return an array of ones</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.query" title="scidbpy.SciDBShimInterface.query"><tt class="xref py py-obj docutils literal"><span class="pre">query</span></tt></a>(query,&nbsp;*args,&nbsp;**kwargs)</td>
+<td>Perform a query on the database.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.randint" title="scidbpy.SciDBShimInterface.randint"><tt class="xref py py-obj docutils literal"><span class="pre">randint</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
+<td>Return an array of random integers between lower and upper</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.random" title="scidbpy.SciDBShimInterface.random"><tt class="xref py py-obj docutils literal"><span class="pre">random</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
+<td>Return an array of random floats between lower and upper</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.sin" title="scidbpy.SciDBShimInterface.sin"><tt class="xref py py-obj docutils literal"><span class="pre">sin</span></tt></a>(A)</td>
+<td>Element-wise trigonometric sine</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">std</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">stdev</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">substitute</span></tt>(A,&nbsp;value)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">sum</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.svd" title="scidbpy.SciDBShimInterface.svd"><tt class="xref py py-obj docutils literal"><span class="pre">svd</span></tt></a>(A[,&nbsp;return_U,&nbsp;return_S,&nbsp;return_VT])</td>
+<td>Compute the Singular Value Decomposition of the array A:</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.tan" title="scidbpy.SciDBShimInterface.tan"><tt class="xref py py-obj docutils literal"><span class="pre">tan</span></tt></a>(A)</td>
+<td>Element-wise trigonometric tangent</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.toarray" title="scidbpy.SciDBShimInterface.toarray"><tt class="xref py py-obj docutils literal"><span class="pre">toarray</span></tt></a>(A)</td>
+<td>Convert a SciDB array to a numpy array</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.tosparse" title="scidbpy.SciDBShimInterface.tosparse"><tt class="xref py py-obj docutils literal"><span class="pre">tosparse</span></tt></a>(A[,&nbsp;sparse_fmt,&nbsp;transfer_bytes])</td>
+<td>Convert a SciDB array to a sparse representation</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">var</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.wrap_array" title="scidbpy.SciDBShimInterface.wrap_array"><tt class="xref py py-obj docutils literal"><span class="pre">wrap_array</span></tt></a>(scidbname)</td>
+<td>Create a new SciDBArray object that references an existing SciDB</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.zeros" title="scidbpy.SciDBShimInterface.zeros"><tt class="xref py py-obj docutils literal"><span class="pre">zeros</span></tt></a>(shape[,&nbsp;dtype])</td>
+<td>Return an array of zeros</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.acos">
+<tt class="descname">acos</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.acos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric inverse cosine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.arange">
+<tt class="descname">arange</tt><big>(</big><span class="optional">[</span><em>start</em><span class="optional">]</span>, <em>stop</em><span class="optional">[</span>, <em>step</em><span class="optional">]</span>, <em>dtype=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.arange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return evenly spaced values within a given interval.</p>
+<p>Values are generated within the half-open interval <tt class="docutils literal"><span class="pre">[start,</span> <span class="pre">stop)</span></tt>
+(in other words, the interval including <cite>start</cite> but excluding <cite>stop</cite>).
+For integer arguments the behavior is equivalent to the Python
+<a class="reference external" href="http://docs.python.org/lib/built-in-funcs.html">range</a> function,
+but returns an ndarray rather than a list.</p>
+<p>When using a non-integer step, such as 0.1, the results will often not
+be consistent.  It is better to use <tt class="docutils literal"><span class="pre">linspace</span></tt> for these cases.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>start</strong> : number, optional</p>
+<blockquote>
+<div><p>Start of interval.  The interval includes this value.  The default
+start value is 0.</p>
+</div></blockquote>
+<p><strong>stop</strong> : number</p>
+<blockquote>
+<div><p>End of interval.  The interval does not include this value, except
+in some cases where <cite>step</cite> is not an integer and floating point
+round-off affects the length of <cite>out</cite>.</p>
+</div></blockquote>
+<p><strong>step</strong> : number, optional</p>
+<blockquote>
+<div><p>Spacing between values.  For any output <cite>out</cite>, this is the distance
+between two adjacent values, <tt class="docutils literal"><span class="pre">out[i+1]</span> <span class="pre">-</span> <span class="pre">out[i]</span></tt>.  The default
+step size is 1.  If <cite>step</cite> is specified, <cite>start</cite> must also be
+given.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : dtype</p>
+<blockquote>
+<div><p>The type of the output array.  If <cite>dtype</cite> is not given, it is
+inferred from the type of the input arguments.</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>Additional arguments are passed to SciDBDatashape when creating
+the output array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arange</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>Array of evenly spaced values.</p>
+<p>For floating point arguments, the length of the result is
+<tt class="docutils literal"><span class="pre">ceil((stop</span> <span class="pre">-</span> <span class="pre">start)/step)</span></tt>.  Because of floating point overflow,
+this rule may result in the last element of <cite>out</cite> being greater
+than <cite>stop</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.asin">
+<tt class="descname">asin</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.asin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric inverse sine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.atan">
+<tt class="descname">atan</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.atan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric inverse tangent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.cos">
+<tt class="descname">cos</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.cos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric cosine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.cross_join">
+<tt class="descname">cross_join</tt><big>(</big><em>A</em>, <em>B</em>, <em>*dims</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.cross_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a cross-join on arrays A and B.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A, B</strong> : SciDBArray</p>
+<p><strong>*dims</strong> : tuples</p>
+<blockquote class="last">
+<div><p>The remaining arguments are tuples of dimension indices which
+should be joined.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.dot">
+<tt class="descname">dot</tt><big>(</big><em>A</em>, <em>B</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the matrix product of A and B</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : SciDBArray</p>
+<blockquote>
+<div><p>A must be a two-dimensional matrix of shape (n, p)</p>
+</div></blockquote>
+<p><strong>B</strong> : SciDBArray</p>
+<blockquote>
+<div><p>B must be a two-dimensional matrix of shape (p, m)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>C</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>The wrapper of the SciDB Array, of shape (n, m), consisting of the
+matrix product of A and B</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.exp">
+<tt class="descname">exp</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.exp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise natural exponent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.from_array">
+<tt class="descname">from_array</tt><big>(</big><em>A</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.from_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a scidb array from a numpy array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.identity">
+<tt class="descname">identity</tt><big>(</big><em>n</em>, <em>dtype='double'</em>, <em>sparse=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a 2-dimensional square identity matrix of size n</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>n</strong> : integer</p>
+<blockquote>
+<div><p>the number of rows and columns in the matrix</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>sparse: boolean</strong> :</p>
+<blockquote>
+<div><p>specify whether to create a sparse array (default=False)</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray containint an [n x n] identity matrix</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.join">
+<tt class="descname">join</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a series of array joins on the arguments
+and return the result.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.linspace">
+<tt class="descname">linspace</tt><big>(</big><em>start</em>, <em>stop</em>, <em>num=50</em>, <em>endpoint=True</em>, <em>retstep=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.linspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return evenly spaced numbers over a specified interval.</p>
+<p>Returns <cite>num</cite> evenly spaced samples, calculated over the
+interval [<cite>start</cite>, <cite>stop</cite> ].</p>
+<p>The endpoint of the interval can optionally be excluded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>start</strong> : scalar</p>
+<blockquote>
+<div><p>The starting value of the sequence.</p>
+</div></blockquote>
+<p><strong>stop</strong> : scalar</p>
+<blockquote>
+<div><p>The end value of the sequence, unless <cite>endpoint</cite> is set to False.
+In that case, the sequence consists of all but the last of
+<tt class="docutils literal"><span class="pre">num</span> <span class="pre">+</span> <span class="pre">1</span></tt> evenly spaced samples, so that <cite>stop</cite> is excluded.
+Note that the step size changes when <cite>endpoint</cite> is False.</p>
+</div></blockquote>
+<p><strong>num</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of samples to generate. Default is 50.</p>
+</div></blockquote>
+<p><strong>endpoint</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, <cite>stop</cite> is the last sample. Otherwise, it is not included.
+Default is True.</p>
+</div></blockquote>
+<p><strong>retstep</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, return (<cite>samples</cite>, <cite>step</cite>), where <cite>step</cite> is the spacing
+between samples.</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>additional keyword arguments are passed to SciDBDataShape</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>samples</strong> : SciDBArray</p>
+<blockquote>
+<div><p>There are <cite>num</cite> equally spaced samples in the closed interval
+<tt class="docutils literal"><span class="pre">[start,</span> <span class="pre">stop]</span></tt> or the half-open interval <tt class="docutils literal"><span class="pre">[start,</span> <span class="pre">stop)</span></tt>
+(depending on whether <cite>endpoint</cite> is True or False).</p>
+</div></blockquote>
+<p><strong>step</strong> : float (only if <cite>retstep</cite> is True)</p>
+<blockquote class="last">
+<div><p>Size of spacing between samples.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.list_arrays">
+<tt class="descname">list_arrays</tt><big>(</big><em>parsed=True</em>, <em>n=0</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.list_arrays" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the arrays currently in the database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>parsed</strong> : boolean</p>
+<blockquote>
+<div><p>If True (default), then parse the results into a dictionary of
+array names as keys, schema as values</p>
+</div></blockquote>
+<p><strong>n</strong> : integer</p>
+<blockquote>
+<div><p>the maximum number of arrays to list.  If n=0, then list all</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>array_list</strong> : string or dictionary</p>
+<blockquote class="last">
+<div><p>The list of arrays.  If parsed=True, then the result is returned
+as a dictionary.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.log">
+<tt class="descname">log</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise natural logarithm</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.log10">
+<tt class="descname">log10</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.log10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise base-10 logarithm</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.new_array">
+<tt class="descname">new_array</tt><big>(</big><em>shape=None</em>, <em>dtype='double'</em>, <em>persistent=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.new_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new array, either instantiating it in SciDB or simply
+reserving the name for use in a later query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : int or tuple (optional)</p>
+<blockquote>
+<div><p>The shape of the array to create.  If not specified, no array
+will be created and a name will simply be reserved for later use.
+WARNING: if shape=None and persistent=False, an error will result
+when the array goes out of scope, unless the name is used to
+create an array on the server.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : string (optional)</p>
+<blockquote>
+<div><p>the datatype of the array.  This is only referenced if <cite>shape</cite>
+is specified.  Default is &#8216;double&#8217;.</p>
+</div></blockquote>
+<p><strong>persistent</strong> : boolean (optional)</p>
+<blockquote>
+<div><p>whether the created array should be persistent, i.e. survive
+in SciDB past when the object wrapper goes out of scope.  Default
+is False.</p>
+</div></blockquote>
+<p><strong>**kwargs</strong> : (optional)</p>
+<blockquote>
+<div><p>If <cite>shape</cite> is specified, additional keyword arguments are passed
+to SciDBDataShape.  Otherwise, these will not be referenced.</p>
+</div></blockquote>
+<p><strong>Returns</strong> :</p>
+<p><strong>&#8212;&#8212;-</strong> :</p>
+<p><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>wrapper of the new SciDB array instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.ones">
+<tt class="descname">ones</tt><big>(</big><em>shape</em>, <em>dtype='double'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.ones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array of ones</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<blockquote>
+<div><p>The shape of the array</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray consisting of all ones.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.query">
+<tt class="descname">query</tt><big>(</big><em>query</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a query on the database.</p>
+<p>This wraps a query constructor which allows the creation of
+sophisticated SciDB queries which act on arrays wrapped by SciDBArray
+objects.  See Notes below for details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>query: string</strong> :</p>
+<blockquote>
+<div><p>The query string, with curly-braces to indicate insertions</p>
+</div></blockquote>
+<p><strong>*args, **kwargs:</strong> :</p>
+<blockquote class="last">
+<div><p>Values to be inserted (see below).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.randint">
+<tt class="descname">randint</tt><big>(</big><em>shape</em>, <em>dtype='uint32'</em>, <em>lower=0</em>, <em>upper=2147483647</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.randint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array of random integers between lower and upper</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<blockquote>
+<div><p>The shape of the array</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>lower: float</strong> :</p>
+<blockquote>
+<div><p>The lower bound of the random sample (default=0)</p>
+</div></blockquote>
+<p><strong>upper: float</strong> :</p>
+<blockquote>
+<div><p>The upper bound of the random sample (default=2147483647)</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray consisting of random integers, uniformly distributed
+between <cite>lower</cite> and <cite>upper</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.random">
+<tt class="descname">random</tt><big>(</big><em>shape</em>, <em>dtype='double'</em>, <em>lower=0</em>, <em>upper=1</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.random" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array of random floats between lower and upper</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<blockquote>
+<div><p>The shape of the array</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>lower: float</strong> :</p>
+<blockquote>
+<div><p>The lower bound of the random sample (default=0)</p>
+</div></blockquote>
+<p><strong>upper: float</strong> :</p>
+<blockquote>
+<div><p>The upper bound of the random sample (default=1)</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray consisting of random floating point numbers,
+uniformly distributed between <cite>lower</cite> and <cite>upper</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.sin">
+<tt class="descname">sin</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.sin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric sine</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.svd">
+<tt class="descname">svd</tt><big>(</big><em>A</em>, <em>return_U=True</em>, <em>return_S=True</em>, <em>return_VT=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.svd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Singular Value Decomposition of the array A:</p>
+<p>A = U.S.V^T</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : SciDBArray</p>
+<blockquote>
+<div><p>The array for which the SVD will be computed.  It should be a
+2-dimensional array with a single value per cell.  Currently, the
+svd routine requires non-overlapping chunks of size 32.</p>
+</div></blockquote>
+<p><strong>return_U, return_S, return_VT</strong> : boolean</p>
+<blockquote>
+<div><p>if any is True, then return the associated array.  All are True
+by default</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>[U], [S], [VT]</strong> : SciDBArrays</p>
+<blockquote class="last">
+<div><p>Arrays storing the singular values and vectors of A.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.tan">
+<tt class="descname">tan</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.tan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element-wise trigonometric tangent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.toarray">
+<tt class="descname">toarray</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.toarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a SciDB array to a numpy array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.tosparse">
+<tt class="descname">tosparse</tt><big>(</big><em>A</em>, <em>sparse_fmt='recarray'</em>, <em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.tosparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a SciDB array to a sparse representation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.wrap_array">
+<tt class="descname">wrap_array</tt><big>(</big><em>scidbname</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.wrap_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new SciDBArray object that references an existing SciDB
+array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>scidbname</strong> : string</p>
+<blockquote class="last">
+<div><p>Wrap an existing scidb array referred to by <cite>scidbname</cite>. The
+SciDB array object persistent value will be set to True, and
+the object shape, datashape and data type values will be
+determined by the SciDB array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.zeros">
+<tt class="descname">zeros</tt><big>(</big><em>shape</em>, <em>dtype='double'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.zeros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an array of zeros</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<blockquote>
+<div><p>The shape of the array</p>
+</div></blockquote>
+<p><strong>dtype: string or list</strong> :</p>
+<blockquote>
+<div><p>The data type of the array</p>
+</div></blockquote>
+<p><strong>**kwargs:</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<blockquote class="last">
+<div><p>A SciDBArray consisting of all zeros.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Code Reference</a><ul>
+<li><a class="reference internal" href="#scidb-array-class">4.1. SciDB Array Class</a></li>
+<li><a class="reference internal" href="#scidb-interface">4.2. SciDB Interface</a><ul>
+<li><a class="reference internal" href="#base-class">4.2.1. Base Class</a></li>
+<li><a class="reference internal" href="#shim-interface">4.2.2. Shim Interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">3. Tutorial</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/classes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="3. Tutorial"
+             >previous</a> |</li>
+        <li><a href="index.html">SciDB-Py 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Jake Vanderplas.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
