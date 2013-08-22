@@ -14,6 +14,9 @@ from ply import lex, yacc
 
 
 class SciDBLexer(object):
+    """This class lexes SciDB queries.  It is primarily geared toward
+    AFL queries, but supports some AQL queries as well.
+    """
     # List of reserved keywords
     reserved = {'as': 'AS',
                 'null': 'NULL',
@@ -90,10 +93,54 @@ class SciDBLexer(object):
             print tok
 
 
+#----------------------------------------------------------------------
+# Classes to build abstract syntax trees from parsed queries
+#
+# The primary goal here is to recognize when arrays are referenced in
+# queries.  The parsing by design has no relation to the actual SciDB
+# database, and thus will not check for correct syntax, existence of
+# referenced arrays, attributes, and dimensions, etc.
+#
+# There are several challenges with this:
+#
+#   - determining the difference between array names, attribute names, and
+#     dimension names.  This is largely contextual.  For example, when an
+#     aggregate operation like min() is called, we can safely assume that
+#     the argument is an attribute.  When an operation like store() is
+#     called, we can safely assume that the argument is an array name.
+#
+#   - recognizing "as" statements which create aliases of arrays, attributes,
+#     and dimensions.
+#
+#   - recognizing when arrays are created and removed.  Creation is done
+#     via "CREATE ARRAY" statements in AQL, and "store()" statements in
+#     AFL.  Complicating things is that store() can modify existing arrays.
+#     Removing arrays is done via "DROP ARRAY" in AQL, and "remote()"
+#     statements in AFL.
+
+
+# bitmasks for defining argument types
+SCIDB_ARRAY = 1 << 0
+SCIDB_ATTRIBUTE = 1 << 1
+SCIDB_DIMENSION = 1 << 2
+SCIDB_INTEGER = 1 << 3
+SCIDB_FLOAT = 1 << 4
+SCIDB_STRING = 1 << 5
+SCICB_BOOL = 1 << 6
+SCIDB_SCHEMA = 1 << 7
+SCIDB_FUNCRESULT = 1 << 8
+SCIDB_NUMERIC = (SCIDB_ATTRIBUTE | SCIDB_DIMENSION
+                 | SCIDB_INTEGER | SCIDB_FLOAT)
+SCIDB_EXPRESSION = SCIDB_NUMERIC | SCIDB_FUNCRESULT
+
+
 class Node(object):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args):
         self.args = args
-        self.kwargs = kwargs
+        self.arrays_created = []
+        self.arrays_overwritten = []
+        self.arrays_removed = []
+        self.arrays_referenced = []
 
 
 class AQLNode(Node):
@@ -104,6 +151,9 @@ class AQLNode(Node):
 class AQLCreateArray(AQLNode):
     def __repr__(self):
         return "CREATE ARRAY {0} {1}".format(*self.args)
+
+    def array_created(self):
+        return self.args[1]
 
 
 class AFLNode(Node):
@@ -305,6 +355,7 @@ class SciDBParser(object):
 
     def parse(self, data):
         self.yacc.parse(data, lexer=self.sdb_lexer.lexer)
+        return self
 
     def query_list(self):
         return self.yacc.symstack[-1].value
