@@ -2,7 +2,9 @@
 Python implementation of a simple SciDB lexer/parser
 This implementation uses PLY, the Python Lex/Yacc interface.
 """
+import warnings
 from ply import lex, yacc
+from scidb_lexicon import SCIDB_LEXICON_DICT, SCIDB_TYPE_DICT
 
 # Unsupported:
 #
@@ -21,6 +23,7 @@ class SciDBLexer(object):
     reserved = {'as': 'AS',
                 'null': 'NULL',
                 'CREATE': 'CREATE',
+                'DROP': 'DROP',
                 'ARRAY': 'ARRAY'}
 
     # List of token names
@@ -135,88 +138,193 @@ SCIDB_EXPRESSION = SCIDB_NUMERIC | SCIDB_FUNCRESULT
 
 
 class Node(object):
-    def __init__(self, *args):
-        self.args = args
-        self.arrays_created = []
-        self.arrays_overwritten = []
-        self.arrays_removed = []
+    lexicon = SCIDB_LEXICON_DICT
+
+    def __init__(self, p):
+        self.args = p[1:]
+        self.rettype = None
+        self.aliased_labels = {}
+        self.ambiguous_labels = []
         self.arrays_referenced = []
+        self.arrays_created = []
+        self.arrays_deleted = []
+        self._initialize(p)
+
+    def __repr__(self):
+        return ' '.join(map(str, self.args[1:]))
+
+    def _initialize(self, p):
+        for pi in p[1:]:
+            if isinstance(pi, (list, tuple)):
+                piter = pi
+            else:
+                piter = [pi]
+                
+            for pi in piter:
+                if isinstance(pi, Node):
+                    for attr in ['arrays_referenced', 'arrays_created',
+                                 'arrays_deleted', 'ambiguous_labels']:
+                        getattr(self, attr).extend(getattr(pi, attr))
+                    for attr in ['aliased_labels']:
+                        getattr(self, attr).update(getattr(pi, attr))
 
 
 class AQLNode(Node):
-    def __repr__(self):
-        return ' '.join(map(str, self.args))
-
-
-class AQLCreateArray(AQLNode):
-    def __repr__(self):
-        return "CREATE ARRAY {0} {1}".format(*self.args)
-
-    def array_created(self):
-        return self.args[1]
-
-
-class AFLNode(Node):
-    def __repr__(self):
-        return "{0}({1})".format(self.args[0],
-                                 ', '.join(map(str, self.args[1:])))
-
-
-class Expression(AFLNode):
-    def __repr__(self):
-        if len(self.args) != 1:
-            raise ValueError("Multiple arguments in expression")
-        return '{0}'.format(self.args[0])
-
-
-class ArrayVersion(AFLNode):
-    def __repr__(self):
-        return "{0}@{1}".format(self.args[0], self.args[1])
-
-
-class Function(AFLNode):
     pass
 
 
-class BinaryOperation(AFLNode):
+class AQLDropArray(AQLNode):
+    def __initialize(self, p):
+        self.arrays_deleted = [self.args[2]]
+        self.arrays_referenced = [self.args[2]]
+
     def __repr__(self):
-        return "{0} {1} {2}".format(self.args[1], self.args[0], self.args[2])
+        return "DROP ARRAY {2}".format(*self.args)
 
 
-class UnaryOperation(AFLNode):
+class AQLCreateArray(AQLNode):
+    def _initialize(self, p):
+        self.arrays_created = [self.args[2]]
+        self.arrays_referenced = [self.args[2]]
+
+    def __repr__(self):
+        return "CREATE ARRAY {2} {3}".format(*self.args)
+
+
+class AFLNode(Node):
+    pass
+
+
+class Expression(AFLNode):
+    def _expr_init(self, item, sliceitem):
+        if hasattr(item, 'retvalue'):
+            self.retvalue = item.retvalue
+        else:
+            self.retvalue = sliceitem.type
+
+        if sliceitem.type == 'NAME':
+            self.expr_name = sliceitem.value
+            self.ambiguous_labels = [sliceitem.value]
+        else:
+            self.expr_name = None
+        
+
+    def _initialize(self, p):
+        AFLNode._initialize(self, p)
+        self._expr_init(p[1], p.slice[1])
+
+    def __repr__(self):
+        return str(self.args[0])
+
+
+class ArrayVersion(AFLNode):
+    def _initialize(self, p):
+        self.retvalue = 'ARRAY'
+        self.arrays_referenced = [p[1]]
+
+    def __repr__(self):
+        return "{0}@{2}".format(*self.args)
+
+
+class Function(AFLNode):
+    @property
+    def funcname(self):
+        return self.args[0]
+
+    def _initialize(self, p):
+        AFLNode._initialize(self, p)
+        func_spec = self.lexicon.get(self.funcname, None)
+
+        # TODO:
+        # use the specification to check arguments and to disambiguate
+        # array names, dimension names, and attribute names.
+
+        if not func_spec:
+            warnings.warn("Unrecognized function '{0}'".format(self.funcname))
+        else:
+            self.rettype = func_spec.rettype
+
+    def __repr__(self):
+        if len(self.args) == 3:
+            return "{0}()".format(self.args[0])
+        else:
+            return "{0}({1})".format(self.args[0],
+                                     ', '.join(map(str, self.args[2])))
+
+
+class BinaryOperation(Function):
+    @property
+    def funcname(self):
+        return self.args[1]
+
+    def __repr__(self):
+        return "{0} {1} {2}".format(*self.args)
+
+
+class UnaryOperation(Function):
+    @property
+    def funcname(self):
+        return self.args[0]
+
     def __repr__(self):
         return "{0}{1}".format(*self.args)
 
 
-class ExpressionGroup(AFLNode):
+class ExpressionGroup(Expression):
+    def _initialize(self, p):
+        AFLNode._initialize(self, p)
+        self._expr_init(p[2], p.slice[2])
+
     def __repr__(self):
-        return "({0})".format(*self.args)
+        return "({1})".format(*self.args)
 
 
 class AsExpression(AFLNode):
+    def _initialize(self, p):
+        AFLNode._initialize(self, p)
+        if hasattr(p[1], 'retvalue'):
+            self.retvalue = p[1].retvalue
+        if hasattr(p[1], 'aliased_labels'):
+            self.aliased_labels.update(p[1].aliased_labels)
+            self.aliased_labels[p[3]] = p[1]
+
     def __repr__(self):
-        return "{0} as {1}".format(*self.args)
+        return "{0} as {2}".format(*self.args)
 
 
 class ObjectAttribute(AFLNode):
+    def _initialize(self, p):
+        AFLNode._initialize(self, p)
+        self.arrays_referenced = [self.args[0]]
+        self.retvalue = 'ATTRIBUTE'
+
     def __repr__(self):
-        return "{0}.{1}".format(*self.args)
+        return "{0}.{2}".format(*self.args)
 
 
 class AttrSpec(AFLNode):
     def __repr__(self):
-        return "{0}:{1}".format(*self.args)
+        return "{0}:{2}".format(*self.args)
+
+
+class ItemType(AFLNode):
+    def __repr__(self):
+        return ' '.join(map(str, self.args))
 
 
 class DimSpec(AFLNode):
     def __repr__(self):
-        return "{0}={1}:{2},{3},{4}".format(*self.args)
+        return "{0}={2}:{4},{6},{8}".format(*self.args)
 
 
 class ArraySpec(AFLNode):
+    def __initialize__(self, p):
+        AFLNode.__initialize__(self, p)
+        self.retvalue = 'SCHEMA'
+
     def __repr__(self):
-        return "<{0}>[{1}]".format(', '.join(map(str, self.args[0])),
-                                   ', '.join(map(str, self.args[1])))
+        return "<{0}>[{1}]".format(', '.join(map(str, self.args[1])),
+                                   ', '.join(map(str, self.args[4])))
 
 
 class SciDBParser(object):
@@ -245,12 +353,17 @@ class SciDBParser(object):
             p[0].extend(p[3])
 
     def p_aqlquery(self, p):
-        """aqlquery : aqlcreatearray"""
+        """aqlquery : aqlcreatearray
+                    | aqldroparray"""
         p[0] = p[1]
 
     def p_aqlcreatearray(self, p):
         """aqlcreatearray : CREATE ARRAY NAME arrayspec"""
-        p[0] = AQLCreateArray(*p[3:])
+        p[0] = AQLCreateArray(p)
+
+    def p_aqldroparray(self, p):
+        """aqldroparray : DROP ARRAY NAME"""
+        p[0] = AQLDropArray(p)
 
     def p_aflquery(self, p):
         """aflquery : function"""
@@ -260,9 +373,7 @@ class SciDBParser(object):
         """function : NAME LPAREN RPAREN
                     | NAME LPAREN arguments RPAREN"""
         # Get a list of all function arguments
-        p[0] = Function(p[1])
-        if len(p) == 5:
-            p[0].args += tuple(p[3])
+        p[0] = Function(p)
 
     def p_arguments(self, p):
         """arguments : expression
@@ -284,15 +395,15 @@ class SciDBParser(object):
                       | expression NEQUAL expression
                       | expression LTEQUAL expression
                       | expression GTEQUAL expression"""
-        p[0] = BinaryOperation(p[2], p[1], p[3])
+        p[0] = BinaryOperation(p)
 
     def p_expression_unary_op(self, p):
         """expression : MINUS expression %prec UMINUS"""
-        p[0] = UnaryOperation(p[1], p[2])
+        p[0] = UnaryOperation(p)
 
     def p_expression_group(self, p):
         """expression : LPAREN expression RPAREN"""
-        p[0] = ExpressionGroup(p[2])
+        p[0] = ExpressionGroup(p)
 
     def p_expression(self, p):
         """expression : function
@@ -303,23 +414,26 @@ class SciDBParser(object):
                       | NUMBER
                       | INTEGER
                       | STRING"""
-        p[0] = Expression(p[1])
+        if isinstance(p[1], Node):
+            p[0] = p[1]
+        else:
+            p[0] = Expression(p)
 
     def p_expression_as(self, p):
         """expression : expression AS NAME"""
-        p[0] = AsExpression(p[1], p[3])
+        p[0] = AsExpression(p)
 
     def p_arrayref(self, p):
         """arrayref : NAME ATMARK INTEGER"""
-        p[0] = ArrayVersion(p[1], p[3])
+        p[0] = ArrayVersion(p)
 
     def p_objattribute(self, p):
         """objattribute : NAME PERIOD NAME"""
-        p[0] = ObjectAttribute(p[1], p[3])
+        p[0] = ObjectAttribute(p)
 
     def p_arrayspec(self, p):
         """arrayspec : LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET"""
-        p[0] = ArraySpec(p[2], p[5])
+        p[0] = ArraySpec(p)
 
     def p_attrlist(self, p):
         """attrlist : attrspec
@@ -329,12 +443,13 @@ class SciDBParser(object):
             p[0].extend(p[3])
 
     def p_attrspec(self, p):
-        """attrspec : NAME COLON NAME
-                    | NAME COLON NAME NULL"""
-        if len(p) == 4:
-            p[0] = AttrSpec(p[1], p[3])
-        else:
-            p[0] = AttrSpec(p[1], "{0} {1}".format(p[3], p[4]))
+        """attrspec : NAME COLON itemtype"""
+        p[0] = AttrSpec(p)
+
+    def p_itemtype(self, p):
+        """itemtype : NAME
+                    | NAME NULL"""
+        p[0] = ItemType(p)
 
     def p_dimlist(self, p):
         """dimlist : dimspec
@@ -348,7 +463,7 @@ class SciDBParser(object):
         dimspec : NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER
                 | NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER
         """
-        p[0] = DimSpec(p[1], p[3], p[5], p[7], p[9])
+        p[0] = DimSpec(p)
 
     def p_error(self, p):
         raise ValueError("Syntax error at '{0}'".format(p.value))
@@ -360,22 +475,34 @@ class SciDBParser(object):
     def query_list(self):
         return self.yacc.symstack[-1].value
 
+    def test_inout(self, data):
+        self.parse(data)
+
+        input_queries = filter(lambda x:x,
+                               map(str.strip, data.split('\n')))
+        output_queries = self.query_list()
+
+        print
+        for q1, q2 in zip(input_queries, output_queries):
+            print ' ', q1
+            print ' ', q2
+            print ' ', q2.aliased_labels
+            print ' ', q2.ambiguous_labels
+            print ' ', q2.arrays_referenced
+            print ' ', q2.arrays_created
+            print ' ', q2.arrays_deleted
+            print
+
 
 if __name__ == "__main__":
-    test_data = """func1(<i0:int, f0:float null>[i=0:9,1000,0], -3 * (2 - 4));
-       func2(A@1 as Q, iif(i=0,i,Q.j), filter(Q, Q.val<=2));
-       show("multiply(A, B)",'afl');
-       CREATE ARRAY distance <miles:double> [i=0:9,10,0];"""
+    test_data = """
+    CREATE ARRAY A <f0:double> [i0=0:9,1000,0,i1=0:9,1000,0];
+    store(build(A,iif(A.i0=A.i1,1,0)), A);
+    store(build(A,iif(A.i0=A.i1,2,1)), B);
+    multiply(A, B);
+    remove(A);
+    """
+
     #SciDBLexer().test(test_data)
-    #exit()
-
-    parser = SciDBParser()
-    parser.parse(test_data)
+    SciDBParser().test_inout(test_data)
     
-    input_queries = map(str.strip, test_data.split('\n'))
-    output_queries = parser.query_list()
-
-    for q1, q2 in zip(input_queries, output_queries):
-        print ' ', q1
-        print ' ', q2
-        print

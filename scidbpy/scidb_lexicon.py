@@ -1,4 +1,9 @@
-import re
+"""
+This file contains code to generate an object-oriented description of
+the SciDB lexicon & syntax.  This defines the functions and argument types
+expected in SciDB queries.
+"""
+
 from ply import lex, yacc
 
 
@@ -44,19 +49,24 @@ BINOP bool >(numeric, numeric)
 BINOP bool =(numeric, numeric)
 
 DEF void store(array, array)
-DEF void build(array|schema, numeric)
-DEF void apply(array, [attr, numeric]+)
-DEF void project(array, [attr]+)
+DEF void remove(array)
+DEF void scan(array)
+DEF void show(array|string, [string])
+DEF array build(array|schema, numeric)
+DEF array apply(array, [attr, numeric]+)
+DEF array project(array, [attr]+)
 """
 
 
-SCIDB_VOID = 1 << 0
-SCIDB_BOOL = 1 << 1
-SCIDB_NUMERIC = 1 << 2
-SCIDB_ARRAY = 1 << 3
-SCIDB_SCHEMA = 1 << 4
-SCIDB_ATTR = 1 << 5
-SCIDB_DIM = 1 << 6
+SCIDB_TYPE_DICT = {
+    'void': 1 << 0,
+    'bool': 1 << 1,
+    'numeric': 1 << 2,
+    'string': 1 << 3,
+    'array': 1 << 4,
+    'schema': 1 << 5,
+    'attr': 1 << 6,
+    'dim': 1 << 7}
 
 
 class FunctionObj(object):
@@ -101,6 +111,7 @@ class SciDBLexiconParser(object):
                 'void': 'TYPE',
                 'bool': 'TYPE',
                 'numeric': 'TYPE',
+                'string': 'TYPE',
                 'attr': 'TYPE',
                 'dim': 'TYPE',
                 'array': 'TYPE',
@@ -266,11 +277,6 @@ def test_parser():
             print "   ", o
     print "  Finished: found {0} mismatches".format(count)
 
+
 if __name__ == '__main__':
     test_parser()
-
-    obj = SCIDB_LEXICON_DICT['foo']
-    print
-    print obj
-    for k in obj.__dict__:
-        print '  ', k, obj.__dict__[k]
