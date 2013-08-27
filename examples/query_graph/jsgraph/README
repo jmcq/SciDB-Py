@@ -1,0 +1,7 @@
+Modifed from the example at of D3
+http://mbostock.github.com/d3/ex/force.html
+
+Run the file jsgraph.py to generate the jsgraph.json data file needed for this to work.
+
+Then copy all of the files in this directory to a webserver and load jsgraph.html.
+
