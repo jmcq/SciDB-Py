@@ -73,7 +73,7 @@ d3.json(graph, function(json) {
 				.attr("text-anchor", "middle") 
 				.attr("fill","white")
 				.style("pointer-events", "none")
-				.attr("font-size", function(d) { if (d.color == '#b94431') { return 10+(d.size*2) + 'px'; } else { return "9px"; } } )
+				.attr("font-size", function(d) { if (d.color == '#b94431') { return (5 + 2 * d.size) + 'px'; } else { return "7px"; } } )
 				.attr("font-weight", function(d) { if (d.color == '#b94431') { return "bold"; } else { return "100"; } } )
 				.text( function(d) { if (d.color == '#b94431') { return d.id + ' (' + d.size + ')';} else { return d.id;} } ) ;
 				

@@ -1,0 +1,2207 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> querylist
+Rule 1     querylist -> aflquery
+Rule 2     querylist -> aflquery SEMICOLON
+Rule 3     querylist -> aflquery SEMICOLON querylist
+Rule 4     querylist -> aqlquery
+Rule 5     querylist -> aqlquery SEMICOLON
+Rule 6     querylist -> aqlquery SEMICOLON querylist
+Rule 7     aqlquery -> aqlcreatearray
+Rule 8     aqlquery -> aqldroparray
+Rule 9     aqlcreatearray -> CREATE ARRAY NAME arrayspec
+Rule 10    aqldroparray -> DROP ARRAY NAME
+Rule 11    aflquery -> function
+Rule 12    function -> NAME LPAREN RPAREN
+Rule 13    function -> NAME LPAREN arguments RPAREN
+Rule 14    arguments -> expression
+Rule 15    arguments -> expression COMMA arguments
+Rule 16    expression -> expression PLUS expression
+Rule 17    expression -> expression MINUS expression
+Rule 18    expression -> expression TIMES expression
+Rule 19    expression -> expression DIVIDE expression
+Rule 20    expression -> expression MOD expression
+Rule 21    expression -> expression EQUAL expression
+Rule 22    expression -> expression LANGLE expression
+Rule 23    expression -> expression RANGLE expression
+Rule 24    expression -> expression NEQUAL expression
+Rule 25    expression -> expression LTEQUAL expression
+Rule 26    expression -> expression GTEQUAL expression
+Rule 27    expression -> MINUS expression
+Rule 28    expression -> LPAREN expression RPAREN
+Rule 29    expression -> function
+Rule 30    expression -> arrayspec
+Rule 31    expression -> arrayref
+Rule 32    expression -> objattribute
+Rule 33    expression -> NAME
+Rule 34    expression -> FLOAT
+Rule 35    expression -> INTEGER
+Rule 36    expression -> STRING
+Rule 37    expression -> expression AS NAME
+Rule 38    arrayref -> NAME ATMARK INTEGER
+Rule 39    objattribute -> NAME PERIOD NAME
+Rule 40    arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+Rule 41    attrlist -> attrspec
+Rule 42    attrlist -> attrspec COMMA attrlist
+Rule 43    attrspec -> NAME COLON itemtype
+Rule 44    itemtype -> NAME
+Rule 45    itemtype -> NAME NULL
+Rule 46    dimlist -> dimspec
+Rule 47    dimlist -> dimspec COMMA dimlist
+Rule 48    dimspec -> NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER
+Rule 49    dimspec -> NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER
+
+Terminals, with rules where they appear
+
+ARRAY                : 9 10
+AS                   : 37
+ATMARK               : 38
+COLON                : 43 48 49
+COMMA                : 15 42 47 48 48 49 49
+CREATE               : 9
+DIVIDE               : 19
+DROP                 : 10
+EQUAL                : 21 48 49
+FLOAT                : 34
+GTEQUAL              : 26
+INTEGER              : 35 38 48 48 48 48 49 49 49
+LANGLE               : 22 40
+LBRACKET             : 40
+LPAREN               : 12 13 28
+LTEQUAL              : 25
+MINUS                : 17 27
+MOD                  : 20
+NAME                 : 9 10 12 13 33 37 38 39 39 43 44 45 48 49
+NEQUAL               : 24
+NULL                 : 45
+PERIOD               : 39
+PLUS                 : 16
+RANGLE               : 23 40
+RBRACKET             : 40
+RPAREN               : 12 13 28
+SEMICOLON            : 2 3 5 6
+STRING               : 36
+TIMES                : 18 49
+error                : 
+
+Nonterminals, with rules where they appear
+
+aflquery             : 1 2 3
+aqlcreatearray       : 7
+aqldroparray         : 8
+aqlquery             : 4 5 6
+arguments            : 13 15
+arrayref             : 31
+arrayspec            : 9 30
+attrlist             : 40 42
+attrspec             : 41 42
+dimlist              : 40 47
+dimspec              : 46 47
+expression           : 14 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 28 37
+function             : 11 29
+itemtype             : 43
+objattribute         : 32
+querylist            : 3 6 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . querylist
+    (1) querylist -> . aflquery
+    (2) querylist -> . aflquery SEMICOLON
+    (3) querylist -> . aflquery SEMICOLON querylist
+    (4) querylist -> . aqlquery
+    (5) querylist -> . aqlquery SEMICOLON
+    (6) querylist -> . aqlquery SEMICOLON querylist
+    (11) aflquery -> . function
+    (7) aqlquery -> . aqlcreatearray
+    (8) aqlquery -> . aqldroparray
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (9) aqlcreatearray -> . CREATE ARRAY NAME arrayspec
+    (10) aqldroparray -> . DROP ARRAY NAME
+
+    NAME            shift and go to state 4
+    CREATE          shift and go to state 5
+    DROP            shift and go to state 2
+
+    function                       shift and go to state 1
+    aqldroparray                   shift and go to state 3
+    querylist                      shift and go to state 6
+    aqlcreatearray                 shift and go to state 7
+    aflquery                       shift and go to state 8
+    aqlquery                       shift and go to state 9
+
+state 1
+
+    (11) aflquery -> function .
+
+    SEMICOLON       reduce using rule 11 (aflquery -> function .)
+    $end            reduce using rule 11 (aflquery -> function .)
+
+
+state 2
+
+    (10) aqldroparray -> DROP . ARRAY NAME
+
+    ARRAY           shift and go to state 10
+
+
+state 3
+
+    (8) aqlquery -> aqldroparray .
+
+    SEMICOLON       reduce using rule 8 (aqlquery -> aqldroparray .)
+    $end            reduce using rule 8 (aqlquery -> aqldroparray .)
+
+
+state 4
+
+    (12) function -> NAME . LPAREN RPAREN
+    (13) function -> NAME . LPAREN arguments RPAREN
+
+    LPAREN          shift and go to state 11
+
+
+state 5
+
+    (9) aqlcreatearray -> CREATE . ARRAY NAME arrayspec
+
+    ARRAY           shift and go to state 12
+
+
+state 6
+
+    (0) S' -> querylist .
+
+
+
+state 7
+
+    (7) aqlquery -> aqlcreatearray .
+
+    SEMICOLON       reduce using rule 7 (aqlquery -> aqlcreatearray .)
+    $end            reduce using rule 7 (aqlquery -> aqlcreatearray .)
+
+
+state 8
+
+    (1) querylist -> aflquery .
+    (2) querylist -> aflquery . SEMICOLON
+    (3) querylist -> aflquery . SEMICOLON querylist
+
+    $end            reduce using rule 1 (querylist -> aflquery .)
+    SEMICOLON       shift and go to state 13
+
+
+state 9
+
+    (4) querylist -> aqlquery .
+    (5) querylist -> aqlquery . SEMICOLON
+    (6) querylist -> aqlquery . SEMICOLON querylist
+
+    $end            reduce using rule 4 (querylist -> aqlquery .)
+    SEMICOLON       shift and go to state 14
+
+
+state 10
+
+    (10) aqldroparray -> DROP ARRAY . NAME
+
+    NAME            shift and go to state 15
+
+
+state 11
+
+    (12) function -> NAME LPAREN . RPAREN
+    (13) function -> NAME LPAREN . arguments RPAREN
+    (14) arguments -> . expression
+    (15) arguments -> . expression COMMA arguments
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    RPAREN          shift and go to state 20
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arguments                      shift and go to state 22
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 29
+
+state 12
+
+    (9) aqlcreatearray -> CREATE ARRAY . NAME arrayspec
+
+    NAME            shift and go to state 30
+
+
+state 13
+
+    (2) querylist -> aflquery SEMICOLON .
+    (3) querylist -> aflquery SEMICOLON . querylist
+    (1) querylist -> . aflquery
+    (2) querylist -> . aflquery SEMICOLON
+    (3) querylist -> . aflquery SEMICOLON querylist
+    (4) querylist -> . aqlquery
+    (5) querylist -> . aqlquery SEMICOLON
+    (6) querylist -> . aqlquery SEMICOLON querylist
+    (11) aflquery -> . function
+    (7) aqlquery -> . aqlcreatearray
+    (8) aqlquery -> . aqldroparray
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (9) aqlcreatearray -> . CREATE ARRAY NAME arrayspec
+    (10) aqldroparray -> . DROP ARRAY NAME
+
+    $end            reduce using rule 2 (querylist -> aflquery SEMICOLON .)
+    NAME            shift and go to state 4
+    CREATE          shift and go to state 5
+    DROP            shift and go to state 2
+
+    function                       shift and go to state 1
+    aqldroparray                   shift and go to state 3
+    querylist                      shift and go to state 31
+    aqlcreatearray                 shift and go to state 7
+    aflquery                       shift and go to state 8
+    aqlquery                       shift and go to state 9
+
+state 14
+
+    (5) querylist -> aqlquery SEMICOLON .
+    (6) querylist -> aqlquery SEMICOLON . querylist
+    (1) querylist -> . aflquery
+    (2) querylist -> . aflquery SEMICOLON
+    (3) querylist -> . aflquery SEMICOLON querylist
+    (4) querylist -> . aqlquery
+    (5) querylist -> . aqlquery SEMICOLON
+    (6) querylist -> . aqlquery SEMICOLON querylist
+    (11) aflquery -> . function
+    (7) aqlquery -> . aqlcreatearray
+    (8) aqlquery -> . aqldroparray
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (9) aqlcreatearray -> . CREATE ARRAY NAME arrayspec
+    (10) aqldroparray -> . DROP ARRAY NAME
+
+    $end            reduce using rule 5 (querylist -> aqlquery SEMICOLON .)
+    NAME            shift and go to state 4
+    CREATE          shift and go to state 5
+    DROP            shift and go to state 2
+
+    function                       shift and go to state 1
+    aqldroparray                   shift and go to state 3
+    querylist                      shift and go to state 32
+    aqlcreatearray                 shift and go to state 7
+    aflquery                       shift and go to state 8
+    aqlquery                       shift and go to state 9
+
+state 15
+
+    (10) aqldroparray -> DROP ARRAY NAME .
+
+    SEMICOLON       reduce using rule 10 (aqldroparray -> DROP ARRAY NAME .)
+    $end            reduce using rule 10 (aqldroparray -> DROP ARRAY NAME .)
+
+
+state 16
+
+    (28) expression -> LPAREN . expression RPAREN
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 33
+
+state 17
+
+    (27) expression -> MINUS . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 34
+
+state 18
+
+    (36) expression -> STRING .
+
+    RPAREN          reduce using rule 36 (expression -> STRING .)
+    PLUS            reduce using rule 36 (expression -> STRING .)
+    MINUS           reduce using rule 36 (expression -> STRING .)
+    TIMES           reduce using rule 36 (expression -> STRING .)
+    DIVIDE          reduce using rule 36 (expression -> STRING .)
+    MOD             reduce using rule 36 (expression -> STRING .)
+    EQUAL           reduce using rule 36 (expression -> STRING .)
+    LANGLE          reduce using rule 36 (expression -> STRING .)
+    RANGLE          reduce using rule 36 (expression -> STRING .)
+    NEQUAL          reduce using rule 36 (expression -> STRING .)
+    LTEQUAL         reduce using rule 36 (expression -> STRING .)
+    GTEQUAL         reduce using rule 36 (expression -> STRING .)
+    AS              reduce using rule 36 (expression -> STRING .)
+    COMMA           reduce using rule 36 (expression -> STRING .)
+
+
+state 19
+
+    (40) arrayspec -> LANGLE . attrlist RANGLE LBRACKET dimlist RBRACKET
+    (41) attrlist -> . attrspec
+    (42) attrlist -> . attrspec COMMA attrlist
+    (43) attrspec -> . NAME COLON itemtype
+
+    NAME            shift and go to state 37
+
+    attrlist                       shift and go to state 35
+    attrspec                       shift and go to state 36
+
+state 20
+
+    (12) function -> NAME LPAREN RPAREN .
+
+    PLUS            reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    MINUS           reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    TIMES           reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    DIVIDE          reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    MOD             reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    EQUAL           reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    LANGLE          reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    RANGLE          reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    NEQUAL          reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    LTEQUAL         reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    GTEQUAL         reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    AS              reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    COMMA           reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    RPAREN          reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    SEMICOLON       reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+    $end            reduce using rule 12 (function -> NAME LPAREN RPAREN .)
+
+
+state 21
+
+    (32) expression -> objattribute .
+
+    RPAREN          reduce using rule 32 (expression -> objattribute .)
+    PLUS            reduce using rule 32 (expression -> objattribute .)
+    MINUS           reduce using rule 32 (expression -> objattribute .)
+    TIMES           reduce using rule 32 (expression -> objattribute .)
+    DIVIDE          reduce using rule 32 (expression -> objattribute .)
+    MOD             reduce using rule 32 (expression -> objattribute .)
+    EQUAL           reduce using rule 32 (expression -> objattribute .)
+    LANGLE          reduce using rule 32 (expression -> objattribute .)
+    RANGLE          reduce using rule 32 (expression -> objattribute .)
+    NEQUAL          reduce using rule 32 (expression -> objattribute .)
+    LTEQUAL         reduce using rule 32 (expression -> objattribute .)
+    GTEQUAL         reduce using rule 32 (expression -> objattribute .)
+    AS              reduce using rule 32 (expression -> objattribute .)
+    COMMA           reduce using rule 32 (expression -> objattribute .)
+
+
+state 22
+
+    (13) function -> NAME LPAREN arguments . RPAREN
+
+    RPAREN          shift and go to state 38
+
+
+state 23
+
+    (29) expression -> function .
+
+    RPAREN          reduce using rule 29 (expression -> function .)
+    PLUS            reduce using rule 29 (expression -> function .)
+    MINUS           reduce using rule 29 (expression -> function .)
+    TIMES           reduce using rule 29 (expression -> function .)
+    DIVIDE          reduce using rule 29 (expression -> function .)
+    MOD             reduce using rule 29 (expression -> function .)
+    EQUAL           reduce using rule 29 (expression -> function .)
+    LANGLE          reduce using rule 29 (expression -> function .)
+    RANGLE          reduce using rule 29 (expression -> function .)
+    NEQUAL          reduce using rule 29 (expression -> function .)
+    LTEQUAL         reduce using rule 29 (expression -> function .)
+    GTEQUAL         reduce using rule 29 (expression -> function .)
+    AS              reduce using rule 29 (expression -> function .)
+    COMMA           reduce using rule 29 (expression -> function .)
+
+
+state 24
+
+    (30) expression -> arrayspec .
+
+    RPAREN          reduce using rule 30 (expression -> arrayspec .)
+    PLUS            reduce using rule 30 (expression -> arrayspec .)
+    MINUS           reduce using rule 30 (expression -> arrayspec .)
+    TIMES           reduce using rule 30 (expression -> arrayspec .)
+    DIVIDE          reduce using rule 30 (expression -> arrayspec .)
+    MOD             reduce using rule 30 (expression -> arrayspec .)
+    EQUAL           reduce using rule 30 (expression -> arrayspec .)
+    LANGLE          reduce using rule 30 (expression -> arrayspec .)
+    RANGLE          reduce using rule 30 (expression -> arrayspec .)
+    NEQUAL          reduce using rule 30 (expression -> arrayspec .)
+    LTEQUAL         reduce using rule 30 (expression -> arrayspec .)
+    GTEQUAL         reduce using rule 30 (expression -> arrayspec .)
+    AS              reduce using rule 30 (expression -> arrayspec .)
+    COMMA           reduce using rule 30 (expression -> arrayspec .)
+
+
+state 25
+
+    (31) expression -> arrayref .
+
+    RPAREN          reduce using rule 31 (expression -> arrayref .)
+    PLUS            reduce using rule 31 (expression -> arrayref .)
+    MINUS           reduce using rule 31 (expression -> arrayref .)
+    TIMES           reduce using rule 31 (expression -> arrayref .)
+    DIVIDE          reduce using rule 31 (expression -> arrayref .)
+    MOD             reduce using rule 31 (expression -> arrayref .)
+    EQUAL           reduce using rule 31 (expression -> arrayref .)
+    LANGLE          reduce using rule 31 (expression -> arrayref .)
+    RANGLE          reduce using rule 31 (expression -> arrayref .)
+    NEQUAL          reduce using rule 31 (expression -> arrayref .)
+    LTEQUAL         reduce using rule 31 (expression -> arrayref .)
+    GTEQUAL         reduce using rule 31 (expression -> arrayref .)
+    AS              reduce using rule 31 (expression -> arrayref .)
+    COMMA           reduce using rule 31 (expression -> arrayref .)
+
+
+state 26
+
+    (35) expression -> INTEGER .
+
+    RPAREN          reduce using rule 35 (expression -> INTEGER .)
+    PLUS            reduce using rule 35 (expression -> INTEGER .)
+    MINUS           reduce using rule 35 (expression -> INTEGER .)
+    TIMES           reduce using rule 35 (expression -> INTEGER .)
+    DIVIDE          reduce using rule 35 (expression -> INTEGER .)
+    MOD             reduce using rule 35 (expression -> INTEGER .)
+    EQUAL           reduce using rule 35 (expression -> INTEGER .)
+    LANGLE          reduce using rule 35 (expression -> INTEGER .)
+    RANGLE          reduce using rule 35 (expression -> INTEGER .)
+    NEQUAL          reduce using rule 35 (expression -> INTEGER .)
+    LTEQUAL         reduce using rule 35 (expression -> INTEGER .)
+    GTEQUAL         reduce using rule 35 (expression -> INTEGER .)
+    AS              reduce using rule 35 (expression -> INTEGER .)
+    COMMA           reduce using rule 35 (expression -> INTEGER .)
+
+
+state 27
+
+    (33) expression -> NAME .
+    (12) function -> NAME . LPAREN RPAREN
+    (13) function -> NAME . LPAREN arguments RPAREN
+    (38) arrayref -> NAME . ATMARK INTEGER
+    (39) objattribute -> NAME . PERIOD NAME
+
+    RPAREN          reduce using rule 33 (expression -> NAME .)
+    PLUS            reduce using rule 33 (expression -> NAME .)
+    MINUS           reduce using rule 33 (expression -> NAME .)
+    TIMES           reduce using rule 33 (expression -> NAME .)
+    DIVIDE          reduce using rule 33 (expression -> NAME .)
+    MOD             reduce using rule 33 (expression -> NAME .)
+    EQUAL           reduce using rule 33 (expression -> NAME .)
+    LANGLE          reduce using rule 33 (expression -> NAME .)
+    RANGLE          reduce using rule 33 (expression -> NAME .)
+    NEQUAL          reduce using rule 33 (expression -> NAME .)
+    LTEQUAL         reduce using rule 33 (expression -> NAME .)
+    GTEQUAL         reduce using rule 33 (expression -> NAME .)
+    AS              reduce using rule 33 (expression -> NAME .)
+    COMMA           reduce using rule 33 (expression -> NAME .)
+    LPAREN          shift and go to state 11
+    ATMARK          shift and go to state 39
+    PERIOD          shift and go to state 40
+
+
+state 28
+
+    (34) expression -> FLOAT .
+
+    RPAREN          reduce using rule 34 (expression -> FLOAT .)
+    PLUS            reduce using rule 34 (expression -> FLOAT .)
+    MINUS           reduce using rule 34 (expression -> FLOAT .)
+    TIMES           reduce using rule 34 (expression -> FLOAT .)
+    DIVIDE          reduce using rule 34 (expression -> FLOAT .)
+    MOD             reduce using rule 34 (expression -> FLOAT .)
+    EQUAL           reduce using rule 34 (expression -> FLOAT .)
+    LANGLE          reduce using rule 34 (expression -> FLOAT .)
+    RANGLE          reduce using rule 34 (expression -> FLOAT .)
+    NEQUAL          reduce using rule 34 (expression -> FLOAT .)
+    LTEQUAL         reduce using rule 34 (expression -> FLOAT .)
+    GTEQUAL         reduce using rule 34 (expression -> FLOAT .)
+    AS              reduce using rule 34 (expression -> FLOAT .)
+    COMMA           reduce using rule 34 (expression -> FLOAT .)
+
+
+state 29
+
+    (14) arguments -> expression .
+    (15) arguments -> expression . COMMA arguments
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 14 (arguments -> expression .)
+    COMMA           shift and go to state 48
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 52
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+    EQUAL           shift and go to state 45
+    LANGLE          shift and go to state 41
+    RANGLE          shift and go to state 49
+    NEQUAL          shift and go to state 44
+    LTEQUAL         shift and go to state 51
+    GTEQUAL         shift and go to state 43
+    AS              shift and go to state 47
+
+
+state 30
+
+    (9) aqlcreatearray -> CREATE ARRAY NAME . arrayspec
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+
+    LANGLE          shift and go to state 19
+
+    arrayspec                      shift and go to state 54
+
+state 31
+
+    (3) querylist -> aflquery SEMICOLON querylist .
+
+    $end            reduce using rule 3 (querylist -> aflquery SEMICOLON querylist .)
+
+
+state 32
+
+    (6) querylist -> aqlquery SEMICOLON querylist .
+
+    $end            reduce using rule 6 (querylist -> aqlquery SEMICOLON querylist .)
+
+
+state 33
+
+    (28) expression -> LPAREN expression . RPAREN
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          shift and go to state 55
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 52
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+    EQUAL           shift and go to state 45
+    LANGLE          shift and go to state 41
+    RANGLE          shift and go to state 49
+    NEQUAL          shift and go to state 44
+    LTEQUAL         shift and go to state 51
+    GTEQUAL         shift and go to state 43
+    AS              shift and go to state 47
+
+
+state 34
+
+    (27) expression -> MINUS expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 27 (expression -> MINUS expression .)
+    PLUS            reduce using rule 27 (expression -> MINUS expression .)
+    MINUS           reduce using rule 27 (expression -> MINUS expression .)
+    TIMES           reduce using rule 27 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 27 (expression -> MINUS expression .)
+    MOD             reduce using rule 27 (expression -> MINUS expression .)
+    EQUAL           reduce using rule 27 (expression -> MINUS expression .)
+    LANGLE          reduce using rule 27 (expression -> MINUS expression .)
+    RANGLE          reduce using rule 27 (expression -> MINUS expression .)
+    NEQUAL          reduce using rule 27 (expression -> MINUS expression .)
+    LTEQUAL         reduce using rule 27 (expression -> MINUS expression .)
+    GTEQUAL         reduce using rule 27 (expression -> MINUS expression .)
+    AS              reduce using rule 27 (expression -> MINUS expression .)
+    COMMA           reduce using rule 27 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 50 ]
+  ! MINUS           [ shift and go to state 52 ]
+  ! TIMES           [ shift and go to state 46 ]
+  ! DIVIDE          [ shift and go to state 42 ]
+  ! MOD             [ shift and go to state 53 ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 35
+
+    (40) arrayspec -> LANGLE attrlist . RANGLE LBRACKET dimlist RBRACKET
+
+    RANGLE          shift and go to state 56
+
+
+state 36
+
+    (41) attrlist -> attrspec .
+    (42) attrlist -> attrspec . COMMA attrlist
+
+    RANGLE          reduce using rule 41 (attrlist -> attrspec .)
+    COMMA           shift and go to state 57
+
+
+state 37
+
+    (43) attrspec -> NAME . COLON itemtype
+
+    COLON           shift and go to state 58
+
+
+state 38
+
+    (13) function -> NAME LPAREN arguments RPAREN .
+
+    PLUS            reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    MINUS           reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    TIMES           reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    DIVIDE          reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    MOD             reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    EQUAL           reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    LANGLE          reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    RANGLE          reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    NEQUAL          reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    LTEQUAL         reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    GTEQUAL         reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    AS              reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    COMMA           reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    RPAREN          reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    SEMICOLON       reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+    $end            reduce using rule 13 (function -> NAME LPAREN arguments RPAREN .)
+
+
+state 39
+
+    (38) arrayref -> NAME ATMARK . INTEGER
+
+    INTEGER         shift and go to state 59
+
+
+state 40
+
+    (39) objattribute -> NAME PERIOD . NAME
+
+    NAME            shift and go to state 60
+
+
+state 41
+
+    (22) expression -> expression LANGLE . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 61
+
+state 42
+
+    (19) expression -> expression DIVIDE . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 62
+
+state 43
+
+    (26) expression -> expression GTEQUAL . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 63
+
+state 44
+
+    (24) expression -> expression NEQUAL . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 64
+
+state 45
+
+    (21) expression -> expression EQUAL . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 65
+
+state 46
+
+    (18) expression -> expression TIMES . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 66
+
+state 47
+
+    (37) expression -> expression AS . NAME
+
+    NAME            shift and go to state 67
+
+
+state 48
+
+    (15) arguments -> expression COMMA . arguments
+    (14) arguments -> . expression
+    (15) arguments -> . expression COMMA arguments
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arguments                      shift and go to state 68
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 29
+
+state 49
+
+    (23) expression -> expression RANGLE . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 69
+
+state 50
+
+    (16) expression -> expression PLUS . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 70
+
+state 51
+
+    (25) expression -> expression LTEQUAL . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 71
+
+state 52
+
+    (17) expression -> expression MINUS . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 72
+
+state 53
+
+    (20) expression -> expression MOD . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression TIMES expression
+    (19) expression -> . expression DIVIDE expression
+    (20) expression -> . expression MOD expression
+    (21) expression -> . expression EQUAL expression
+    (22) expression -> . expression LANGLE expression
+    (23) expression -> . expression RANGLE expression
+    (24) expression -> . expression NEQUAL expression
+    (25) expression -> . expression LTEQUAL expression
+    (26) expression -> . expression GTEQUAL expression
+    (27) expression -> . MINUS expression
+    (28) expression -> . LPAREN expression RPAREN
+    (29) expression -> . function
+    (30) expression -> . arrayspec
+    (31) expression -> . arrayref
+    (32) expression -> . objattribute
+    (33) expression -> . NAME
+    (34) expression -> . FLOAT
+    (35) expression -> . INTEGER
+    (36) expression -> . STRING
+    (37) expression -> . expression AS NAME
+    (12) function -> . NAME LPAREN RPAREN
+    (13) function -> . NAME LPAREN arguments RPAREN
+    (40) arrayspec -> . LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET
+    (38) arrayref -> . NAME ATMARK INTEGER
+    (39) objattribute -> . NAME PERIOD NAME
+
+    MINUS           shift and go to state 17
+    LPAREN          shift and go to state 16
+    NAME            shift and go to state 27
+    FLOAT           shift and go to state 28
+    INTEGER         shift and go to state 26
+    STRING          shift and go to state 18
+    LANGLE          shift and go to state 19
+
+    function                       shift and go to state 23
+    objattribute                   shift and go to state 21
+    arrayspec                      shift and go to state 24
+    arrayref                       shift and go to state 25
+    expression                     shift and go to state 73
+
+state 54
+
+    (9) aqlcreatearray -> CREATE ARRAY NAME arrayspec .
+
+    SEMICOLON       reduce using rule 9 (aqlcreatearray -> CREATE ARRAY NAME arrayspec .)
+    $end            reduce using rule 9 (aqlcreatearray -> CREATE ARRAY NAME arrayspec .)
+
+
+state 55
+
+    (28) expression -> LPAREN expression RPAREN .
+
+    RPAREN          reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    MOD             reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    EQUAL           reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    LANGLE          reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    RANGLE          reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    NEQUAL          reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    LTEQUAL         reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    GTEQUAL         reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    AS              reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 28 (expression -> LPAREN expression RPAREN .)
+
+
+state 56
+
+    (40) arrayspec -> LANGLE attrlist RANGLE . LBRACKET dimlist RBRACKET
+
+    LBRACKET        shift and go to state 74
+
+
+state 57
+
+    (42) attrlist -> attrspec COMMA . attrlist
+    (41) attrlist -> . attrspec
+    (42) attrlist -> . attrspec COMMA attrlist
+    (43) attrspec -> . NAME COLON itemtype
+
+    NAME            shift and go to state 37
+
+    attrlist                       shift and go to state 75
+    attrspec                       shift and go to state 36
+
+state 58
+
+    (43) attrspec -> NAME COLON . itemtype
+    (44) itemtype -> . NAME
+    (45) itemtype -> . NAME NULL
+
+    NAME            shift and go to state 76
+
+    itemtype                       shift and go to state 77
+
+state 59
+
+    (38) arrayref -> NAME ATMARK INTEGER .
+
+    PLUS            reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    MINUS           reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    TIMES           reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    DIVIDE          reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    MOD             reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    EQUAL           reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    LANGLE          reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    RANGLE          reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    NEQUAL          reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    LTEQUAL         reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    GTEQUAL         reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    AS              reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    COMMA           reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+    RPAREN          reduce using rule 38 (arrayref -> NAME ATMARK INTEGER .)
+
+
+state 60
+
+    (39) objattribute -> NAME PERIOD NAME .
+
+    PLUS            reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    MINUS           reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    TIMES           reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    DIVIDE          reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    MOD             reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    EQUAL           reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    LANGLE          reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    RANGLE          reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    NEQUAL          reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    LTEQUAL         reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    GTEQUAL         reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    AS              reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    COMMA           reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+    RPAREN          reduce using rule 39 (objattribute -> NAME PERIOD NAME .)
+
+
+state 61
+
+    (22) expression -> expression LANGLE expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 22 (expression -> expression LANGLE expression .)
+    EQUAL           reduce using rule 22 (expression -> expression LANGLE expression .)
+    LANGLE          reduce using rule 22 (expression -> expression LANGLE expression .)
+    RANGLE          reduce using rule 22 (expression -> expression LANGLE expression .)
+    NEQUAL          reduce using rule 22 (expression -> expression LANGLE expression .)
+    LTEQUAL         reduce using rule 22 (expression -> expression LANGLE expression .)
+    GTEQUAL         reduce using rule 22 (expression -> expression LANGLE expression .)
+    AS              reduce using rule 22 (expression -> expression LANGLE expression .)
+    COMMA           reduce using rule 22 (expression -> expression LANGLE expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 52
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+
+  ! PLUS            [ reduce using rule 22 (expression -> expression LANGLE expression .) ]
+  ! MINUS           [ reduce using rule 22 (expression -> expression LANGLE expression .) ]
+  ! TIMES           [ reduce using rule 22 (expression -> expression LANGLE expression .) ]
+  ! DIVIDE          [ reduce using rule 22 (expression -> expression LANGLE expression .) ]
+  ! MOD             [ reduce using rule 22 (expression -> expression LANGLE expression .) ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 62
+
+    (19) expression -> expression DIVIDE expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 19 (expression -> expression DIVIDE expression .)
+    PLUS            reduce using rule 19 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 19 (expression -> expression DIVIDE expression .)
+    TIMES           reduce using rule 19 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 19 (expression -> expression DIVIDE expression .)
+    MOD             reduce using rule 19 (expression -> expression DIVIDE expression .)
+    EQUAL           reduce using rule 19 (expression -> expression DIVIDE expression .)
+    LANGLE          reduce using rule 19 (expression -> expression DIVIDE expression .)
+    RANGLE          reduce using rule 19 (expression -> expression DIVIDE expression .)
+    NEQUAL          reduce using rule 19 (expression -> expression DIVIDE expression .)
+    LTEQUAL         reduce using rule 19 (expression -> expression DIVIDE expression .)
+    GTEQUAL         reduce using rule 19 (expression -> expression DIVIDE expression .)
+    AS              reduce using rule 19 (expression -> expression DIVIDE expression .)
+    COMMA           reduce using rule 19 (expression -> expression DIVIDE expression .)
+
+  ! PLUS            [ shift and go to state 50 ]
+  ! MINUS           [ shift and go to state 52 ]
+  ! TIMES           [ shift and go to state 46 ]
+  ! DIVIDE          [ shift and go to state 42 ]
+  ! MOD             [ shift and go to state 53 ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 63
+
+    (26) expression -> expression GTEQUAL expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    EQUAL           reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    LANGLE          reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    RANGLE          reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    NEQUAL          reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    LTEQUAL         reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    GTEQUAL         reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    AS              reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    COMMA           reduce using rule 26 (expression -> expression GTEQUAL expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 52
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+
+  ! PLUS            [ reduce using rule 26 (expression -> expression GTEQUAL expression .) ]
+  ! MINUS           [ reduce using rule 26 (expression -> expression GTEQUAL expression .) ]
+  ! TIMES           [ reduce using rule 26 (expression -> expression GTEQUAL expression .) ]
+  ! DIVIDE          [ reduce using rule 26 (expression -> expression GTEQUAL expression .) ]
+  ! MOD             [ reduce using rule 26 (expression -> expression GTEQUAL expression .) ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 64
+
+    (24) expression -> expression NEQUAL expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 24 (expression -> expression NEQUAL expression .)
+    EQUAL           reduce using rule 24 (expression -> expression NEQUAL expression .)
+    LANGLE          reduce using rule 24 (expression -> expression NEQUAL expression .)
+    RANGLE          reduce using rule 24 (expression -> expression NEQUAL expression .)
+    NEQUAL          reduce using rule 24 (expression -> expression NEQUAL expression .)
+    LTEQUAL         reduce using rule 24 (expression -> expression NEQUAL expression .)
+    GTEQUAL         reduce using rule 24 (expression -> expression NEQUAL expression .)
+    AS              reduce using rule 24 (expression -> expression NEQUAL expression .)
+    COMMA           reduce using rule 24 (expression -> expression NEQUAL expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 52
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+
+  ! PLUS            [ reduce using rule 24 (expression -> expression NEQUAL expression .) ]
+  ! MINUS           [ reduce using rule 24 (expression -> expression NEQUAL expression .) ]
+  ! TIMES           [ reduce using rule 24 (expression -> expression NEQUAL expression .) ]
+  ! DIVIDE          [ reduce using rule 24 (expression -> expression NEQUAL expression .) ]
+  ! MOD             [ reduce using rule 24 (expression -> expression NEQUAL expression .) ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 65
+
+    (21) expression -> expression EQUAL expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 21 (expression -> expression EQUAL expression .)
+    EQUAL           reduce using rule 21 (expression -> expression EQUAL expression .)
+    LANGLE          reduce using rule 21 (expression -> expression EQUAL expression .)
+    RANGLE          reduce using rule 21 (expression -> expression EQUAL expression .)
+    NEQUAL          reduce using rule 21 (expression -> expression EQUAL expression .)
+    LTEQUAL         reduce using rule 21 (expression -> expression EQUAL expression .)
+    GTEQUAL         reduce using rule 21 (expression -> expression EQUAL expression .)
+    AS              reduce using rule 21 (expression -> expression EQUAL expression .)
+    COMMA           reduce using rule 21 (expression -> expression EQUAL expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 52
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+
+  ! PLUS            [ reduce using rule 21 (expression -> expression EQUAL expression .) ]
+  ! MINUS           [ reduce using rule 21 (expression -> expression EQUAL expression .) ]
+  ! TIMES           [ reduce using rule 21 (expression -> expression EQUAL expression .) ]
+  ! DIVIDE          [ reduce using rule 21 (expression -> expression EQUAL expression .) ]
+  ! MOD             [ reduce using rule 21 (expression -> expression EQUAL expression .) ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 66
+
+    (18) expression -> expression TIMES expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 18 (expression -> expression TIMES expression .)
+    PLUS            reduce using rule 18 (expression -> expression TIMES expression .)
+    MINUS           reduce using rule 18 (expression -> expression TIMES expression .)
+    TIMES           reduce using rule 18 (expression -> expression TIMES expression .)
+    DIVIDE          reduce using rule 18 (expression -> expression TIMES expression .)
+    MOD             reduce using rule 18 (expression -> expression TIMES expression .)
+    EQUAL           reduce using rule 18 (expression -> expression TIMES expression .)
+    LANGLE          reduce using rule 18 (expression -> expression TIMES expression .)
+    RANGLE          reduce using rule 18 (expression -> expression TIMES expression .)
+    NEQUAL          reduce using rule 18 (expression -> expression TIMES expression .)
+    LTEQUAL         reduce using rule 18 (expression -> expression TIMES expression .)
+    GTEQUAL         reduce using rule 18 (expression -> expression TIMES expression .)
+    AS              reduce using rule 18 (expression -> expression TIMES expression .)
+    COMMA           reduce using rule 18 (expression -> expression TIMES expression .)
+
+  ! PLUS            [ shift and go to state 50 ]
+  ! MINUS           [ shift and go to state 52 ]
+  ! TIMES           [ shift and go to state 46 ]
+  ! DIVIDE          [ shift and go to state 42 ]
+  ! MOD             [ shift and go to state 53 ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 67
+
+    (37) expression -> expression AS NAME .
+
+    RPAREN          reduce using rule 37 (expression -> expression AS NAME .)
+    PLUS            reduce using rule 37 (expression -> expression AS NAME .)
+    MINUS           reduce using rule 37 (expression -> expression AS NAME .)
+    TIMES           reduce using rule 37 (expression -> expression AS NAME .)
+    DIVIDE          reduce using rule 37 (expression -> expression AS NAME .)
+    MOD             reduce using rule 37 (expression -> expression AS NAME .)
+    EQUAL           reduce using rule 37 (expression -> expression AS NAME .)
+    LANGLE          reduce using rule 37 (expression -> expression AS NAME .)
+    RANGLE          reduce using rule 37 (expression -> expression AS NAME .)
+    NEQUAL          reduce using rule 37 (expression -> expression AS NAME .)
+    LTEQUAL         reduce using rule 37 (expression -> expression AS NAME .)
+    GTEQUAL         reduce using rule 37 (expression -> expression AS NAME .)
+    AS              reduce using rule 37 (expression -> expression AS NAME .)
+    COMMA           reduce using rule 37 (expression -> expression AS NAME .)
+
+
+state 68
+
+    (15) arguments -> expression COMMA arguments .
+
+    RPAREN          reduce using rule 15 (arguments -> expression COMMA arguments .)
+
+
+state 69
+
+    (23) expression -> expression RANGLE expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 23 (expression -> expression RANGLE expression .)
+    EQUAL           reduce using rule 23 (expression -> expression RANGLE expression .)
+    LANGLE          reduce using rule 23 (expression -> expression RANGLE expression .)
+    RANGLE          reduce using rule 23 (expression -> expression RANGLE expression .)
+    NEQUAL          reduce using rule 23 (expression -> expression RANGLE expression .)
+    LTEQUAL         reduce using rule 23 (expression -> expression RANGLE expression .)
+    GTEQUAL         reduce using rule 23 (expression -> expression RANGLE expression .)
+    AS              reduce using rule 23 (expression -> expression RANGLE expression .)
+    COMMA           reduce using rule 23 (expression -> expression RANGLE expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 52
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+
+  ! PLUS            [ reduce using rule 23 (expression -> expression RANGLE expression .) ]
+  ! MINUS           [ reduce using rule 23 (expression -> expression RANGLE expression .) ]
+  ! TIMES           [ reduce using rule 23 (expression -> expression RANGLE expression .) ]
+  ! DIVIDE          [ reduce using rule 23 (expression -> expression RANGLE expression .) ]
+  ! MOD             [ reduce using rule 23 (expression -> expression RANGLE expression .) ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 70
+
+    (16) expression -> expression PLUS expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 16 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 16 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 16 (expression -> expression PLUS expression .)
+    EQUAL           reduce using rule 16 (expression -> expression PLUS expression .)
+    LANGLE          reduce using rule 16 (expression -> expression PLUS expression .)
+    RANGLE          reduce using rule 16 (expression -> expression PLUS expression .)
+    NEQUAL          reduce using rule 16 (expression -> expression PLUS expression .)
+    LTEQUAL         reduce using rule 16 (expression -> expression PLUS expression .)
+    GTEQUAL         reduce using rule 16 (expression -> expression PLUS expression .)
+    AS              reduce using rule 16 (expression -> expression PLUS expression .)
+    COMMA           reduce using rule 16 (expression -> expression PLUS expression .)
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+
+  ! TIMES           [ reduce using rule 16 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 16 (expression -> expression PLUS expression .) ]
+  ! MOD             [ reduce using rule 16 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 50 ]
+  ! MINUS           [ shift and go to state 52 ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 71
+
+    (25) expression -> expression LTEQUAL expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    EQUAL           reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    LANGLE          reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    RANGLE          reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    NEQUAL          reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    LTEQUAL         reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    GTEQUAL         reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    AS              reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    COMMA           reduce using rule 25 (expression -> expression LTEQUAL expression .)
+    PLUS            shift and go to state 50
+    MINUS           shift and go to state 52
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+
+  ! PLUS            [ reduce using rule 25 (expression -> expression LTEQUAL expression .) ]
+  ! MINUS           [ reduce using rule 25 (expression -> expression LTEQUAL expression .) ]
+  ! TIMES           [ reduce using rule 25 (expression -> expression LTEQUAL expression .) ]
+  ! DIVIDE          [ reduce using rule 25 (expression -> expression LTEQUAL expression .) ]
+  ! MOD             [ reduce using rule 25 (expression -> expression LTEQUAL expression .) ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 72
+
+    (17) expression -> expression MINUS expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 17 (expression -> expression MINUS expression .)
+    PLUS            reduce using rule 17 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 17 (expression -> expression MINUS expression .)
+    EQUAL           reduce using rule 17 (expression -> expression MINUS expression .)
+    LANGLE          reduce using rule 17 (expression -> expression MINUS expression .)
+    RANGLE          reduce using rule 17 (expression -> expression MINUS expression .)
+    NEQUAL          reduce using rule 17 (expression -> expression MINUS expression .)
+    LTEQUAL         reduce using rule 17 (expression -> expression MINUS expression .)
+    GTEQUAL         reduce using rule 17 (expression -> expression MINUS expression .)
+    AS              reduce using rule 17 (expression -> expression MINUS expression .)
+    COMMA           reduce using rule 17 (expression -> expression MINUS expression .)
+    TIMES           shift and go to state 46
+    DIVIDE          shift and go to state 42
+    MOD             shift and go to state 53
+
+  ! TIMES           [ reduce using rule 17 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 17 (expression -> expression MINUS expression .) ]
+  ! MOD             [ reduce using rule 17 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 50 ]
+  ! MINUS           [ shift and go to state 52 ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 73
+
+    (20) expression -> expression MOD expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . TIMES expression
+    (19) expression -> expression . DIVIDE expression
+    (20) expression -> expression . MOD expression
+    (21) expression -> expression . EQUAL expression
+    (22) expression -> expression . LANGLE expression
+    (23) expression -> expression . RANGLE expression
+    (24) expression -> expression . NEQUAL expression
+    (25) expression -> expression . LTEQUAL expression
+    (26) expression -> expression . GTEQUAL expression
+    (37) expression -> expression . AS NAME
+
+    RPAREN          reduce using rule 20 (expression -> expression MOD expression .)
+    PLUS            reduce using rule 20 (expression -> expression MOD expression .)
+    MINUS           reduce using rule 20 (expression -> expression MOD expression .)
+    TIMES           reduce using rule 20 (expression -> expression MOD expression .)
+    DIVIDE          reduce using rule 20 (expression -> expression MOD expression .)
+    MOD             reduce using rule 20 (expression -> expression MOD expression .)
+    EQUAL           reduce using rule 20 (expression -> expression MOD expression .)
+    LANGLE          reduce using rule 20 (expression -> expression MOD expression .)
+    RANGLE          reduce using rule 20 (expression -> expression MOD expression .)
+    NEQUAL          reduce using rule 20 (expression -> expression MOD expression .)
+    LTEQUAL         reduce using rule 20 (expression -> expression MOD expression .)
+    GTEQUAL         reduce using rule 20 (expression -> expression MOD expression .)
+    AS              reduce using rule 20 (expression -> expression MOD expression .)
+    COMMA           reduce using rule 20 (expression -> expression MOD expression .)
+
+  ! PLUS            [ shift and go to state 50 ]
+  ! MINUS           [ shift and go to state 52 ]
+  ! TIMES           [ shift and go to state 46 ]
+  ! DIVIDE          [ shift and go to state 42 ]
+  ! MOD             [ shift and go to state 53 ]
+  ! EQUAL           [ shift and go to state 45 ]
+  ! LANGLE          [ shift and go to state 41 ]
+  ! RANGLE          [ shift and go to state 49 ]
+  ! NEQUAL          [ shift and go to state 44 ]
+  ! LTEQUAL         [ shift and go to state 51 ]
+  ! GTEQUAL         [ shift and go to state 43 ]
+  ! AS              [ shift and go to state 47 ]
+
+
+state 74
+
+    (40) arrayspec -> LANGLE attrlist RANGLE LBRACKET . dimlist RBRACKET
+    (46) dimlist -> . dimspec
+    (47) dimlist -> . dimspec COMMA dimlist
+    (48) dimspec -> . NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER
+    (49) dimspec -> . NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER
+
+    NAME            shift and go to state 78
+
+    dimspec                        shift and go to state 80
+    dimlist                        shift and go to state 79
+
+state 75
+
+    (42) attrlist -> attrspec COMMA attrlist .
+
+    RANGLE          reduce using rule 42 (attrlist -> attrspec COMMA attrlist .)
+
+
+state 76
+
+    (44) itemtype -> NAME .
+    (45) itemtype -> NAME . NULL
+
+    COMMA           reduce using rule 44 (itemtype -> NAME .)
+    RANGLE          reduce using rule 44 (itemtype -> NAME .)
+    NULL            shift and go to state 81
+
+
+state 77
+
+    (43) attrspec -> NAME COLON itemtype .
+
+    COMMA           reduce using rule 43 (attrspec -> NAME COLON itemtype .)
+    RANGLE          reduce using rule 43 (attrspec -> NAME COLON itemtype .)
+
+
+state 78
+
+    (48) dimspec -> NAME . EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER
+    (49) dimspec -> NAME . EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER
+
+    EQUAL           shift and go to state 82
+
+
+state 79
+
+    (40) arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist . RBRACKET
+
+    RBRACKET        shift and go to state 83
+
+
+state 80
+
+    (46) dimlist -> dimspec .
+    (47) dimlist -> dimspec . COMMA dimlist
+
+    RBRACKET        reduce using rule 46 (dimlist -> dimspec .)
+    COMMA           shift and go to state 84
+
+
+state 81
+
+    (45) itemtype -> NAME NULL .
+
+    COMMA           reduce using rule 45 (itemtype -> NAME NULL .)
+    RANGLE          reduce using rule 45 (itemtype -> NAME NULL .)
+
+
+state 82
+
+    (48) dimspec -> NAME EQUAL . INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER
+    (49) dimspec -> NAME EQUAL . INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER
+
+    INTEGER         shift and go to state 85
+
+
+state 83
+
+    (40) arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .
+
+    PLUS            reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    MINUS           reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    TIMES           reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    DIVIDE          reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    MOD             reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    EQUAL           reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    LANGLE          reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    RANGLE          reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    NEQUAL          reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    LTEQUAL         reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    GTEQUAL         reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    AS              reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    COMMA           reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    RPAREN          reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    SEMICOLON       reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+    $end            reduce using rule 40 (arrayspec -> LANGLE attrlist RANGLE LBRACKET dimlist RBRACKET .)
+
+
+state 84
+
+    (47) dimlist -> dimspec COMMA . dimlist
+    (46) dimlist -> . dimspec
+    (47) dimlist -> . dimspec COMMA dimlist
+    (48) dimspec -> . NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER
+    (49) dimspec -> . NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER
+
+    NAME            shift and go to state 78
+
+    dimlist                        shift and go to state 86
+    dimspec                        shift and go to state 80
+
+state 85
+
+    (48) dimspec -> NAME EQUAL INTEGER . COLON INTEGER COMMA INTEGER COMMA INTEGER
+    (49) dimspec -> NAME EQUAL INTEGER . COLON TIMES COMMA INTEGER COMMA INTEGER
+
+    COLON           shift and go to state 87
+
+
+state 86
+
+    (47) dimlist -> dimspec COMMA dimlist .
+
+    RBRACKET        reduce using rule 47 (dimlist -> dimspec COMMA dimlist .)
+
+
+state 87
+
+    (48) dimspec -> NAME EQUAL INTEGER COLON . INTEGER COMMA INTEGER COMMA INTEGER
+    (49) dimspec -> NAME EQUAL INTEGER COLON . TIMES COMMA INTEGER COMMA INTEGER
+
+    INTEGER         shift and go to state 89
+    TIMES           shift and go to state 88
+
+
+state 88
+
+    (49) dimspec -> NAME EQUAL INTEGER COLON TIMES . COMMA INTEGER COMMA INTEGER
+
+    COMMA           shift and go to state 90
+
+
+state 89
+
+    (48) dimspec -> NAME EQUAL INTEGER COLON INTEGER . COMMA INTEGER COMMA INTEGER
+
+    COMMA           shift and go to state 91
+
+
+state 90
+
+    (49) dimspec -> NAME EQUAL INTEGER COLON TIMES COMMA . INTEGER COMMA INTEGER
+
+    INTEGER         shift and go to state 92
+
+
+state 91
+
+    (48) dimspec -> NAME EQUAL INTEGER COLON INTEGER COMMA . INTEGER COMMA INTEGER
+
+    INTEGER         shift and go to state 93
+
+
+state 92
+
+    (49) dimspec -> NAME EQUAL INTEGER COLON TIMES COMMA INTEGER . COMMA INTEGER
+
+    COMMA           shift and go to state 94
+
+
+state 93
+
+    (48) dimspec -> NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER . COMMA INTEGER
+
+    COMMA           shift and go to state 95
+
+
+state 94
+
+    (49) dimspec -> NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA . INTEGER
+
+    INTEGER         shift and go to state 96
+
+
+state 95
+
+    (48) dimspec -> NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA . INTEGER
+
+    INTEGER         shift and go to state 97
+
+
+state 96
+
+    (49) dimspec -> NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER .
+
+    COMMA           reduce using rule 49 (dimspec -> NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER .)
+    RBRACKET        reduce using rule 49 (dimspec -> NAME EQUAL INTEGER COLON TIMES COMMA INTEGER COMMA INTEGER .)
+
+
+state 97
+
+    (48) dimspec -> NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER .
+
+    COMMA           reduce using rule 48 (dimspec -> NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER .)
+    RBRACKET        reduce using rule 48 (dimspec -> NAME EQUAL INTEGER COLON INTEGER COMMA INTEGER COMMA INTEGER .)
+

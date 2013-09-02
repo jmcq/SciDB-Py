@@ -11,11 +11,15 @@ import http_server
 
 test_data = """
 CREATE ARRAY A <f0:double> [i0=0:9,1000,0,i1=0:9,1000,0];
+CREATE ARRAY Z <f0:double> [i0=0:9,1000,0,i1=0:9,1000,0];
+CREATE ARRAY B <f0:double> [i0=0:9,1000,0,i1=0:9,1000,0];
 store(build(A,iif(A.i0=A.i1,1,0)), A);
 store(build(A,iif(A.i0=A.i1,2,1)), B);
-multiply(A, B);
+store(multiply(A, B), C);
+aggregate(C, sum(C.val));
 remove(A);
 DROP ARRAY B;
+DROP ARRAY Z;
 """
 
 parser = SciDBParser().parse(test_data)
