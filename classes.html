@@ -531,11 +531,17 @@ below:</p>
 <tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.exp" title="scidbpy.SciDBInterface.exp"><tt class="xref py py-obj docutils literal"><span class="pre">exp</span></tt></a>(A)</td>
 <td>Element-wise natural exponent</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.from_array" title="scidbpy.SciDBInterface.from_array"><tt class="xref py py-obj docutils literal"><span class="pre">from_array</span></tt></a>(A,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.from_array" title="scidbpy.SciDBInterface.from_array"><tt class="xref py py-obj docutils literal"><span class="pre">from_array</span></tt></a>(A[,&nbsp;instance_id])</td>
 <td>Initialize a scidb array from a numpy array</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">from_file</span></tt>(filename,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.from_dataframe" title="scidbpy.SciDBInterface.from_dataframe"><tt class="xref py py-obj docutils literal"><span class="pre">from_dataframe</span></tt></a>(A[,&nbsp;instance_id])</td>
+<td>Initialize a scidb array from a pandas dataframe</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">from_file</span></tt>(filename,&nbsp;**kwargs)</td>
 <td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.from_sparse" title="scidbpy.SciDBInterface.from_sparse"><tt class="xref py py-obj docutils literal"><span class="pre">from_sparse</span></tt></a>(A[,&nbsp;instance_id])</td>
+<td>Initialize a scidb array from a sparse array</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.identity" title="scidbpy.SciDBInterface.identity"><tt class="xref py py-obj docutils literal"><span class="pre">identity</span></tt></a>(n[,&nbsp;dtype,&nbsp;sparse])</td>
 <td>Return a 2-dimensional square identity matrix of size n</td>
@@ -561,47 +567,53 @@ below:</p>
 <tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">mean</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">min</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.merge" title="scidbpy.SciDBInterface.merge"><tt class="xref py py-obj docutils literal"><span class="pre">merge</span></tt></a>(A,&nbsp;B)</td>
+<td>Merge two arrays</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">min</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.new_array" title="scidbpy.SciDBInterface.new_array"><tt class="xref py py-obj docutils literal"><span class="pre">new_array</span></tt></a>([shape,&nbsp;dtype,&nbsp;persistent])</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.new_array" title="scidbpy.SciDBInterface.new_array"><tt class="xref py py-obj docutils literal"><span class="pre">new_array</span></tt></a>([shape,&nbsp;dtype,&nbsp;persistent])</td>
 <td>Create a new array, either instantiating it in SciDB or simply</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.ones" title="scidbpy.SciDBInterface.ones"><tt class="xref py py-obj docutils literal"><span class="pre">ones</span></tt></a>(shape[,&nbsp;dtype])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.ones" title="scidbpy.SciDBInterface.ones"><tt class="xref py py-obj docutils literal"><span class="pre">ones</span></tt></a>(shape[,&nbsp;dtype])</td>
 <td>Return an array of ones</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.query" title="scidbpy.SciDBInterface.query"><tt class="xref py py-obj docutils literal"><span class="pre">query</span></tt></a>(query,&nbsp;*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.query" title="scidbpy.SciDBInterface.query"><tt class="xref py py-obj docutils literal"><span class="pre">query</span></tt></a>(query,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Perform a query on the database.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.randint" title="scidbpy.SciDBInterface.randint"><tt class="xref py py-obj docutils literal"><span class="pre">randint</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.randint" title="scidbpy.SciDBInterface.randint"><tt class="xref py py-obj docutils literal"><span class="pre">randint</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
 <td>Return an array of random integers between lower and upper</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.random" title="scidbpy.SciDBInterface.random"><tt class="xref py py-obj docutils literal"><span class="pre">random</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.random" title="scidbpy.SciDBInterface.random"><tt class="xref py py-obj docutils literal"><span class="pre">random</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
 <td>Return an array of random floats between lower and upper</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.sin" title="scidbpy.SciDBInterface.sin"><tt class="xref py py-obj docutils literal"><span class="pre">sin</span></tt></a>(A)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.sin" title="scidbpy.SciDBInterface.sin"><tt class="xref py py-obj docutils literal"><span class="pre">sin</span></tt></a>(A)</td>
 <td>Element-wise trigonometric sine</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">std</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">std</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">stdev</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">stdev</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">substitute</span></tt>(A,&nbsp;value)</td>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">substitute</span></tt>(A,&nbsp;value)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">sum</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">sum</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.svd" title="scidbpy.SciDBInterface.svd"><tt class="xref py py-obj docutils literal"><span class="pre">svd</span></tt></a>(A[,&nbsp;return_U,&nbsp;return_S,&nbsp;return_VT])</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.svd" title="scidbpy.SciDBInterface.svd"><tt class="xref py py-obj docutils literal"><span class="pre">svd</span></tt></a>(A[,&nbsp;return_U,&nbsp;return_S,&nbsp;return_VT])</td>
 <td>Compute the Singular Value Decomposition of the array A:</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.tan" title="scidbpy.SciDBInterface.tan"><tt class="xref py py-obj docutils literal"><span class="pre">tan</span></tt></a>(A)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.tan" title="scidbpy.SciDBInterface.tan"><tt class="xref py py-obj docutils literal"><span class="pre">tan</span></tt></a>(A)</td>
 <td>Element-wise trigonometric tangent</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.toarray" title="scidbpy.SciDBInterface.toarray"><tt class="xref py py-obj docutils literal"><span class="pre">toarray</span></tt></a>(A)</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.toarray" title="scidbpy.SciDBInterface.toarray"><tt class="xref py py-obj docutils literal"><span class="pre">toarray</span></tt></a>(A[,&nbsp;transfer_bytes])</td>
 <td>Convert a SciDB array to a numpy array</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBInterface.todataframe" title="scidbpy.SciDBInterface.todataframe"><tt class="xref py py-obj docutils literal"><span class="pre">todataframe</span></tt></a>(A[,&nbsp;transfer_bytes])</td>
+<td>Convert a SciDB array to a pandas dataframe</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBInterface.tosparse" title="scidbpy.SciDBInterface.tosparse"><tt class="xref py py-obj docutils literal"><span class="pre">tosparse</span></tt></a>(A[,&nbsp;sparse_fmt,&nbsp;transfer_bytes])</td>
 <td>Convert a SciDB array to a sparse representation</td>
@@ -757,8 +769,102 @@ matrix product of A and B</p>
 
 <dl class="method">
 <dt id="scidbpy.SciDBInterface.from_array">
-<tt class="descname">from_array</tt><big>(</big><em>A</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.from_array" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">from_array</tt><big>(</big><em>A</em>, <em>instance_id=0</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.from_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a scidb array from a numpy array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : array_like (numpy array or sparse array)</p>
+<blockquote>
+<div><p>input array from which the scidb array will be created</p>
+</div></blockquote>
+<p><strong>instance_id</strong> : integer</p>
+<blockquote>
+<div><p>the instance ID used in loading
+(default=0; see SciDB documentation)</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to new_array()</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>SciDB Array object built from the input array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.from_dataframe">
+<tt class="descname">from_dataframe</tt><big>(</big><em>A</em>, <em>instance_id=0</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.from_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a scidb array from a pandas dataframe</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : pandas dataframe</p>
+<blockquote>
+<div><p>data from which the scidb array will be created.</p>
+</div></blockquote>
+<p><strong>instance_id</strong> : integer</p>
+<blockquote>
+<div><p>the instance ID used in loading
+(default=0; see SciDB documentation)</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to new_array()</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>SciDB Array object built from the input array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.from_sparse">
+<tt class="descname">from_sparse</tt><big>(</big><em>A</em>, <em>instance_id=0</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.from_sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a scidb array from a sparse array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : sparse array</p>
+<blockquote>
+<div><p>sparse input array from which the scidb array will be created.
+Note that this array will internally be converted to COO format.</p>
+</div></blockquote>
+<p><strong>instance_id</strong> : integer</p>
+<blockquote>
+<div><p>the instance ID used in loading
+(default=0; see SciDB documentation)</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to new_array()</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>SciDB Array object built from the input array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -773,21 +879,21 @@ matrix product of A and B</p>
 <blockquote>
 <div><p>the number of rows and columns in the matrix</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>sparse: boolean</strong> :</p>
+<p><strong>sparse</strong> : boolean</p>
 <blockquote>
 <div><p>specify whether to create a sparse array (default=False)</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
 <blockquote class="last">
 <div><p>A SciDBArray containint an [n x n] identity matrix</p>
 </div></blockquote>
@@ -905,6 +1011,12 @@ as a dictionary.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="scidbpy.SciDBInterface.merge">
+<tt class="descname">merge</tt><big>(</big><em>A</em>, <em>B</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two arrays</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="scidbpy.SciDBInterface.new_array">
 <tt class="descname">new_array</tt><big>(</big><em>shape=None</em>, <em>dtype='double'</em>, <em>persistent=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.new_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new array, either instantiating it in SciDB or simply
@@ -957,15 +1069,15 @@ to SciDBDataShape.  Otherwise, these will not be referenced.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
 <blockquote>
 <div><p>The shape of the array</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
@@ -992,11 +1104,11 @@ objects.  See Notes below for details.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>query: string</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>query</strong> : string</p>
 <blockquote>
 <div><p>The query string, with curly-braces to indicate insertions</p>
 </div></blockquote>
-<p><strong>*args, **kwargs:</strong> :</p>
+<p><strong>*args, **kwargs :</strong> :</p>
 <blockquote class="last">
 <div><p>Values to be inserted (see below).</p>
 </div></blockquote>
@@ -1014,23 +1126,23 @@ objects.  See Notes below for details.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
 <blockquote>
 <div><p>The shape of the array</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>lower: float</strong> :</p>
+<p><strong>lower</strong> : float</p>
 <blockquote>
 <div><p>The lower bound of the random sample (default=0)</p>
 </div></blockquote>
-<p><strong>upper: float</strong> :</p>
+<p><strong>upper</strong> : float</p>
 <blockquote>
 <div><p>The upper bound of the random sample (default=2147483647)</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
@@ -1055,23 +1167,23 @@ between <cite>lower</cite> and <cite>upper</cite>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
 <blockquote>
 <div><p>The shape of the array</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>lower: float</strong> :</p>
+<p><strong>lower</strong> : float</p>
 <blockquote>
 <div><p>The lower bound of the random sample (default=0)</p>
 </div></blockquote>
-<p><strong>upper: float</strong> :</p>
+<p><strong>upper</strong> : float</p>
 <blockquote>
 <div><p>The upper bound of the random sample (default=1)</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
@@ -1134,8 +1246,14 @@ by default</p>
 
 <dl class="method">
 <dt id="scidbpy.SciDBInterface.toarray">
-<tt class="descname">toarray</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.toarray" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">toarray</tt><big>(</big><em>A</em>, <em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.toarray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a SciDB array to a numpy array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBInterface.todataframe">
+<tt class="descname">todataframe</tt><big>(</big><em>A</em>, <em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBInterface.todataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a SciDB array to a pandas dataframe</p>
 </dd></dl>
 
 <dl class="method">
@@ -1174,15 +1292,15 @@ determined by the SciDB array.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
 <blockquote>
 <div><p>The shape of the array</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
@@ -1260,11 +1378,17 @@ determined by the SciDB array.</p>
 <tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.exp" title="scidbpy.SciDBShimInterface.exp"><tt class="xref py py-obj docutils literal"><span class="pre">exp</span></tt></a>(A)</td>
 <td>Element-wise natural exponent</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.from_array" title="scidbpy.SciDBShimInterface.from_array"><tt class="xref py py-obj docutils literal"><span class="pre">from_array</span></tt></a>(A,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.from_array" title="scidbpy.SciDBShimInterface.from_array"><tt class="xref py py-obj docutils literal"><span class="pre">from_array</span></tt></a>(A[,&nbsp;instance_id])</td>
 <td>Initialize a scidb array from a numpy array</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">from_file</span></tt>(filename,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.from_dataframe" title="scidbpy.SciDBShimInterface.from_dataframe"><tt class="xref py py-obj docutils literal"><span class="pre">from_dataframe</span></tt></a>(A[,&nbsp;instance_id])</td>
+<td>Initialize a scidb array from a pandas dataframe</td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">from_file</span></tt>(filename,&nbsp;**kwargs)</td>
 <td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.from_sparse" title="scidbpy.SciDBShimInterface.from_sparse"><tt class="xref py py-obj docutils literal"><span class="pre">from_sparse</span></tt></a>(A[,&nbsp;instance_id])</td>
+<td>Initialize a scidb array from a sparse array</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.identity" title="scidbpy.SciDBShimInterface.identity"><tt class="xref py py-obj docutils literal"><span class="pre">identity</span></tt></a>(n[,&nbsp;dtype,&nbsp;sparse])</td>
 <td>Return a 2-dimensional square identity matrix of size n</td>
@@ -1290,47 +1414,53 @@ determined by the SciDB array.</p>
 <tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">mean</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">min</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.merge" title="scidbpy.SciDBShimInterface.merge"><tt class="xref py py-obj docutils literal"><span class="pre">merge</span></tt></a>(A,&nbsp;B)</td>
+<td>Merge two arrays</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">min</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.new_array" title="scidbpy.SciDBShimInterface.new_array"><tt class="xref py py-obj docutils literal"><span class="pre">new_array</span></tt></a>([shape,&nbsp;dtype,&nbsp;persistent])</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.new_array" title="scidbpy.SciDBShimInterface.new_array"><tt class="xref py py-obj docutils literal"><span class="pre">new_array</span></tt></a>([shape,&nbsp;dtype,&nbsp;persistent])</td>
 <td>Create a new array, either instantiating it in SciDB or simply</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.ones" title="scidbpy.SciDBShimInterface.ones"><tt class="xref py py-obj docutils literal"><span class="pre">ones</span></tt></a>(shape[,&nbsp;dtype])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.ones" title="scidbpy.SciDBShimInterface.ones"><tt class="xref py py-obj docutils literal"><span class="pre">ones</span></tt></a>(shape[,&nbsp;dtype])</td>
 <td>Return an array of ones</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.query" title="scidbpy.SciDBShimInterface.query"><tt class="xref py py-obj docutils literal"><span class="pre">query</span></tt></a>(query,&nbsp;*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.query" title="scidbpy.SciDBShimInterface.query"><tt class="xref py py-obj docutils literal"><span class="pre">query</span></tt></a>(query,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Perform a query on the database.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.randint" title="scidbpy.SciDBShimInterface.randint"><tt class="xref py py-obj docutils literal"><span class="pre">randint</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.randint" title="scidbpy.SciDBShimInterface.randint"><tt class="xref py py-obj docutils literal"><span class="pre">randint</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
 <td>Return an array of random integers between lower and upper</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.random" title="scidbpy.SciDBShimInterface.random"><tt class="xref py py-obj docutils literal"><span class="pre">random</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.random" title="scidbpy.SciDBShimInterface.random"><tt class="xref py py-obj docutils literal"><span class="pre">random</span></tt></a>(shape[,&nbsp;dtype,&nbsp;lower,&nbsp;upper])</td>
 <td>Return an array of random floats between lower and upper</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.sin" title="scidbpy.SciDBShimInterface.sin"><tt class="xref py py-obj docutils literal"><span class="pre">sin</span></tt></a>(A)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.sin" title="scidbpy.SciDBShimInterface.sin"><tt class="xref py py-obj docutils literal"><span class="pre">sin</span></tt></a>(A)</td>
 <td>Element-wise trigonometric sine</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">std</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">std</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">stdev</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">stdev</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">substitute</span></tt>(A,&nbsp;value)</td>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">substitute</span></tt>(A,&nbsp;value)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">sum</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">sum</span></tt>(A[,&nbsp;index,&nbsp;scidb_syntax])</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.svd" title="scidbpy.SciDBShimInterface.svd"><tt class="xref py py-obj docutils literal"><span class="pre">svd</span></tt></a>(A[,&nbsp;return_U,&nbsp;return_S,&nbsp;return_VT])</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.svd" title="scidbpy.SciDBShimInterface.svd"><tt class="xref py py-obj docutils literal"><span class="pre">svd</span></tt></a>(A[,&nbsp;return_U,&nbsp;return_S,&nbsp;return_VT])</td>
 <td>Compute the Singular Value Decomposition of the array A:</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.tan" title="scidbpy.SciDBShimInterface.tan"><tt class="xref py py-obj docutils literal"><span class="pre">tan</span></tt></a>(A)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.tan" title="scidbpy.SciDBShimInterface.tan"><tt class="xref py py-obj docutils literal"><span class="pre">tan</span></tt></a>(A)</td>
 <td>Element-wise trigonometric tangent</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.toarray" title="scidbpy.SciDBShimInterface.toarray"><tt class="xref py py-obj docutils literal"><span class="pre">toarray</span></tt></a>(A)</td>
+<tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.toarray" title="scidbpy.SciDBShimInterface.toarray"><tt class="xref py py-obj docutils literal"><span class="pre">toarray</span></tt></a>(A[,&nbsp;transfer_bytes])</td>
 <td>Convert a SciDB array to a numpy array</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.todataframe" title="scidbpy.SciDBShimInterface.todataframe"><tt class="xref py py-obj docutils literal"><span class="pre">todataframe</span></tt></a>(A[,&nbsp;transfer_bytes])</td>
+<td>Convert a SciDB array to a pandas dataframe</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#scidbpy.SciDBShimInterface.tosparse" title="scidbpy.SciDBShimInterface.tosparse"><tt class="xref py py-obj docutils literal"><span class="pre">tosparse</span></tt></a>(A[,&nbsp;sparse_fmt,&nbsp;transfer_bytes])</td>
 <td>Convert a SciDB array to a sparse representation</td>
@@ -1486,8 +1616,102 @@ matrix product of A and B</p>
 
 <dl class="method">
 <dt id="scidbpy.SciDBShimInterface.from_array">
-<tt class="descname">from_array</tt><big>(</big><em>A</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.from_array" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">from_array</tt><big>(</big><em>A</em>, <em>instance_id=0</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.from_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a scidb array from a numpy array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : array_like (numpy array or sparse array)</p>
+<blockquote>
+<div><p>input array from which the scidb array will be created</p>
+</div></blockquote>
+<p><strong>instance_id</strong> : integer</p>
+<blockquote>
+<div><p>the instance ID used in loading
+(default=0; see SciDB documentation)</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to new_array()</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>SciDB Array object built from the input array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.from_dataframe">
+<tt class="descname">from_dataframe</tt><big>(</big><em>A</em>, <em>instance_id=0</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.from_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a scidb array from a pandas dataframe</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : pandas dataframe</p>
+<blockquote>
+<div><p>data from which the scidb array will be created.</p>
+</div></blockquote>
+<p><strong>instance_id</strong> : integer</p>
+<blockquote>
+<div><p>the instance ID used in loading
+(default=0; see SciDB documentation)</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to new_array()</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>SciDB Array object built from the input array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.from_sparse">
+<tt class="descname">from_sparse</tt><big>(</big><em>A</em>, <em>instance_id=0</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.from_sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a scidb array from a sparse array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>A</strong> : sparse array</p>
+<blockquote>
+<div><p>sparse input array from which the scidb array will be created.
+Note that this array will internally be converted to COO format.</p>
+</div></blockquote>
+<p><strong>instance_id</strong> : integer</p>
+<blockquote>
+<div><p>the instance ID used in loading
+(default=0; see SciDB documentation)</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong> :</p>
+<blockquote>
+<div><p>Additional keyword arguments are passed to new_array()</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
+<blockquote class="last">
+<div><p>SciDB Array object built from the input array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -1502,21 +1726,21 @@ matrix product of A and B</p>
 <blockquote>
 <div><p>the number of rows and columns in the matrix</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>sparse: boolean</strong> :</p>
+<p><strong>sparse</strong> : boolean</p>
 <blockquote>
 <div><p>specify whether to create a sparse array (default=False)</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr: SciDBArray</strong> :</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>arr</strong> : SciDBArray</p>
 <blockquote class="last">
 <div><p>A SciDBArray containint an [n x n] identity matrix</p>
 </div></blockquote>
@@ -1634,6 +1858,12 @@ as a dictionary.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="scidbpy.SciDBShimInterface.merge">
+<tt class="descname">merge</tt><big>(</big><em>A</em>, <em>B</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge two arrays</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="scidbpy.SciDBShimInterface.new_array">
 <tt class="descname">new_array</tt><big>(</big><em>shape=None</em>, <em>dtype='double'</em>, <em>persistent=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.new_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new array, either instantiating it in SciDB or simply
@@ -1686,15 +1916,15 @@ to SciDBDataShape.  Otherwise, these will not be referenced.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
 <blockquote>
 <div><p>The shape of the array</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
@@ -1721,11 +1951,11 @@ objects.  See Notes below for details.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>query: string</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>query</strong> : string</p>
 <blockquote>
 <div><p>The query string, with curly-braces to indicate insertions</p>
 </div></blockquote>
-<p><strong>*args, **kwargs:</strong> :</p>
+<p><strong>*args, **kwargs :</strong> :</p>
 <blockquote class="last">
 <div><p>Values to be inserted (see below).</p>
 </div></blockquote>
@@ -1743,23 +1973,23 @@ objects.  See Notes below for details.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
 <blockquote>
 <div><p>The shape of the array</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>lower: float</strong> :</p>
+<p><strong>lower</strong> : float</p>
 <blockquote>
 <div><p>The lower bound of the random sample (default=0)</p>
 </div></blockquote>
-<p><strong>upper: float</strong> :</p>
+<p><strong>upper</strong> : float</p>
 <blockquote>
 <div><p>The upper bound of the random sample (default=2147483647)</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
@@ -1784,23 +2014,23 @@ between <cite>lower</cite> and <cite>upper</cite>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
 <blockquote>
 <div><p>The shape of the array</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>lower: float</strong> :</p>
+<p><strong>lower</strong> : float</p>
 <blockquote>
 <div><p>The lower bound of the random sample (default=0)</p>
 </div></blockquote>
-<p><strong>upper: float</strong> :</p>
+<p><strong>upper</strong> : float</p>
 <blockquote>
 <div><p>The upper bound of the random sample (default=1)</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
@@ -1863,8 +2093,14 @@ by default</p>
 
 <dl class="method">
 <dt id="scidbpy.SciDBShimInterface.toarray">
-<tt class="descname">toarray</tt><big>(</big><em>A</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.toarray" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">toarray</tt><big>(</big><em>A</em>, <em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.toarray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a SciDB array to a numpy array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scidbpy.SciDBShimInterface.todataframe">
+<tt class="descname">todataframe</tt><big>(</big><em>A</em>, <em>transfer_bytes=True</em><big>)</big><a class="headerlink" href="#scidbpy.SciDBShimInterface.todataframe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a SciDB array to a pandas dataframe</p>
 </dd></dl>
 
 <dl class="method">
@@ -1903,15 +2139,15 @@ determined by the SciDB array.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape: tuple or int</strong> :</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple or int</p>
 <blockquote>
 <div><p>The shape of the array</p>
 </div></blockquote>
-<p><strong>dtype: string or list</strong> :</p>
+<p><strong>dtype</strong> : string or list</p>
 <blockquote>
 <div><p>The data type of the array</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong> :</p>
+<p><strong>**kwargs :</strong> :</p>
 <blockquote>
 <div><p>Additional keyword arguments are passed to SciDBDataShape.</p>
 </div></blockquote>
