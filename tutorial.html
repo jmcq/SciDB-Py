@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Tutorial &mdash; SciDB-Py 0.1 documentation</title>
+    <title>3. Tutorial &mdash; SciDB-Py 0.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SciDB-Py 0.1 documentation" href="index.html" />
+    <link rel="top" title="SciDB-Py 0.2 documentation" href="index.html" />
     <link rel="next" title="4. Code Reference" href="classes.html" />
     <link rel="prev" title="2. Getting Started" href="getting_started.html" /> 
   </head>
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="getting_started.html" title="2. Getting Started"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">SciDB-Py 0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">SciDB-Py 0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -139,8 +139,23 @@ from a small 5x4 numpy array named <tt class="docutils literal"><span class="pre
 <p>The package takes care of naming the SciDB array in this example (use
 <tt class="docutils literal"><span class="pre">Xsdb.name</span></tt> to see the SciDB array name).</p>
 </div>
+<div class="section" id="from-a-scipy-sparse-matrix">
+<h3>3.4.2. From a scipy sparse matrix<a class="headerlink" href="#from-a-scipy-sparse-matrix" title="Permalink to this headline">¶</a></h3>
+<p>In a similar way, a <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> can be created from a scipy sparse
+matrix.  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">coo_matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">[</span><span class="n">X</span> <span class="o">&lt;</span> <span class="mf">0.9</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c"># make array sparse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Xcoo</span> <span class="o">=</span> <span class="n">coo_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Xsdb</span> <span class="o">=</span> <span class="n">sdb</span><span class="o">.</span><span class="n">from_sparse</span><span class="p">(</span><span class="n">Xcoo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This operation is most efficient for matrices stored in coordinate form
+(<tt class="docutils literal"><span class="pre">coo_matrix</span></tt>).  Other sparse formats will be internally converted to
+COO form in the process of transferring the data.</p>
+</div>
 <div class="section" id="convenience-array-creation-functions">
-<h3>3.4.2. Convenience array creation functions<a class="headerlink" href="#convenience-array-creation-functions" title="Permalink to this headline">¶</a></h3>
+<h3>3.4.3. Convenience array creation functions<a class="headerlink" href="#convenience-array-creation-functions" title="Permalink to this headline">¶</a></h3>
 <p>Many standard numpy functions for creating special arrays are supported.  These
 include:</p>
 <dl class="docutils">
@@ -208,7 +223,7 @@ from a numpy array.</p>
 reproducible results involving the random number generator.</p>
 </div>
 <div class="section" id="from-an-existing-scidb-array">
-<h3>3.4.3. From an existing SciDB array<a class="headerlink" href="#from-an-existing-scidb-array" title="Permalink to this headline">¶</a></h3>
+<h3>3.4.4. From an existing SciDB array<a class="headerlink" href="#from-an-existing-scidb-array" title="Permalink to this headline">¶</a></h3>
 <p>Finally, <a class="reference internal" href="classes.html#scidbpy.SciDBArray" title="scidbpy.SciDBArray"><tt class="xref py py-class docutils literal"><span class="pre">SciDBArray</span></tt></a> objects may be created from existing SciDB arrays, so
 long as the data type restrictions outlined above are met. (It usually makes
 sense to load large data sets into SciDB externally from the Python package,
@@ -238,7 +253,7 @@ arrays. When a <a class="reference internal" href="classes.html#scidbpy.SciDBArr
 than one attribute, only the first listed attribute is used.</p>
 </div>
 <div class="section" id="scope-of-scidbpy-arrays">
-<h3>3.4.4. Scope of scidbpy arrays<a class="headerlink" href="#scope-of-scidbpy-arrays" title="Permalink to this headline">¶</a></h3>
+<h3>3.4.5. Scope of scidbpy arrays<a class="headerlink" href="#scope-of-scidbpy-arrays" title="Permalink to this headline">¶</a></h3>
 <p>The <a class="reference internal" href="classes.html#scidbpy.SciDBInterface.new_array" title="scidbpy.SciDBInterface.new_array"><tt class="xref py py-meth docutils literal"><span class="pre">new_array()</span></tt></a> function takes an argument named
 <tt class="docutils literal"><span class="pre">persistent</span></tt>. When <tt class="docutils literal"><span class="pre">persistent</span></tt> is set to True, arrays last in SciDB
 until explicitly removed by a <tt class="docutils literal"><span class="pre">remove</span></tt> (AFL) or <tt class="docutils literal"><span class="pre">DROP</span></tt> (AQL) query.
@@ -795,9 +810,10 @@ parallel across a cluster.</p>
 <li><a class="reference internal" href="#scidb-arrays">3.3. SciDB arrays</a></li>
 <li><a class="reference internal" href="#creating-scidb-array-objects">3.4. Creating SciDB array objects</a><ul>
 <li><a class="reference internal" href="#from-a-numpy-array">3.4.1. From a numpy array</a></li>
-<li><a class="reference internal" href="#convenience-array-creation-functions">3.4.2. Convenience array creation functions</a></li>
-<li><a class="reference internal" href="#from-an-existing-scidb-array">3.4.3. From an existing SciDB array</a></li>
-<li><a class="reference internal" href="#scope-of-scidbpy-arrays">3.4.4. Scope of scidbpy arrays</a></li>
+<li><a class="reference internal" href="#from-a-scipy-sparse-matrix">3.4.2. From a scipy sparse matrix</a></li>
+<li><a class="reference internal" href="#convenience-array-creation-functions">3.4.3. Convenience array creation functions</a></li>
+<li><a class="reference internal" href="#from-an-existing-scidb-array">3.4.4. From an existing SciDB array</a></li>
+<li><a class="reference internal" href="#scope-of-scidbpy-arrays">3.4.5. Scope of scidbpy arrays</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#retrieving-data-from-scidb-array-objects">3.5. Retrieving data from SciDB array objects</a><ul>
@@ -869,7 +885,7 @@ parallel across a cluster.</p>
         <li class="right" >
           <a href="getting_started.html" title="2. Getting Started"
              >previous</a> |</li>
-        <li><a href="index.html">SciDB-Py 0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">SciDB-Py 0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
