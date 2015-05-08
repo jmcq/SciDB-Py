@@ -1057,74 +1057,82 @@ class SciDBInterface(object):
         """Element-wise nan test function"""
         return self._apply_func(A, 'is_nan')
 
-    def min(self, A, index=None, scidb_syntax=False):
+    def min(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis minimum.
 
         see :meth:`SciDBArray.min` """
         return A.min(index, scidb_syntax)
 
-    def max(self, A, index=None, scidb_syntax=False):
+    def max(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis maximum.
 
         see :meth:`SciDBArray.max` """
         return A.max(index, scidb_syntax)
 
-    def sum(self, A, index=None, scidb_syntax=False):
+    def sum(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis sum.
 
         see :meth:`SciDBArray.sum` """
         return A.sum(index, scidb_syntax)
 
-    def var(self, A, index=None, scidb_syntax=False):
+    def var(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis variance.
 
         see :meth:`SciDBArray.var` """
         return A.var(index, scidb_syntax)
 
-    def stdev(self, A, index=None, scidb_syntax=False):
+    def std(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis standard deviation.
 
         see :meth:`SciDBArray.stdev` """
         return A.stdev(index, scidb_syntax)
 
-    def std(self, A, index=None, scidb_syntax=False):
+    def std(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis standard deviation.
 
         see :meth:`SciDBArray.std` """
         return A.std(index, scidb_syntax)
 
-    def avg(self, A, index=None, scidb_syntax=False):
+    def average(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis average.
 
-        see :meth:`SciDBArray.avg` """
+        see :meth:`SciDBArray.avg`
+
+        TBD: support the weights parameter as in nump
+        """
         return A.avg(index, scidb_syntax)
 
-    def mean(self, A, index=None, scidb_syntax=False):
+    def mean(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis mean.
 
         see :meth:`SciDBArray.mean` """
         return A.mean(index, scidb_syntax)
 
-    def count(self, A, index=None, scidb_syntax=False):
+    def count(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis count.
 
         see :meth:`SciDBArray.count` """
         return A.count(index, scidb_syntax)
 
-    def approxdc(self, A, index=None, scidb_syntax=False):
+    def approxdc(self, A, axis=None, scidb_syntax=False):
         """
         Array or axis unique element estimate.
 
-        see :meth:`SciDBArray.approxdc` """
+        see :meth:`SciDBArray.approxdc`
+
+        NOTE: not numpy-like.  may become .afl.approxdc
+
+        """
+
         return A.approxdc(index, scidb_syntax)
 
     def substitute(self, A, value):
@@ -1132,6 +1140,8 @@ class SciDBInterface(object):
         Replace null values in an array
 
         See :meth:`SciDBArray.substitute`
+
+        NOTE: not numpy-like.  may become .afl.approxdc
         """
         return A.substitute(value)
 
@@ -1141,6 +1151,8 @@ class SciDBInterface(object):
         """
         Perform a series of array joins on the arguments
         and return the result.
+
+        NOTE: not numpy-like.  may become .afl.approxdc
         """
         return reduce(join, args)
 
@@ -1153,6 +1165,8 @@ class SciDBInterface(object):
         *dims : tuples
             The remaining arguments are tuples of dimension indices which
             should be joined.
+
+        NOTE: not numpy-like.  may become .afl.approxdc
         """
         B, A = match_chunk_permuted(B, A, dims)
         B = B.eval()
